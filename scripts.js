@@ -1,4 +1,4 @@
-// Simulated data storage
+// Simulated data storage (will port to database later)
 let currentUser = null;
 let agents = [
     { id: "AGT12345", name: "Agent Smith", email: "smith@agency.com", license: "FL12345", docs: "Uploaded", subscription: "Active", isAdmin: true }
@@ -11,11 +11,12 @@ let checkins = [];
 let notifications = [];
 let reminders = [];
 let messages = [];
+let logs = [];
 let autoReminders = false;
 
 // Utility functions
 function logAction(action) {
-    notifications.push({ message: action, date: new Date().toLocaleString(), type: 'system' });
+    logs.push({ message: action, date: new Date().toLocaleString() });
     updateSystemLogs();
 }
 
@@ -34,11 +35,9 @@ function updateNotifications(userType) {
 }
 
 function updateSystemLogs() {
-    const logs = document.getElementById('systemLogs');
-    if (logs) {
-        logs.innerHTML = notifications
-            .filter(n => n.type === 'system')
-            .map(n => `<p>${n.date}: ${n.message}</p>`).join('');
+    const logsDiv = document.getElementById('systemLogs');
+    if (logsDiv) {
+        logsDiv.innerHTML = logs.map(l => `<p>${l.date}: ${l.message}</p>`).join('');
     }
 }
 
@@ -83,6 +82,77 @@ document.getElementById('agentSignupForm')?.addEventListener('submit', (e) => {
     alert('Registration submitted for approval.');
     window.location.href = 'index.html';
 });
+
+// Defendant Dashboard
+if (window.location.pathname.endsWith('defendant-dashboard.html')) {
+    document.getElementById('defendantName').textContent = currentUser?.name || 'Defendant';
+    const historyDiv = document.getElementById('checkinHistory');
+    historyDiv.innerHTML = currentUser.checkins.map(c => `
+        <p>${c.date}: Employment: ${c.employment}, Residence: ${c.residence}, Contact: ${c.contact}</p>`).join('');
+
+    const reminderList = document.getElementById('reminderList');
+    reminderList.innerHTML = reminders
+        .filter(r => r.defendantId === currentUser.id)
+        .map(r => `<p><i class="fas fa-bell"></i> ${r.message} <small>${r.date}</small></p>`).join('');
+
+    const locationList = document.getElementById('locationList');
+    const locations = currentUser.checkins.reduce((acc, c) => {
+        const loc = c.location.split(',')[0];
+        acc[loc] = (acc[loc] || 0) + 1;
+        return acc;
+    }, {});
+    const sortedLocations = Object.entries(locations).sort((a, b) => b[1] - a[1]);
+    locationList.innerHTML = sortedLocations.map(([loc, count]) => `<p>Location: ${loc}, Visits: ${count}</p>`).join('');
+
+    document.getElementById('checkinForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const checkin = {
+            defendantId: currentUser.id,
+            date: new Date().toLocaleString(),
+            employment: document.getElementById('employment').value,
+            residence: document.getElementById('residence').value,
+            contact: document.getElementById('contact').value,
+            status: document.getElementById('status').value,
+            photo: document.getElementById('photo').files[0] ? 'Uploaded' : 'None',
+            location: document.getElementById('locationResult').textContent
+        };
+        currentUser.checkins.push(checkin);
+        checkins.push(checkin);
+        currentUser.missed = currentUser.missed.filter(m => new Date(m.date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+        historyDiv.innerHTML += `<p>${checkin.date}: Employment: ${checkin.employment}, Residence: ${checkin.residence}, Contact: ${checkin.contact}</p>`;
+        logAction(`${currentUser.name} checked in`);
+        addNotification(`${currentUser.name} completed check-in`, 'agent');
+        addNotification(`Check-in submitted successfully`, 'defendant');
+        updateLocations();
+        e.target.reset();
+        document.getElementById('locationResult').textContent = 'Location not shared yet.';
+    });
+}
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            document.getElementById('locationResult').textContent = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+        }, () => {
+            document.getElementById('locationResult').textContent = 'Location access denied.';
+        });
+    } else {
+        document.getElementById('locationResult').textContent = 'Geolocation not supported.';
+    }
+}
+
+function updateLocations() {
+    const locationList = document.getElementById('locationList');
+    if (locationList) {
+        const locations = currentUser.checkins.reduce((acc, c) => {
+            const loc = c.location.split(',')[0];
+            acc[loc] = (acc[loc] || 0) + 1;
+            return acc;
+        }, {});
+        const sortedLocations = Object.entries(locations).sort((a, b) => b[1] - a[1]);
+        locationList.innerHTML = sortedLocations.map(([loc, count]) => `<p>Location: ${loc}, Visits: ${count}</p>`).join('');
+    }
+}
 
 // Agent Dashboard
 if (window.location.pathname.endsWith('agent-dashboard.html')) {
@@ -147,43 +217,46 @@ if (window.location.pathname.endsWith('agent-dashboard.html')) {
     });
 }
 
-// Admin Dashboard
+// Admin Dashboard Logic
 if (window.location.pathname.endsWith('admin-dashboard.html')) {
     if (!currentUser || !currentUser.isAdmin) {
-        window.location.href = 'index.html'; // Redirect if not admin
+        window.location.href = 'index.html';
     }
 
     document.getElementById('adminName').textContent = currentUser?.name || 'Admin';
 
-    const pendingAgentsDiv = document.getElementById('pendingAgents');
-    pendingAgentsDiv.innerHTML = pendingAgents.map((a, index) => `
-        <p>${a.name} (${a.email}, License: ${a.license}) 
-        - <button onclick="approveAgent(${index})"><i class="fas fa-check"></i> Approve</button> 
-        - <button onclick="rejectAgent(${index})"><i class="fas fa-times"></i> Reject</button></p>`).join('');
-
-    const agentSelect = document.getElementById('agentId');
-    agentSelect.innerHTML = '<option value="">Select Agent</option>' + agents.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
-
-    const riskChart = document.getElementById('riskAnalyticsChart').getContext('2d');
-    new Chart(riskChart, {
-        type: 'pie',
-        data: {
-            labels: defendants.map(d => d.name),
-            datasets: [{
-                label: 'Risk Scores',
-                data: defendants.map(d => d.riskScore),
-                backgroundColor: defendants.map(() => `#${Math.floor(Math.random()*16777215).toString(16)}`)
-            }]
-        },
-        options: { responsive: true }
+    // Add event listeners to nav buttons
+    document.querySelectorAll('.nav-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const sectionId = e.currentTarget.getAttribute('data-section');
+            console.log(`Clicked nav button for section: ${sectionId}`); // Debug log
+            showSection(sectionId);
+        });
     });
 
-    document.getElementById('agentPerformance').innerHTML = agents.map(a => `
-        <p>${a.name}: Defendants: ${defendants.filter(d => d.agentId === a.id).length}, Check-Ins: ${checkins.filter(c => defendants.find(d => d.id === c.defendantId && d.agentId === a.id)).length}</p>`).join('');
+    // Add event listeners to sidebar links
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            const sectionId = e.currentTarget.getAttribute('data-section');
+            console.log(`Clicked sidebar link for section: ${sectionId}`); // Debug log
+            showSection(sectionId);
+        });
+    });
 
-    updateSystemLogs();
-    document.getElementById('autoReminderStatus').textContent = autoReminders ? 'On' : 'Off';
+    // Approvals
+    function refreshPendingAgents() {
+        const pendingAgentsDiv = document.getElementById('pendingAgents');
+        pendingAgentsDiv.innerHTML = pendingAgents.map((a, index) => `
+            <p>${a.name} (${a.email}, License: ${a.license}) 
+            - <button onclick="approveAgent(${index})"><i class="fas fa-check"></i> Approve</button> 
+            - <button onclick="rejectAgent(${index})"><i class="fas fa-times"></i> Reject</button></p>`).join('');
+    }
+    refreshPendingAgents();
 
+    // Assignments
+    const agentSelect = document.getElementById('agentId');
+    agentSelect.innerHTML = '<option value="">Select Agent</option>' + agents.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
     document.getElementById('assignForm').addEventListener('submit', (e) => {
         e.preventDefault();
         const defendantId = document.getElementById('defendantId').value;
@@ -193,16 +266,61 @@ if (window.location.pathname.endsWith('admin-dashboard.html')) {
             defendant.agentId = agentId;
             logAction(`Assigned ${defendant.name} to ${agents.find(a => a.id === agentId).name}`);
             addNotification(`${defendant.name} assigned to you`, 'agent');
+            alert('Defendant assigned successfully.');
         } else {
             alert('Defendant not found.');
         }
         e.target.reset();
     });
+
+    // Risk Analytics
+    let riskChartInstance = null;
+    function updateRiskChart() {
+        const ctx = document.getElementById('riskAnalyticsChart').getContext('2d');
+        if (riskChartInstance) riskChartInstance.destroy();
+        riskChartInstance = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: defendants.map(d => d.name),
+                datasets: [{
+                    label: 'Risk Scores',
+                    data: defendants.map(d => d.riskScore),
+                    backgroundColor: defendants.map(() => `#${Math.floor(Math.random()*16777215).toString(16)}`)
+                }]
+            },
+            options: { responsive: true }
+        });
+    }
+    updateRiskChart();
+
+    // Tools
+    document.getElementById('autoReminderStatus').textContent = autoReminders ? 'On' : 'Off';
+    updateSystemLogs();
+
+    // Performance
+    function refreshPerformance() {
+        const performanceDiv = document.getElementById('agentPerformance');
+        performanceDiv.innerHTML = agents.map(a => `
+            <p>${a.name}: Defendants: ${defendants.filter(d => d.agentId === a.id).length}, Check-Ins: ${checkins.filter(c => defendants.find(d => d.id === c.defendantId && d.agentId === a.id)).length}</p>`).join('');
+    }
+    refreshPerformance();
+
+    // Show default section
+    showSection('approvals');
 }
 
 function showSection(sectionId) {
-    document.querySelectorAll('.section').forEach(section => section.style.display = 'none');
-    document.getElementById(sectionId).style.display = 'block';
+    console.log(`Showing section: ${sectionId}`); // Debug log
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.style.display = 'block';
+    } else {
+        console.error(`Section with ID '${sectionId}' not found`);
+    }
 }
 
 function calculateRiskScores() {
@@ -276,23 +394,14 @@ function approveAgent(index) {
     agents.push(agent);
     logAction(`Approved ${agent.name} as agent`);
     addNotification(`${agent.name} approved`, 'agent');
-    updateAdminUI();
+    refreshPendingAgents();
 }
 
 function rejectAgent(index) {
     const agent = pendingAgents.splice(index, 1)[0];
     logAction(`Rejected ${agent.name}`);
-    updateAdminUI();
-}
-
-function updateAdminUI() {
-    const pendingAgentsDiv = document.getElementById('pendingAgents');
-    if (pendingAgentsDiv) {
-        pendingAgentsDiv.innerHTML = pendingAgents.map((a, index) => `
-            <p>${a.name} (${a.email}, License: ${a.license}) 
-            - <button onclick="approveAgent(${index})"><i class="fas fa-check"></i> Approve</button> 
-            - <button onclick="rejectAgent(${index})"><i class="fas fa-times"></i> Reject</button></p>`).join('');
-    }
+    addNotification(`${agent.name} rejected`, 'agent');
+    refreshPendingAgents();
 }
 
 function sendSystemAlert() {
@@ -306,12 +415,12 @@ function sendSystemAlert() {
 }
 
 function exportData() {
-    const data = { agents, pendingAgents, defendants, checkins, notifications, reminders, messages };
+    const data = { agents, pendingAgents, defendants, checkins, notifications, reminders, messages, logs };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'bail-checkin-data.json';
+    a.download = 'bailsafe-data.json';
     a.click();
     logAction('Admin exported system data');
 }
@@ -339,6 +448,7 @@ function resetRiskScores() {
     defendants.forEach(d => d.riskScore = 0);
     logAction('Admin reset all risk scores');
     addNotification('All risk scores reset', 'agent');
+    updateRiskChart();
 }
 
 function generatePerformanceReport() {
@@ -347,10 +457,37 @@ function generatePerformanceReport() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'agent_performance_report.txt';
+    a.download = 'bailsafe-performance-report.txt';
     a.click();
     logAction('Admin generated performance report');
     addNotification('Performance report generated', 'agent');
+    refreshPerformance();
+}
+
+function clearLogs() {
+    logs = [];
+    logAction('Admin cleared system logs');
+    updateSystemLogs();
+}
+
+function clearAllData() {
+    if (confirm('Are you sure? This will clear all agents, defendants, check-ins, and logs.')) {
+        agents = [];
+        pendingAgents = [];
+        defendants = [];
+        checkins = [];
+        notifications = [];
+        reminders = [];
+        messages = [];
+        logs = [];
+        logAction('Admin cleared all data');
+        refreshPendingAgents();
+        updateRiskChart();
+        refreshPerformance();
+        updateSystemLogs();
+        updateNotifications('agent');
+        alert('All data cleared.');
+    }
 }
 
 // Subscription Check (Mock)

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Florida Bail Check-In System</title>
+    <title>Admin Dashboard - BailSafe</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i> Florida Bail Check-In System</div>
+        <div class="logo"><i class="fas fa-balance-scale"></i> BailSafe</div>
         <nav class="top-nav">
             <button onclick="showSection('approvals')" class="nav-btn"><i class="fas fa-user-shield"></i> Approvals</button>
             <button onclick="showSection('assignments')" class="nav-btn"><i class="fas fa-user"></i> Assignments</button>
@@ -29,17 +29,18 @@
                 <p><i class="fas fa-user-cog"></i> Admin Privileges</p>
             </div>
             <h3>Admin Tools</h3>
-            <a href="#approvals"><i class="fas fa-user-shield"></i> Agent Approvals</a>
-            <a href="#assignments"><i class="fas fa-user"></i> Defendant Assignments</a>
-            <a href="#risk"><i class="fas fa-chart-pie"></i> Risk Analytics</a>
-            <a href="#tools"><i class="fas fa-tools"></i> System Tools</a>
-            <a href="#logs"><i class="fas fa-history"></i> System Logs</a>
-            <a href="#performance"><i class="fas fa-user-check"></i> Agent Performance</a>
+            <a href="#approvals" onclick="showSection('approvals')"><i class="fas fa-user-shield"></i> Agent Approvals</a>
+            <a href="#assignments" onclick="showSection('assignments')"><i class="fas fa-user"></i> Defendant Assignments</a>
+            <a href="#risk" onclick="showSection('risk')"><i class="fas fa-chart-pie"></i> Risk Analytics</a>
+            <a href="#tools" onclick="showSection('tools')"><i class="fas fa-tools"></i> System Tools</a>
+            <a href="#logs" onclick="showSection('logs')"><i class="fas fa-history"></i> System Logs</a>
+            <a href="#performance" onclick="showSection('performance')"><i class="fas fa-user-check"></i> Agent Performance</a>
         </aside>
         <main>
             <div id="approvals" class="section">
                 <h3><i class="fas fa-user-shield"></i> Agent Approvals</h3>
                 <div id="pendingAgents" class="admin-content"></div>
+                <button onclick="refreshPendingAgents()" class="btn"><i class="fas fa-sync"></i> Refresh List</button>
             </div>
             <div id="assignments" class="section" style="display: none;">
                 <h3><i class="fas fa-user"></i> Defendant Assignments</h3>
@@ -58,6 +59,7 @@
             <div id="risk" class="section" style="display: none;">
                 <h3><i class="fas fa-chart-pie"></i> Risk Analytics</h3>
                 <canvas id="riskAnalyticsChart" width="400" height="200" class="admin-content"></canvas>
+                <button onclick="updateRiskChart()" class="btn"><i class="fas fa-redo"></i> Update Chart</button>
             </div>
             <div id="tools" class="section" style="display: none;">
                 <h3><i class="fas fa-tools"></i> System Tools</h3>
@@ -68,6 +70,7 @@
                     <p>Auto-Reminders: <span id="autoReminderStatus">Off</span></p>
                     <button onclick="resetRiskScores()" class="btn"><i class="fas fa-undo"></i> Reset Risk Scores</button>
                     <button onclick="generatePerformanceReport()" class="btn"><i class="fas fa-file-alt"></i> Generate Report</button>
+                    <button onclick="clearAllData()" class="btn danger"><i class="fas fa-trash-alt"></i> Clear All Data</button>
                 </div>
             </div>
             <div id="logs" class="section" style="display: none;">
@@ -78,6 +81,7 @@
             <div id="performance" class="section" style="display: none;">
                 <h3><i class="fas fa-user-check"></i> Agent Performance</h3>
                 <div id="agentPerformance" class="admin-content"></div>
+                <button onclick="refreshPerformance()" class="btn"><i class="fas fa-sync"></i> Refresh Stats</button>
             </div>
         </main>
     </section>
