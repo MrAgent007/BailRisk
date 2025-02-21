@@ -70,7 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             console.log("currentUser set in localStorage:", JSON.parse(localStorage.getItem('currentUser')));
             logAction(`${currentUser.name} logged in`);
-            window.location.href = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
+            const redirectUrl = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
+            console.log("Redirecting to:", redirectUrl);
+            window.location.href = redirectUrl;
         });
     } else {
         console.log("Agent login form NOT found");
@@ -265,150 +267,160 @@ document.addEventListener('DOMContentLoaded', () => {
     // Admin Dashboard
     if (window.location.pathname.endsWith('admin-dashboard.html')) {
         console.log("Admin dashboard detected");
-        currentUser = JSON.parse(localStorage.getItem('currentUser')); // Re-fetch
-        console.log("Current user in admin dashboard before check:", currentUser);
-        if (!currentUser || !currentUser.isAdmin) {
-            console.log("Redirecting to index - no admin user");
-            window.location.href = '/index.html';
-            return;
-        }
-        console.log("Admin user confirmed, proceeding");
-
-        document.getElementById('adminName').textContent = currentUser?.name || 'Admin';
-
-        document.querySelectorAll('.nav-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const sectionId = e.currentTarget.getAttribute('data-section');
-                console.log(`Clicked admin nav button for section: ${sectionId}`);
-                showSection(sectionId);
-            });
-        });
-
-        document.querySelectorAll('.sidebar a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const sectionId = e.currentTarget.getAttribute('data-section');
-                console.log(`Clicked admin sidebar link for section: ${sectionId}`);
-                showSection(sectionId);
-            });
-        });
-
-        // Approvals
-        function refreshPendingAgents() {
-            const pendingAgentsDiv = document.getElementById('pendingAgents');
-            if (pendingAgentsDiv) {
-                pendingAgentsDiv.innerHTML = pendingAgents.map((a, index) => `
-                    <p>${a.name} (${a.email}, License: ${a.license}) 
-                    - <button onclick="approveAgent(${index})"><i class="fas fa-check"></i> Approve</button> 
-                    - <button onclick="rejectAgent(${index})"><i class="fas fa-times"></i> Reject</button></p>`).join('');
+        try {
+            currentUser = JSON.parse(localStorage.getItem('currentUser')); // Re-fetch
+            console.log("Current user fetched from localStorage:", currentUser);
+            if (!currentUser) {
+                console.log("No currentUser found in localStorage, redirecting to index");
+                window.location.href = '/index.html';
+                return;
             }
-        }
-        refreshPendingAgents();
+            console.log("Checking isAdmin:", currentUser.isAdmin);
+            if (!currentUser.isAdmin) {
+                console.log("User is not admin, redirecting to index");
+                window.location.href = '/index.html';
+                return;
+            }
+            console.log("Admin user confirmed, proceeding");
 
-        // Assignments
-        const agentSelect = document.getElementById('agentId');
-        if (agentSelect) {
-            agentSelect.innerHTML = '<option value="">Select Agent</option>' + agents.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
-            document.getElementById('assignForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                console.log("Assign form submitted");
-                const defendantId = document.getElementById('defendantId').value;
-                const agentId = document.getElementById('agentId').value;
-                const defendant = defendants.find(d => d.id === defendantId);
-                if (defendant) {
-                    defendant.agentId = agentId;
-                    logAction(`Assigned ${defendant.name} to ${agents.find(a => a.id === agentId).name}`);
-                    addNotification(`${defendant.name} assigned to you`, 'agent');
-                    alert('Defendant assigned successfully.');
-                    refreshMembers();
-                } else {
-                    alert('Defendant not found.');
+            document.getElementById('adminName').textContent = currentUser?.name || 'Admin';
+
+            document.querySelectorAll('.nav-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const sectionId = e.currentTarget.getAttribute('data-section');
+                    console.log(`Clicked admin nav button for section: ${sectionId}`);
+                    showSection(sectionId);
+                });
+            });
+
+            document.querySelectorAll('.sidebar a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = e.currentTarget.getAttribute('data-section');
+                    console.log(`Clicked admin sidebar link for section: ${sectionId}`);
+                    showSection(sectionId);
+                });
+            });
+
+            // Approvals
+            function refreshPendingAgents() {
+                const pendingAgentsDiv = document.getElementById('pendingAgents');
+                if (pendingAgentsDiv) {
+                    pendingAgentsDiv.innerHTML = pendingAgents.map((a, index) => `
+                        <p>${a.name} (${a.email}, License: ${a.license}) 
+                        - <button onclick="approveAgent(${index})"><i class="fas fa-check"></i> Approve</button> 
+                        - <button onclick="rejectAgent(${index})"><i class="fas fa-times"></i> Reject</button></p>`).join('');
                 }
-                e.target.reset();
-            });
-        }
-
-        // Members
-        function refreshMembers() {
-            console.log("Refreshing members list");
-            console.log("Agents:", agents);
-            console.log("Defendants:", defendants);
-            const membersList = document.getElementById('membersList');
-            if (membersList) {
-                membersList.innerHTML = `
-                    <h4>Agents</h4>
-                    <table>
-                        <tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr>
-                        ${agents.map((a, index) => `
-                            <tr>
-                                <td>${a.id}</td>
-                                <td>${a.name}</td>
-                                <td>${a.email}</td>
-                                <td>${a.subscription}</td>
-                                <td>
-                                    <button onclick="suspendAgent(${index})" class="btn small ${a.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${a.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
-                                    <button onclick="deleteAgent(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
-                                </td>
-                            </tr>`).join('')}
-                    </table>
-                    <h4>Defendants</h4>
-                    <table>
-                        <tr><th>ID</th><th>Name</th><th>Agent</th><th>Risk Score</th><th>Actions</th></tr>
-                        ${defendants.map((d, index) => `
-                            <tr>
-                                <td>${d.id}</td>
-                                <td>${d.name}</td>
-                                <td>${agents.find(a => a.id === d.agentId)?.name || 'Unassigned'}</td>
-                                <td>${d.riskScore}</td>
-                                <td>
-                                    <button onclick="deleteDefendant(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
-                                </td>
-                            </tr>`).join('')}
-                    </table>
-                `;
-            } else {
-                console.error("Members list element not found");
             }
-        }
-        refreshMembers();
+            refreshPendingAgents();
 
-        // Risk Analytics
-        let riskChartInstance = null;
-        function updateRiskChart() {
-            const ctx = document.getElementById('riskAnalyticsChart')?.getContext('2d');
-            if (!ctx) return;
-            if (riskChartInstance) riskChartInstance.destroy();
-            riskChartInstance = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: defendants.map(d => d.name),
-                    datasets: [{
-                        label: 'Risk Scores',
-                        data: defendants.map(d => d.riskScore),
-                        backgroundColor: defendants.map(() => `#${Math.floor(Math.random()*16777215).toString(16)}`)
-                    }]
-                },
-                options: { responsive: true }
-            });
-        }
-        updateRiskChart();
-
-        // Tools
-        document.getElementById('autoReminderStatus').textContent = autoReminders ? 'On' : 'Off';
-        updateSystemLogs();
-
-        // Performance
-        function refreshPerformance() {
-            const performanceDiv = document.getElementById('agentPerformance');
-            if (performanceDiv) {
-                performanceDiv.innerHTML = agents.map(a => `
-                    <p>${a.name}: Defendants: ${defendants.filter(d => d.agentId === a.id).length}, Check-Ins: ${checkins.filter(c => defendants.find(d => d.id === c.defendantId && d.agentId === a.id)).length}</p>`).join('');
+            // Assignments
+            const agentSelect = document.getElementById('agentId');
+            if (agentSelect) {
+                agentSelect.innerHTML = '<option value="">Select Agent</option>' + agents.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
+                document.getElementById('assignForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    console.log("Assign form submitted");
+                    const defendantId = document.getElementById('defendantId').value;
+                    const agentId = document.getElementById('agentId').value;
+                    const defendant = defendants.find(d => d.id === defendantId);
+                    if (defendant) {
+                        defendant.agentId = agentId;
+                        logAction(`Assigned ${defendant.name} to ${agents.find(a => a.id === agentId).name}`);
+                        addNotification(`${defendant.name} assigned to you`, 'agent');
+                        alert('Defendant assigned successfully.');
+                        refreshMembers();
+                    } else {
+                        alert('Defendant not found.');
+                    }
+                    e.target.reset();
+                });
             }
-        }
-        refreshPerformance();
 
-        // Show default section
-        showSection('members');
+            // Members
+            function refreshMembers() {
+                console.log("Refreshing members list");
+                console.log("Agents:", agents);
+                console.log("Defendants:", defendants);
+                const membersList = document.getElementById('membersList');
+                if (membersList) {
+                    membersList.innerHTML = `
+                        <h4>Agents</h4>
+                        <table>
+                            <tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr>
+                            ${agents.map((a, index) => `
+                                <tr>
+                                    <td>${a.id}</td>
+                                    <td>${a.name}</td>
+                                    <td>${a.email}</td>
+                                    <td>${a.subscription}</td>
+                                    <td>
+                                        <button onclick="suspendAgent(${index})" class="btn small ${a.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${a.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
+                                        <button onclick="deleteAgent(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                                    </td>
+                                </tr>`).join('')}
+                        </table>
+                        <h4>Defendants</h4>
+                        <table>
+                            <tr><th>ID</th><th>Name</th><th>Agent</th><th>Risk Score</th><th>Actions</th></tr>
+                            ${defendants.map((d, index) => `
+                                <tr>
+                                    <td>${d.id}</td>
+                                    <td>${d.name}</td>
+                                    <td>${agents.find(a => a.id === d.agentId)?.name || 'Unassigned'}</td>
+                                    <td>${d.riskScore}</td>
+                                    <td>
+                                        <button onclick="deleteDefendant(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                                    </td>
+                                </tr>`).join('')}
+                        </table>
+                    `;
+                } else {
+                    console.error("Members list element not found");
+                }
+            }
+            refreshMembers();
+
+            // Risk Analytics
+            let riskChartInstance = null;
+            function updateRiskChart() {
+                const ctx = document.getElementById('riskAnalyticsChart')?.getContext('2d');
+                if (!ctx) return;
+                if (riskChartInstance) riskChartInstance.destroy();
+                riskChartInstance = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: defendants.map(d => d.name),
+                        datasets: [{
+                            label: 'Risk Scores',
+                            data: defendants.map(d => d.riskScore),
+                            backgroundColor: defendants.map(() => `#${Math.floor(Math.random()*16777215).toString(16)}`)
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+            updateRiskChart();
+
+            // Tools
+            document.getElementById('autoReminderStatus').textContent = autoReminders ? 'On' : 'Off';
+            updateSystemLogs();
+
+            // Performance
+            function refreshPerformance() {
+                const performanceDiv = document.getElementById('agentPerformance');
+                if (performanceDiv) {
+                    performanceDiv.innerHTML = agents.map(a => `
+                        <p>${a.name}: Defendants: ${defendants.filter(d => d.agentId === a.id).length}, Check-Ins: ${checkins.filter(c => defendants.find(d => d.id === c.defendantId && d.agentId === a.id)).length}</p>`).join('');
+                }
+            }
+            refreshPerformance();
+
+            showSection('members');
+        } catch (error) {
+            console.error("Admin dashboard error:", error);
+            window.location.href = '/index.html'; // Fallback redirect on error
+        }
     }
 });
 
