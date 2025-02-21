@@ -28,15 +28,8 @@
                 <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin Avatar" class="avatar">
                 <h4 id="adminName">Admin</h4>
                 <p><i class="fas fa-user-cog"></i> Admin Privileges</p>
+                <a href="#" onclick="showProfile('AGT99999')">View Profile</a>
             </div>
-            <h3>Admin Tools</h3>
-            <a href="#" data-section="approvals"><i class="fas fa-user-shield"></i> Agent Approvals</a>
-            <a href="#" data-section="assignments"><i class="fas fa-user"></i> Defendant Assignments</a>
-            <a href="#" data-section="members"><i class="fas fa-users"></i> Members</a>
-            <a href="#" data-section="risk"><i class="fas fa-chart-pie"></i> Risk Analytics</a>
-            <a href="#" data-section="tools"><i class="fas fa-tools"></i> System Tools</a>
-            <a href="#" data-section="logs"><i class="fas fa-history"></i> System Logs</a>
-            <a href="#" data-section="performance"><i class="fas fa-user-check"></i> Agent Performance</a>
         </aside>
         <main>
             <div id="approvals" class="section" style="display: none;">
@@ -90,9 +83,13 @@
                 <div id="agentPerformance" class="admin-content"></div>
                 <button onclick="refreshPerformance()" class="btn"><i class="fas fa-sync"></i> Refresh Stats</button>
             </div>
+            <div id="profile" class="section" style="display: none;">
+                <h3><i class="fas fa-user"></i> Profile</h3>
+                <div id="profileDetails" class="admin-content"></div>
+            </div>
         </main>
     </section>
-    <script src="/scripts.js"></script>
+    <script src="/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Dashboard - BailSafe</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -13,12 +13,12 @@
         <div class="logo"><i class="fas fa-balance-scale"></i> BailSafe</div>
         <nav class="top-nav">
             <button class="nav-btn" data-section="defendants"><i class="fas fa-users"></i> Defendants</button>
-            <button class="nav-btn" data-section="checkins"><i class="fas fa-calendar-check"></i> Check-Ins</button>
-            <button class="nav-btn" data-section="missed"><i class="fas fa-exclamation-triangle"></i> Missed</button>
+            <button class="nav-btn" data-section="checkins"><i class="fas fa-check-circle"></i> Check-Ins</button>
+            <button class="nav-btn" data-section="missed"><i class="fas fa-exclamation-circle"></i> Missed</button>
+            <button class="nav-btn" data-section="messages"><i class="fas fa-envelope"></i> Messages</button>
+            <button class="nav-btn" data-section="analytics"><i class="fas fa-chart-bar"></i> Analytics</button>
             <button class="nav-btn" data-section="notifications"><i class="fas fa-bell"></i> Notifications</button>
-            <button class="nav-btn" data-section="messaging"><i class="fas fa-envelope"></i> Messaging</button>
-            <button class="nav-btn" data-section="analytics"><i class="fas fa-chart-line"></i> Analytics</button>
-            <a href="index.html" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+            <a href="/index.html" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
         </nav>
     </header>
     <section class="dashboard">
@@ -26,48 +26,46 @@
             <div class="agent-profile">
                 <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Agent Avatar" class="avatar">
                 <h4 id="agentName">Agent</h4>
-                <p><i class="fas fa-dollar-sign"></i> Subscription: <span id="subscriptionStatus">Pending</span></p>
+                <p>Subscription: <span id="subscriptionStatus">Pending</span></p>
+                <a href="#" onclick="showProfile(currentUser.id)">View Profile</a>
             </div>
-            <h3>Quick Links</h3>
-            <a href="#" data-section="defendants"><i class="fas fa-users"></i> My Defendants</a>
-            <a href="#" data-section="checkins"><i class="fas fa-calendar-check"></i> Check-Ins</a>
-            <a href="#" data-section="missed"><i class="fas fa-exclamation-triangle"></i> Missed Check-Ins</a>
-            <a href="#" data-section="notifications"><i class="fas fa-bell"></i> Notifications</a>
-            <a href="#" data-section="messaging"><i class="fas fa-envelope"></i> Messaging</a>
-            <a href="#" data-section="analytics"><i class="fas fa-chart-line"></i> Analytics</a>
         </aside>
         <main>
-            <div id="defendants" class="section">
-                <h3><i class="fas fa-users"></i> Assigned Defendants</h3>
-                <div id="defendantList"></div>
-                <button onclick="calculateRiskScores()" class="btn"><i class="fas fa-calculator"></i> Update Risk Scores</button>
+            <div id="defendants" class="section" style="display: block;">
+                <h3><i class="fas fa-users"></i> Defendants</h3>
+                <div id="defendantList" class="agent-content"></div>
+                <button onclick="sendReminderAll()" class="btn"><i class="fas fa-bell"></i> Send Reminders</button>
             </div>
             <div id="checkins" class="section" style="display: none;">
-                <h3><i class="fas fa-calendar-check"></i> Recent Check-Ins</h3>
-                <div id="checkinList"></div>
+                <h3><i class="fas fa-check-circle"></i> Check-Ins</h3>
+                <div id="checkinList" class="agent-content"></div>
             </div>
             <div id="missed" class="section" style="display: none;">
-                <h3><i class="fas fa-exclamation-triangle"></i> Missed Check-Ins</h3>
-                <div id="missedList"></div>
-                <button onclick="sendReminderAll()" class="btn"><i class="fas fa-bell"></i> Send Reminders</button>
+                <h3><i class="fas fa-exclamation-circle"></i> Missed Check-Ins</h3>
+                <div id="missedList" class="agent-content"></div>
+            </div>
+            <div id="messages" class="section" style="display: none;">
+                <h3><i class="fas fa-envelope"></i> Messages</h3>
+                <div id="messageList" class="agent-content"></div>
+                <textarea id="messageInput" placeholder="Type your message..."></textarea>
+                <button onclick="sendMessage()" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+            </div>
+            <div id="analytics" class="section" style="display: none;">
+                <h3><i class="fas fa-chart-bar"></i> Analytics</h3>
+                <canvas id="agentAnalyticsChart" width="400" height="200"></canvas>
+                <button onclick="calculateRiskScores()" class="btn"><i class="fas fa-calculator"></i> Calculate Risk Scores</button>
             </div>
             <div id="notifications" class="section" style="display: none;">
                 <h3><i class="fas fa-bell"></i> Notifications</h3>
-                <div id="notificationList"></div>
+                <div id="notificationList" class="agent-content"></div>
             </div>
-            <div id="messaging" class="section" style="display: none;">
-                <h3><i class="fas fa-envelope"></i> Messaging</h3>
-                <div id="messageList"></div>
-                <textarea id="messageInput" placeholder="Type a message to all defendants..."></textarea>
-                <button onclick="sendMessage()" class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-            </div>
-            <div id="analytics" class="section" style="display: none;">
-                <h3><i class="fas fa-chart-line"></i> Analytics</h3>
-                <canvas id="agentAnalyticsChart" width="400" height="200"></canvas>
+            <div id="profile" class="section" style="display: none;">
+                <h3><i class="fas fa-user"></i> Profile</h3>
+                <div id="profileDetails" class="agent-content"></div>
             </div>
         </main>
     </section>
+    <script src="/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>

@@ -209,20 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
-            document.querySelectorAll('.sidebar a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const sectionId = e.currentTarget.getAttribute('data-section');
-                    console.log(`Clicked agent sidebar link for section: ${sectionId}`);
-                    showSection(sectionId);
-                });
-            });
-
             const defendantList = document.getElementById('defendantList');
             defendantList.innerHTML = defendants
                 .filter(d => d.agentId === currentUser.id)
                 .map(d => `
-                    <div class="defendant-details">
+                    <div class="defendant-details" onclick="showProfile('${d.id}')">
                         <p><strong>${d.name}</strong> (ID: ${d.id})</p>
                         <p>Last Check-In: ${d.checkins[d.checkins.length - 1]?.date || 'None'}</p>
                         <p>Risk Score: ${d.riskScore}</p>
@@ -304,17 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
-            const sidebarLinks = document.querySelectorAll('.sidebar a');
-            console.log("Found sidebar links:", sidebarLinks.length); // Debug
-            sidebarLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const sectionId = e.currentTarget.getAttribute('data-section');
-                    console.log(`Clicked admin sidebar link for section: ${sectionId}`);
-                    showSection(sectionId);
-                });
-            });
-
             // Approvals
             function refreshPendingAgents() {
                 const pendingAgentsDiv = document.getElementById('pendingAgents');
@@ -362,14 +342,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <table>
                             <tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr>
                             ${agents.map((a, index) => `
-                                <tr>
+                                <tr onclick="showProfile('${a.id}')">
                                     <td>${a.id}</td>
                                     <td>${a.name}</td>
                                     <td>${a.email}</td>
                                     <td>${a.subscription}</td>
                                     <td>
-                                        <button onclick="suspendAgent(${index})" class="btn small ${a.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${a.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
-                                        <button onclick="deleteAgent(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                                        <button onclick="suspendAgent(${index}); event.stopPropagation();" class="btn small ${a.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${a.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
+                                        <button onclick="deleteAgent(${index}); event.stopPropagation();" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>`).join('')}
                         </table>
@@ -377,13 +357,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <table>
                             <tr><th>ID</th><th>Name</th><th>Agent</th><th>Risk Score</th><th>Actions</th></tr>
                             ${defendants.map((d, index) => `
-                                <tr>
+                                <tr onclick="showProfile('${d.id}')">
                                     <td>${d.id}</td>
                                     <td>${d.name}</td>
                                     <td>${agents.find(a => a.id === d.agentId)?.name || 'Unassigned'}</td>
                                     <td>${d.riskScore}</td>
                                     <td>
-                                        <button onclick="deleteDefendant(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                                        <button onclick="deleteDefendant(${index}); event.stopPropagation();" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>`).join('')}
                         </table>
@@ -437,6 +417,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Profile Display Function
+function showProfile(id) {
+    console.log(`Showing profile for ID: ${id}`); // Debug
+    const user = agents.find(a => a.id === id) || defendants.find(d => d.id === id);
+    if (!user) {
+        console.error(`User with ID ${id} not found`);
+        return;
+    }
+    const isAdminDashboard = window.location.pathname.endsWith('admin-dashboard.html');
+    const isAgentDashboard = window.location.pathname.endsWith('agent-dashboard.html');
+    const isDefendantDashboard = window.location.pathname.endsWith('defendant-dashboard.html');
+    const profileDiv = document.getElementById('profileDetails');
+    if (profileDiv) {
+        profileDiv.innerHTML = `
+            <p><strong>ID:</strong> ${user.id}</p>
+            <p><strong>Name:</strong> ${user.name}</p>
+            ${user.email ? `<p><strong>Email:</strong> ${user.email}</p>` : ''}
+            ${user.license ? `<p><strong>License:</strong> ${user.license}</p>` : ''}
+            ${user.subscription ? `<p><strong>Subscription:</strong> ${user.subscription}</p>` : ''}
+            ${user.agentId ? `<p><strong>Agent:</strong> ${agents.find(a => a.id === user.agentId)?.name || 'Unassigned'}</p>` : ''}
+            ${user.riskScore !== undefined ? `<p><strong>Risk Score:</strong> ${user.riskScore}</p>` : ''}
+            ${user.checkins && user.checkins.length ? `<p><strong>Last Check-In:</strong> ${user.checkins[user.checkins.length - 1]?.date || 'None'}</p>` : ''}
+            ${isAdminDashboard && user.isAdmin !== undefined ? `
+                <button onclick="suspendAgent(${agents.findIndex(a => a.id === id)})" class="btn small ${user.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${user.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
+                <button onclick="deleteAgent(${agents.findIndex(a => a.id === id)})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+            ` : ''}
+            ${isAdminDashboard && !user.isAdmin && user.agentId !== undefined ? `
+                <button onclick="deleteDefendant(${defendants.findIndex(d => d.id === id)})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+            ` : ''}
+        `;
+        showSection('profile');
+    } else {
+        console.error("Profile details element not found"); // Debug
+    }
+}
+
 function showSection(sectionId) {
     console.log(`Showing section: ${sectionId}`);
     const sections = document.querySelectorAll('.section');
@@ -489,7 +505,7 @@ function updateAgentUI() {
         defendantList.innerHTML = defendants
             .filter(d => d.agentId === currentUser.id)
             .map(d => `
-                <div class="defendant-details">
+                <div class="defendant-details" onclick="showProfile('${d.id}')">
                     <p><strong>${d.name}</strong> (ID: ${d.id})</p>
                     <p>Last Check-In: ${d.checkins[d.checkins.length - 1]?.date || 'None'}</p>
                     <p>Risk Score: ${d.riskScore}</p>
@@ -637,6 +653,31 @@ function clearAllData() {
         updateNotifications('agent');
         refreshMembers();
         alert('All data cleared.');
+    }
+}
+
+function updateLocations() {
+    const locationList = document.getElementById('locationList');
+    if (locationList) {
+        const locations = currentUser.checkins.reduce((acc, c) => {
+            const loc = c.location.split(',')[0];
+            acc[loc] = (acc[loc] || 0) + 1;
+            return acc;
+        }, {});
+        const sortedLocations = Object.entries(locations).sort((a, b) => b[1] - a[1]);
+        locationList.innerHTML = sortedLocations.map(([loc, count]) => `<p>Location: ${loc}, Visits: ${count}</p>`).join('');
+    }
+}
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            document.getElementById('locationResult').textContent = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+        }, () => {
+            document.getElementById('locationResult').textContent = 'Location access denied.';
+        });
+    } else {
+        document.getElementById('locationResult').textContent = 'Geolocation not supported.';
     }
 }
 

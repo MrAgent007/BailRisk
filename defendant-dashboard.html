@@ -3,80 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Defendant Dashboard - Florida Bail Check-In System</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Defendant Dashboard - BailSafe</title>
+    <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i> Florida Bail Check-In System</div>
+        <div class="logo"><i class="fas fa-balance-scale"></i> BailSafe</div>
         <nav class="top-nav">
-            <button onclick="showSection('checkin')" class="nav-btn"><i class="fas fa-calendar-check"></i> Check-In</button>
-            <button onclick="showSection('history')" class="nav-btn"><i class="fas fa-history"></i> History</button>
-            <button onclick="showSection('reminders')" class="nav-btn"><i class="fas fa-bell"></i> Reminders</button>
-            <button onclick="showSection('locations')" class="nav-btn"><i class="fas fa-map-marker-alt"></i> Locations</button>
-            <a href="index.html" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+            <button class="nav-btn" data-section="checkin"><i class="fas fa-check-circle"></i> Check-In</button>
+            <button class="nav-btn" data-section="history"><i class="fas fa-history"></i> History</button>
+            <button class="nav-btn" data-section="reminders"><i class="fas fa-bell"></i> Reminders</button>
+            <button class="nav-btn" data-section="locations"><i class="fas fa-map-marker-alt"></i> Locations</button>
+            <a href="/index.html" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
         </nav>
     </header>
     <section class="dashboard">
         <aside class="sidebar">
-            <div class="defendant-profile">
+            <div class="agent-profile">
                 <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Defendant Avatar" class="avatar">
                 <h4 id="defendantName">Defendant</h4>
+                <a href="#" onclick="showProfile(currentUser.id)">View Profile</a>
             </div>
-            <h3>Quick Links</h3>
-            <a href="#checkin"><i class="fas fa-calendar-check"></i> Check-In</a>
-            <a href="#history"><i class="fas fa-history"></i> Check-In History</a>
-            <a href="#reminders"><i class="fas fa-bell"></i> Reminders</a>
-            <a href="#locations"><i class="fas fa-map-marker-alt"></i> Locations</a>
         </aside>
         <main>
-            <div id="checkin" class="section checkin">
-                <h3><i class="fas fa-calendar-check"></i> Weekly Check-In</h3>
-                <form id="checkinForm" class="checkin-form">
+            <div id="checkin" class="section" style="display: block;">
+                <h3><i class="fas fa-check-circle"></i> Check-In</h3>
+                <form id="checkinForm" class="form-content">
                     <div class="form-group">
-                        <label for="employment"><i class="fas fa-briefcase"></i> Current Employment</label>
-                        <input type="text" id="employment" required placeholder="Job Title, Employer">
+                        <label for="employment"><i class="fas fa-briefcase"></i> Employment</label>
+                        <input type="text" id="employment" required placeholder="Current job">
                     </div>
                     <div class="form-group">
-                        <label for="residence"><i class="fas fa-home"></i> Current Residence</label>
-                        <input type="text" id="residence" required placeholder="Address">
+                        <label for="residence"><i class="fas fa-home"></i> Residence</label>
+                        <input type="text" id="residence" required placeholder="Current address">
                     </div>
                     <div class="form-group">
-                        <label for="contact"><i class="fas fa-phone"></i> Contact Number</label>
-                        <input type="tel" id="contact" required placeholder="555-123-4567">
+                        <label for="contact"><i class="fas fa-phone"></i> Contact</label>
+                        <input type="text" id="contact" required placeholder="Phone or email">
                     </div>
                     <div class="form-group">
-                        <label for="status"><i class="fas fa-info-circle"></i> Any Changes in Status?</label>
-                        <textarea id="status" placeholder="E.g., moved, new job"></textarea>
+                        <label for="status"><i class="fas fa-info-circle"></i> Status Update</label>
+                        <input type="text" id="status" required placeholder="Any updates">
                     </div>
                     <div class="form-group">
-                        <label for="photo"><i class="fas fa-camera"></i> Upload Current Photo</label>
-                        <input type="file" id="photo" accept="image/*" required>
+                        <label for="photo"><i class="fas fa-camera"></i> Photo</label>
+                        <input type="file" id="photo" accept="image/*">
                     </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-map-marker-alt"></i> Share Location</label>
-                        <button type="button" onclick="getLocation()" class="btn secondary"><i class="fas fa-location-arrow"></i> Get Location</button>
-                        <p id="locationResult">Location not shared yet.</p>
+                    <div class="location-group">
+                        <p><i class="fas fa-map-marker-alt"></i> Location: <span id="locationResult">Location not shared yet.</span></p>
+                        <button type="button" onclick="getLocation()" class="btn"><i class="fas fa-location-arrow"></i> Share Location</button>
                     </div>
                     <button type="submit" class="btn"><i class="fas fa-check"></i> Submit Check-In</button>
                 </form>
             </div>
-            <div id="history" class="section history" style="display: none;">
+            <div id="history" class="section" style="display: none;">
                 <h3><i class="fas fa-history"></i> Check-In History</h3>
-                <div id="checkinHistory"></div>
+                <div id="checkinHistory" class="defendant-content"></div>
             </div>
-            <div id="reminders" class="section reminders" style="display: none;">
+            <div id="reminders" class="section" style="display: none;">
                 <h3><i class="fas fa-bell"></i> Reminders</h3>
-                <div id="reminderList"></div>
+                <div id="reminderList" class="defendant-content"></div>
             </div>
-            <div id="locations" class="section locations" style="display: none;">
-                <h3><i class="fas fa-map-marker-alt"></i> Most Visited Locations</h3>
-                <div id="locationList"></div>
+            <div id="locations" class="section" style="display: none;">
+                <h3><i class="fas fa-map-marker-alt"></i> Locations</h3>
+                <div id="locationList" class="defendant-content"></div>
+            </div>
+            <div id="profile" class="section" style="display: none;">
+                <h3><i class="fas fa-user"></i> Profile</h3>
+                <div id="profileDetails" class="defendant-content"></div>
             </div>
         </main>
     </section>
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
 </body>
 </html>
