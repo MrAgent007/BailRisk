@@ -48,81 +48,7 @@ function updateSystemLogs() {
 currentUser = JSON.parse(localStorage.getItem('currentUser'));
 console.log("Initial currentUser from localStorage:", currentUser); // Debug
 
-// Profile Display Function
-function showProfile(type) {
-    let details = '';
-    if (type === 'admin' && currentUser && currentUser.isAdmin) {
-        details = `
-            Name: ${currentUser.name}\n
-            ID: ${currentUser.id}\n
-            Email: ${currentUser.email}\n
-            License: ${currentUser.license}\n
-            Subscription: ${currentUser.subscription}\n
-            Role: Admin
-        `;
-        alert(details);
-    } else if (type === 'agent' && currentUser && !currentUser.isAdmin) {
-        details = `
-            Name: ${currentUser.name}\n
-            ID: ${currentUser.id}\n
-            Email: ${currentUser.email}\n
-            License: ${currentUser.license}\n
-            Subscription: ${currentUser.subscription}\n
-            Role: Agent
-        `;
-        alert(details);
-    } else if (type === 'defendant' && currentUser) {
-        details = `
-            Name: ${currentUser.name}\n
-            ID: ${currentUser.id}\n
-            Agent: ${agents.find(a => a.id === currentUser.agentId)?.name || 'Unassigned'}\n
-            Risk Score: ${currentUser.riskScore}\n
-            Last Check-In: ${currentUser.checkins.length ? currentUser.checkins[currentUser.checkins.length - 1].date : 'None'}
-        `;
-        alert(details);
-    }
-}
-
-// Show Account Details and Actions
-function showAccountDetails(type, id) {
-    if (type === 'agent') {
-        const agent = agents.find(a => a.id === id) || pendingAgents.find(a => a.id === id);
-        if (agent) {
-            const details = `
-                Name: ${agent.name}\n
-                ID: ${agent.id}\n
-                Email: ${agent.email}\n
-                License: ${agent.license}\n
-                Subscription: ${agent.subscription}\n
-                Actions: ${agent.subscription === 'Pending' ? '[Approve] [Reject]' : '[Suspend/Unsuspend] [Delete]'}
-            `;
-            const action = prompt(`${details}\n\nEnter action (e.g., 'suspend', 'delete', 'approve', 'reject'):`);
-            if (action) {
-                if (action.toLowerCase() === 'suspend' && agent.subscription !== 'Pending') suspendAgent(agents.indexOf(agent));
-                if (action.toLowerCase() === 'unsuspend' && agent.subscription === 'Suspended') suspendAgent(agents.indexOf(agent));
-                if (action.toLowerCase() === 'delete' && agent.subscription !== 'Pending') deleteAgent(agents.indexOf(agent));
-                if (action.toLowerCase() === 'approve' && agent.subscription === 'Pending') approveAgent(pendingAgents.indexOf(agent));
-                if (action.toLowerCase() === 'reject' && agent.subscription === 'Pending') rejectAgent(pendingAgents.indexOf(agent));
-            }
-        }
-    } else if (type === 'defendant') {
-        const defendant = defendants.find(d => d.id === id);
-        if (defendant) {
-            const details = `
-                Name: ${defendant.name}\n
-                ID: ${defendant.id}\n
-                Agent: ${agents.find(a => a.id === defendant.agentId)?.name || 'Unassigned'}\n
-                Risk Score: ${defendant.riskScore}\n
-                Last Check-In: ${defendant.checkins.length ? defendant.checkins[defendant.checkins.length - 1].date : 'None'}\n
-                Actions: [Delete]
-            `;
-            const action = prompt(`${details}\n\nEnter action (e.g., 'delete'):`);
-            if (action && action.toLowerCase() === 'delete') deleteDefendant(defendants.indexOf(defendant));
-        }
-    }
-}
-
-// Agent Login (used by admin-login.html in your setup)
+// Agent Login (used by admin-login.html)
 function setupAgentLogin() {
     console.log("Setting up agent login"); // Debug
     const agentLoginForm = document.getElementById('agentLoginForm');
@@ -130,16 +56,7 @@ function setupAgentLogin() {
         console.log("Agent login form found immediately"); // Debug
         agentLoginForm.addEventListener('submit', handleAgentLogin);
     } else {
-        console.log("Agent login form not found immediately, retrying on DOMContentLoaded"); // Debug
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('agentLoginForm');
-            if (form) {
-                console.log("Agent login form found on DOMContentLoaded"); // Debug
-                form.addEventListener('submit', handleAgentLogin);
-            } else {
-                console.error("Agent login form still not found"); // Debug
-            }
-        });
+        console.log("Agent login form not found immediately, waiting for DOMContentLoaded"); // Debug
     }
 }
 
@@ -159,17 +76,16 @@ function handleAgentLogin(e) {
     logAction(`${currentUser.name} logged in`);
     const redirectUrl = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
     console.log("Redirecting to:", redirectUrl); // Debug
-    window.history.replaceState({}, document.title, redirectUrl);
-    window.location.href = redirectUrl;
+    window.location.href = redirectUrl; // Simple redirect, no history replace
 }
 
-setupAgentLogin();
-
-// DOMContentLoaded for Other Logic
+// DOMContentLoaded for All Logic
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded"); // Debug
     currentUser = JSON.parse(localStorage.getItem('currentUser')); // Re-fetch on every page load
     console.log("Current user re-fetched on DOM load:", currentUser); // Debug
+
+    setupAgentLogin(); // Setup login after DOM load
 
     try {
         // Defendant Login
@@ -185,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 console.log("currentUser set in localStorage:", JSON.parse(localStorage.getItem('currentUser'))); // Debug
                 logAction(`${currentUser.name} logged in as defendant`);
-                window.history.replaceState({}, document.title, '/defendant-dashboard.html');
                 window.location.href = '/defendant-dashboard.html';
             });
         }
@@ -210,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 pendingAgents.push(agent);
                 logAction(`${agent.name} submitted agent registration`);
                 alert('Registration submitted for approval.');
-                window.history.replaceState({}, document.title, '/index.html');
                 window.location.href = '/index.html';
             });
         }
@@ -304,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
             defendantList.innerHTML = defendants
                 .filter(d => d.agentId === currentUser.id)
                 .map(d => `
-                    <div class="defendant-details" onclick="showAccountDetails('defendant', '${d.id}')">
+                    <div class="defendant-details">
                         <p><strong>${d.name}</strong> (ID: ${d.id})</p>
                         <p>Last Check-In: ${d.checkins[d.checkins.length - 1]?.date || 'None'}</p>
                         <p>Risk Score: ${d.riskScore}</p>
@@ -371,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.location.pathname.endsWith('admin-dashboard.html')) {
             console.log("Admin dashboard detected"); // Debug
             currentUser = JSON.parse(localStorage.getItem('currentUser')); // Re-fetch
-            console.log("Current user in admin dashboard before check:", currentUser); // Debug
+            console.log("Current user in admin dashboard:", currentUser); // Debug
             if (!currentUser || !currentUser.isAdmin) {
                 console.log("No currentUser or not admin, redirecting to index"); // Debug
                 window.location.href = '/index.html';
@@ -397,9 +311,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pendingAgentsDiv = document.getElementById('pendingAgents');
                 if (pendingAgentsDiv) {
                     pendingAgentsDiv.innerHTML = pendingAgents.map((a, index) => `
-                        <p onclick="showAccountDetails('agent', '${a.id}')">${a.name} (${a.email}, License: ${a.license}) 
-                        - <button onclick="approveAgent(${index}); event.stopPropagation();"><i class="fas fa-check"></i> Approve</button> 
-                        - <button onclick="rejectAgent(${index}); event.stopPropagation();"><i class="fas fa-times"></i> Reject</button></p>`).join('');
+                        <p>${a.name} (${a.email}, License: ${a.license}) 
+                        - <button onclick="approveAgent(${index})"><i class="fas fa-check"></i> Approve</button> 
+                        - <button onclick="rejectAgent(${index})"><i class="fas fa-times"></i> Reject</button></p>`).join('');
                 }
             }
             refreshPendingAgents();
@@ -439,14 +353,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         <table>
                             <tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr>
                             ${agents.map((a, index) => `
-                                <tr onclick="showAccountDetails('agent', '${a.id}')">
+                                <tr>
                                     <td>${a.id}</td>
                                     <td>${a.name}</td>
                                     <td>${a.email}</td>
                                     <td>${a.subscription}</td>
                                     <td>
-                                        <button onclick="suspendAgent(${index}); event.stopPropagation();" class="btn small ${a.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${a.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
-                                        <button onclick="deleteAgent(${index}); event.stopPropagation();" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                                        <button onclick="suspendAgent(${index})" class="btn small ${a.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${a.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
+                                        <button onclick="deleteAgent(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>`).join('')}
                         </table>
@@ -454,13 +368,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <table>
                             <tr><th>ID</th><th>Name</th><th>Agent</th><th>Risk Score</th><th>Actions</th></tr>
                             ${defendants.map((d, index) => `
-                                <tr onclick="showAccountDetails('defendant', '${d.id}')">
+                                <tr>
                                     <td>${d.id}</td>
                                     <td>${d.name}</td>
                                     <td>${agents.find(a => a.id === d.agentId)?.name || 'Unassigned'}</td>
                                     <td>${d.riskScore}</td>
                                     <td>
-                                        <button onclick="deleteDefendant(${index}); event.stopPropagation();" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                                        <button onclick="deleteDefendant(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
                                     </td>
                                 </tr>`).join('')}
                         </table>
@@ -565,7 +479,7 @@ function updateAgentUI() {
         defendantList.innerHTML = defendants
             .filter(d => d.agentId === currentUser.id)
             .map(d => `
-                <div class="defendant-details" onclick="showAccountDetails('defendant', '${d.id}')">
+                <div class="defendant-details">
                     <p><strong>${d.name}</strong> (ID: ${d.id})</p>
                     <p>Last Check-In: ${d.checkins[d.checkins.length - 1]?.date || 'None'}</p>
                     <p>Risk Score: ${d.riskScore}</p>
