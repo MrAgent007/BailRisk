@@ -45,29 +45,37 @@ function updateSystemLogs() {
 // Defendant Login
 document.getElementById('defendantLoginForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
+    console.log("Defendant login form submitted"); // Debug
     const id = document.getElementById('defendantId').value;
     currentUser = defendants.find(d => d.id === id) || { id, name: id, agentId: null, checkins: [], missed: [], riskScore: 0, mugshot: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" };
     if (!defendants.some(d => d.id === id)) defendants.push(currentUser);
     logAction(`${currentUser.name} logged in as defendant`);
-    window.location.href = 'defendant-dashboard.html';
+    console.log(`Redirecting to defendant-dashboard for ${currentUser.id}`); // Debug
+    window.location.href = '/defendant-dashboard.html';
 });
 
 // Agent Login
 document.getElementById('agentLoginForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
+    console.log("Agent login form submitted"); // Debug
     const id = document.getElementById('agentId').value;
+    const form = document.getElementById('agentLoginForm');
+    if (!form) console.error("Agent login form not found"); // Debug
     currentUser = agents.find(a => a.id === id);
     if (!currentUser) {
+        console.log(`No agent found with ID: ${id}`); // Debug
         alert('Agent not approved yet.');
         return;
     }
+    console.log(`Agent found: ${currentUser.name}, isAdmin: ${currentUser.isAdmin}`); // Debug
     logAction(`${currentUser.name} logged in`);
-    window.location.href = currentUser.isAdmin ? 'admin-dashboard.html' : 'agent-dashboard.html';
+    window.location.href = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
 });
 
 // Agent Sign-Up
 document.getElementById('agentSignupForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
+    console.log("Agent signup form submitted"); // Debug
     const agent = {
         id: `AGT${Math.floor(10000 + Math.random() * 90000)}`,
         name: document.getElementById('name').value,
@@ -81,11 +89,12 @@ document.getElementById('agentSignupForm')?.addEventListener('submit', (e) => {
     pendingAgents.push(agent);
     logAction(`${agent.name} submitted agent registration`);
     alert('Registration submitted for approval.');
-    window.location.href = 'index.html';
+    window.location.href = '/index.html';
 });
 
 // Defendant Dashboard
 if (window.location.pathname.endsWith('defendant-dashboard.html')) {
+    console.log("Loaded defendant dashboard"); // Debug
     document.getElementById('defendantName').textContent = currentUser?.name || 'Defendant';
     const historyDiv = document.getElementById('checkinHistory');
     historyDiv.innerHTML = currentUser.checkins.map(c => `
@@ -107,6 +116,7 @@ if (window.location.pathname.endsWith('defendant-dashboard.html')) {
 
     document.getElementById('checkinForm').addEventListener('submit', (e) => {
         e.preventDefault();
+        console.log("Check-in form submitted"); // Debug
         const checkin = {
             defendantId: currentUser.id,
             date: new Date().toLocaleString(),
@@ -157,6 +167,7 @@ function updateLocations() {
 
 // Agent Dashboard Logic
 if (window.location.pathname.endsWith('agent-dashboard.html')) {
+    console.log("Loaded agent dashboard"); // Debug
     document.getElementById('agentName').textContent = currentUser?.name || 'Agent';
     document.getElementById('subscriptionStatus').textContent = currentUser?.subscription || 'Pending';
 
@@ -241,9 +252,12 @@ if (window.location.pathname.endsWith('agent-dashboard.html')) {
 
 // Admin Dashboard Logic
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded"); // Debug
     if (window.location.pathname.endsWith('admin-dashboard.html')) {
+        console.log("Admin dashboard detected"); // Debug
         if (!currentUser || !currentUser.isAdmin) {
-            window.location.href = 'index.html';
+            console.log("Redirecting to index - no admin user"); // Debug
+            window.location.href = '/index.html';
             return;
         }
 
@@ -286,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
             agentSelect.innerHTML = '<option value="">Select Agent</option>' + agents.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
             document.getElementById('assignForm').addEventListener('submit', (e) => {
                 e.preventDefault();
+                console.log("Assign form submitted"); // Debug
                 const defendantId = document.getElementById('defendantId').value;
                 const agentId = document.getElementById('agentId').value;
                 const defendant = defendants.find(d => d.id === defendantId);
@@ -304,6 +319,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Members
         function refreshMembers() {
+            console.log("Refreshing members list"); // Debug
+            console.log("Agents:", agents); // Debug
+            console.log("Defendants:", defendants); // Debug
             const membersList = document.getElementById('membersList');
             if (membersList) {
                 membersList.innerHTML = `
