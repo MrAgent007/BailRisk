@@ -1,5 +1,5 @@
 // Simulated data storage with mock accounts
-let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+let currentUser = null;
 let agents = [
     { id: "AGT99999", name: "Admin User", email: "admin@bailsafe.com", license: "FL99999", docs: "Uploaded", subscription: "Active", isAdmin: true },
     { id: "AGT88888", name: "Agent Jane", email: "jane@bailsafe.com", license: "FL88888", docs: "Uploaded", subscription: "Active", isAdmin: false }
@@ -42,63 +42,73 @@ function updateSystemLogs() {
     }
 }
 
-// Defendant Login
-document.getElementById('defendantLoginForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    console.log("Defendant login form submitted"); // Debug
-    const id = document.getElementById('defendantId').value;
-    currentUser = defendants.find(d => d.id === id) || { id, name: id, agentId: null, checkins: [], missed: [], riskScore: 0, mugshot: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" };
-    if (!defendants.some(d => d.id === id)) defendants.push(currentUser);
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    logAction(`${currentUser.name} logged in as defendant`);
-    console.log(`Redirecting to defendant-dashboard for ${currentUser.id}`); // Debug
-    window.location.href = '/defendant-dashboard.html';
-});
-
-// Agent Login
-document.getElementById('agentLoginForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    console.log("Agent login form submitted"); // Debug
-    const id = document.getElementById('agentId').value;
-    const form = document.getElementById('agentLoginForm');
-    if (!form) console.error("Agent login form not found"); // Debug
-    currentUser = agents.find(a => a.id === id);
-    if (!currentUser) {
-        console.log(`No agent found with ID: ${id}`); // Debug
-        alert('Agent not approved yet.');
-        return;
-    }
-    console.log(`Agent found: ${currentUser.name}, isAdmin: ${currentUser.isAdmin}`); // Debug
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    logAction(`${currentUser.name} logged in`);
-    window.location.href = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
-});
-
-// Agent Sign-Up
-document.getElementById('agentSignupForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    console.log("Agent signup form submitted"); // Debug
-    const agent = {
-        id: `AGT${Math.floor(10000 + Math.random() * 90000)}`,
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        license: document.getElementById('license').value,
-        docs: document.getElementById('docs').files.length ? 'Uploaded' : 'None',
-        password: document.getElementById('password').value,
-        subscription: 'Pending',
-        isAdmin: false
-    };
-    pendingAgents.push(agent);
-    logAction(`${agent.name} submitted agent registration`);
-    alert('Registration submitted for approval.');
-    window.location.href = '/index.html';
-});
-
-// All Dashboard Logic in One DOMContentLoaded
+// All Logic in DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded"); // Debug
-    currentUser = JSON.parse(localStorage.getItem('currentUser')) || null; // Re-fetch on load
-    console.log("Current user on load:", currentUser); // Debug
+    currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+    console.log("Initial currentUser:", currentUser); // Debug
+
+    // Defendant Login
+    const defendantLoginForm = document.getElementById('defendantLoginForm');
+    if (defendantLoginForm) {
+        console.log("Defendant login form found"); // Debug
+        defendantLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log("Defendant login form submitted"); // Debug
+            const id = document.getElementById('defendantId').value;
+            currentUser = defendants.find(d => d.id === id) || { id, name: id, agentId: null, checkins: [], missed: [], riskScore: 0, mugshot: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" };
+            if (!defendants.some(d => d.id === id)) defendants.push(currentUser);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            logAction(`${currentUser.name} logged in as defendant`);
+            console.log(`Redirecting to defendant-dashboard for ${currentUser.id}`); // Debug
+            window.location.href = '/defendant-dashboard.html';
+        });
+    }
+
+    // Agent Login
+    const agentLoginForm = document.getElementById('agentLoginForm');
+    if (agentLoginForm) {
+        console.log("Agent login form found"); // Debug
+        agentLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log("Agent login form submitted"); // Debug
+            const id = document.getElementById('agentId').value;
+            currentUser = agents.find(a => a.id === id);
+            if (!currentUser) {
+                console.log(`No agent found with ID: ${id}`); // Debug
+                alert('Agent not approved yet.');
+                return;
+            }
+            console.log(`Agent found: ${currentUser.name}, isAdmin: ${currentUser.isAdmin}`); // Debug
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            logAction(`${currentUser.name} logged in`);
+            window.location.href = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
+        });
+    }
+
+    // Agent Sign-Up
+    const agentSignupForm = document.getElementById('agentSignupForm');
+    if (agentSignupForm) {
+        console.log("Agent signup form found"); // Debug
+        agentSignupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log("Agent signup form submitted"); // Debug
+            const agent = {
+                id: `AGT${Math.floor(10000 + Math.random() * 90000)}`,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                license: document.getElementById('license').value,
+                docs: document.getElementById('docs').files.length ? 'Uploaded' : 'None',
+                password: document.getElementById('password').value,
+                subscription: 'Pending',
+                isAdmin: false
+            };
+            pendingAgents.push(agent);
+            logAction(`${agent.name} submitted agent registration`);
+            alert('Registration submitted for approval.');
+            window.location.href = '/index.html';
+        });
+    }
 
     // Defendant Dashboard
     if (window.location.pathname.endsWith('defendant-dashboard.html')) {
