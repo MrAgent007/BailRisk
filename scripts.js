@@ -1,3 +1,5 @@
+console.log("Script.js loaded at start"); // Debug
+
 // Simulated data storage with mock accounts
 let currentUser = null;
 let agents = [
@@ -42,28 +44,13 @@ function updateSystemLogs() {
     }
 }
 
-// All Logic in DOMContentLoaded
+// Initialize currentUser from localStorage
+currentUser = JSON.parse(localStorage.getItem('currentUser'));
+console.log("Initial currentUser from localStorage:", currentUser); // Debug
+
+// DOMContentLoaded for all logic
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded"); // Debug
-    currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-    console.log("Initial currentUser:", currentUser); // Debug
-
-    // Defendant Login
-    const defendantLoginForm = document.getElementById('defendantLoginForm');
-    if (defendantLoginForm) {
-        console.log("Defendant login form found"); // Debug
-        defendantLoginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            console.log("Defendant login form submitted"); // Debug
-            const id = document.getElementById('defendantId').value;
-            currentUser = defendants.find(d => d.id === id) || { id, name: id, agentId: null, checkins: [], missed: [], riskScore: 0, mugshot: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" };
-            if (!defendants.some(d => d.id === id)) defendants.push(currentUser);
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            logAction(`${currentUser.name} logged in as defendant`);
-            console.log(`Redirecting to defendant-dashboard for ${currentUser.id}`); // Debug
-            window.location.href = '/defendant-dashboard.html';
-        });
-    }
 
     // Agent Login
     const agentLoginForm = document.getElementById('agentLoginForm');
@@ -81,8 +68,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             console.log(`Agent found: ${currentUser.name}, isAdmin: ${currentUser.isAdmin}`); // Debug
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            console.log("currentUser set in localStorage:", JSON.parse(localStorage.getItem('currentUser'))); // Debug
             logAction(`${currentUser.name} logged in`);
             window.location.href = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
+        });
+    } else {
+        console.log("Agent login form NOT found"); // Debug
+    }
+
+    // Defendant Login
+    const defendantLoginForm = document.getElementById('defendantLoginForm');
+    if (defendantLoginForm) {
+        console.log("Defendant login form found"); // Debug
+        defendantLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log("Defendant login form submitted"); // Debug
+            const id = document.getElementById('defendantId').value;
+            currentUser = defendants.find(d => d.id === id) || { id, name: id, agentId: null, checkins: [], missed: [], riskScore: 0, mugshot: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" };
+            if (!defendants.some(d => d.id === id)) defendants.push(currentUser);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            console.log("currentUser set in localStorage:", JSON.parse(localStorage.getItem('currentUser'))); // Debug
+            logAction(`${currentUser.name} logged in as defendant`);
+            console.log(`Redirecting to defendant-dashboard for ${currentUser.id}`); // Debug
+            window.location.href = '/defendant-dashboard.html';
         });
     }
 
@@ -257,12 +265,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Admin Dashboard
     if (window.location.pathname.endsWith('admin-dashboard.html')) {
         console.log("Admin dashboard detected"); // Debug
-        console.log("Current user:", currentUser); // Debug
+        console.log("Current user before check:", currentUser); // Debug
         if (!currentUser || !currentUser.isAdmin) {
             console.log("Redirecting to index - no admin user"); // Debug
             window.location.href = '/index.html';
             return;
         }
+        console.log("Admin user confirmed, proceeding"); // Debug
 
         document.getElementById('adminName').textContent = currentUser?.name || 'Admin';
 
