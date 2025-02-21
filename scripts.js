@@ -52,7 +52,7 @@ console.log("Initial currentUser from localStorage:", currentUser);
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM fully loaded");
 
-    // Agent Login
+    // Agent/Admin Login
     const agentLoginForm = document.getElementById('agentLoginForm');
     if (agentLoginForm) {
         console.log("Agent login form found");
@@ -419,7 +419,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showSection('members');
         } catch (error) {
             console.error("Admin dashboard error:", error);
-            window.location.href = '/index.html'; // Fallback redirect on error
         }
     }
 });
