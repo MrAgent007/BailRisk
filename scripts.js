@@ -1,11 +1,12 @@
-// Simulated data storage (will port to database later)
+// Simulated data storage with mock accounts
 let currentUser = null;
 let agents = [
-    { id: "AGT12345", name: "Agent Smith", email: "smith@agency.com", license: "FL12345", docs: "Uploaded", subscription: "Active", isAdmin: true }
+    { id: "AGT99999", name: "Admin User", email: "admin@bailsafe.com", license: "FL99999", docs: "Uploaded", subscription: "Active", isAdmin: true },
+    { id: "AGT88888", name: "Agent Jane", email: "jane@bailsafe.com", license: "FL88888", docs: "Uploaded", subscription: "Active", isAdmin: false }
 ];
 let pendingAgents = [];
 let defendants = [
-    { id: "DEF12345", name: "John Doe", agentId: null, checkins: [], missed: [], riskScore: 0, mugshot: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" }
+    { id: "DEF77777", name: "Defendant Bob", agentId: "AGT88888", checkins: [], missed: [], riskScore: 0, mugshot: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" }
 ];
 let checkins = [];
 let notifications = [];
@@ -154,10 +155,27 @@ function updateLocations() {
     }
 }
 
-// Agent Dashboard
+// Agent Dashboard Logic
 if (window.location.pathname.endsWith('agent-dashboard.html')) {
     document.getElementById('agentName').textContent = currentUser?.name || 'Agent';
     document.getElementById('subscriptionStatus').textContent = currentUser?.subscription || 'Pending';
+
+    document.querySelectorAll('.nav-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const sectionId = e.currentTarget.getAttribute('data-section');
+            console.log(`Clicked agent nav button for section: ${sectionId}`);
+            showSection(sectionId);
+        });
+    });
+
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const sectionId = e.currentTarget.getAttribute('data-section');
+            console.log(`Clicked agent sidebar link for section: ${sectionId}`);
+            showSection(sectionId);
+        });
+    });
 
     const defendantList = document.getElementById('defendantList');
     defendantList.innerHTML = defendants
@@ -215,6 +233,8 @@ if (window.location.pathname.endsWith('agent-dashboard.html')) {
         },
         options: { responsive: true }
     });
+
+    showSection('defendants');
 }
 
 // Admin Dashboard Logic
@@ -229,7 +249,7 @@ if (window.location.pathname.endsWith('admin-dashboard.html')) {
     document.querySelectorAll('.nav-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             const sectionId = e.currentTarget.getAttribute('data-section');
-            console.log(`Clicked nav button for section: ${sectionId}`); // Debug log
+            console.log(`Clicked admin nav button for section: ${sectionId}`);
             showSection(sectionId);
         });
     });
@@ -237,9 +257,9 @@ if (window.location.pathname.endsWith('admin-dashboard.html')) {
     // Add event listeners to sidebar links
     document.querySelectorAll('.sidebar a').forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default anchor behavior
+            e.preventDefault();
             const sectionId = e.currentTarget.getAttribute('data-section');
-            console.log(`Clicked sidebar link for section: ${sectionId}`); // Debug log
+            console.log(`Clicked admin sidebar link for section: ${sectionId}`);
             showSection(sectionId);
         });
     });
@@ -267,16 +287,55 @@ if (window.location.pathname.endsWith('admin-dashboard.html')) {
             logAction(`Assigned ${defendant.name} to ${agents.find(a => a.id === agentId).name}`);
             addNotification(`${defendant.name} assigned to you`, 'agent');
             alert('Defendant assigned successfully.');
+            refreshMembers(); // Update members list
         } else {
             alert('Defendant not found.');
         }
         e.target.reset();
     });
 
+    // Members
+    function refreshMembers() {
+        const membersList = document.getElementById('membersList');
+        membersList.innerHTML = `
+            <h4>Agents</h4>
+            <table>
+                <tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr>
+                ${agents.map((a, index) => `
+                    <tr>
+                        <td>${a.id}</td>
+                        <td>${a.name}</td>
+                        <td>${a.email}</td>
+                        <td>${a.subscription}</td>
+                        <td>
+                            <button onclick="suspendAgent(${index})" class="btn small ${a.subscription === 'Suspended' ? 'secondary' : ''}"><i class="fas fa-pause"></i> ${a.subscription === 'Suspended' ? 'Unsuspend' : 'Suspend'}</button>
+                            <button onclick="deleteAgent(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                        </td>
+                    </tr>`).join('')}
+            </table>
+            <h4>Defendants</h4>
+            <table>
+                <tr><th>ID</th><th>Name</th><th>Agent</th><th>Risk Score</th><th>Actions</th></tr>
+                ${defendants.map((d, index) => `
+                    <tr>
+                        <td>${d.id}</td>
+                        <td>${d.name}</td>
+                        <td>${agents.find(a => a.id === d.agentId)?.name || 'Unassigned'}</td>
+                        <td>${d.riskScore}</td>
+                        <td>
+                            <button onclick="deleteDefendant(${index})" class="btn small danger"><i class="fas fa-trash"></i> Delete</button>
+                        </td>
+                    </tr>`).join('')}
+            </table>
+        `;
+    }
+    refreshMembers();
+
     // Risk Analytics
     let riskChartInstance = null;
     function updateRiskChart() {
-        const ctx = document.getElementById('riskAnalyticsChart').getContext('2d');
+        const ctx = document.getElementById('riskAnalyticsChart')?.getContext('2d');
+        if (!ctx) return;
         if (riskChartInstance) riskChartInstance.destroy();
         riskChartInstance = new Chart(ctx, {
             type: 'pie',
@@ -306,11 +365,11 @@ if (window.location.pathname.endsWith('admin-dashboard.html')) {
     refreshPerformance();
 
     // Show default section
-    showSection('approvals');
+    showSection('members');
 }
 
 function showSection(sectionId) {
-    console.log(`Showing section: ${sectionId}`); // Debug log
+    console.log(`Showing section: ${sectionId}`);
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
         section.style.display = 'none';
@@ -395,6 +454,7 @@ function approveAgent(index) {
     logAction(`Approved ${agent.name} as agent`);
     addNotification(`${agent.name} approved`, 'agent');
     refreshPendingAgents();
+    refreshMembers();
 }
 
 function rejectAgent(index) {
@@ -402,6 +462,32 @@ function rejectAgent(index) {
     logAction(`Rejected ${agent.name}`);
     addNotification(`${agent.name} rejected`, 'agent');
     refreshPendingAgents();
+}
+
+function suspendAgent(index) {
+    const agent = agents[index];
+    agent.subscription = agent.subscription === 'Suspended' ? 'Active' : 'Suspended';
+    logAction(`${agent.name} ${agent.subscription === 'Suspended' ? 'suspended' : 'unsuspended'}`);
+    addNotification(`${agent.name} account ${agent.subscription === 'Suspended' ? 'suspended' : 'unsuspended'}`, 'agent');
+    refreshMembers();
+}
+
+function deleteAgent(index) {
+    if (confirm(`Are you sure you want to delete agent ${agents[index].name}?`)) {
+        const agent = agents.splice(index, 1)[0];
+        logAction(`Deleted agent ${agent.name}`);
+        addNotification(`Agent ${agent.name} deleted`, 'agent');
+        refreshMembers();
+    }
+}
+
+function deleteDefendant(index) {
+    if (confirm(`Are you sure you want to delete defendant ${defendants[index].name}?`)) {
+        const defendant = defendants.splice(index, 1)[0];
+        logAction(`Deleted defendant ${defendant.name}`);
+        addNotification(`Defendant ${defendant.name} deleted`, 'agent');
+        refreshMembers();
+    }
 }
 
 function sendSystemAlert() {
@@ -449,6 +535,7 @@ function resetRiskScores() {
     logAction('Admin reset all risk scores');
     addNotification('All risk scores reset', 'agent');
     updateRiskChart();
+    refreshMembers();
 }
 
 function generatePerformanceReport() {
@@ -486,6 +573,7 @@ function clearAllData() {
         refreshPerformance();
         updateSystemLogs();
         updateNotifications('agent');
+        refreshMembers();
         alert('All data cleared.');
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - BailSafe</title>
+    <title>Agent Dashboard - BailSafe</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -12,76 +12,58 @@
     <header>
         <div class="logo"><i class="fas fa-balance-scale"></i> BailSafe</div>
         <nav class="top-nav">
-            <button onclick="showSection('approvals')" class="nav-btn"><i class="fas fa-user-shield"></i> Approvals</button>
-            <button onclick="showSection('assignments')" class="nav-btn"><i class="fas fa-user"></i> Assignments</button>
-            <button onclick="showSection('risk')" class="nav-btn"><i class="fas fa-chart-pie"></i> Risk Analytics</button>
-            <button onclick="showSection('tools')" class="nav-btn"><i class="fas fa-tools"></i> Tools</button>
-            <button onclick="showSection('logs')" class="nav-btn"><i class="fas fa-history"></i> Logs</button>
-            <button onclick="showSection('performance')" class="nav-btn"><i class="fas fa-user-check"></i> Performance</button>
+            <button class="nav-btn" data-section="defendants"><i class="fas fa-users"></i> Defendants</button>
+            <button class="nav-btn" data-section="checkins"><i class="fas fa-calendar-check"></i> Check-Ins</button>
+            <button class="nav-btn" data-section="missed"><i class="fas fa-exclamation-triangle"></i> Missed</button>
+            <button class="nav-btn" data-section="notifications"><i class="fas fa-bell"></i> Notifications</button>
+            <button class="nav-btn" data-section="messaging"><i class="fas fa-envelope"></i> Messaging</button>
+            <button class="nav-btn" data-section="analytics"><i class="fas fa-chart-line"></i> Analytics</button>
             <a href="index.html" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
         </nav>
     </header>
     <section class="dashboard">
         <aside class="sidebar">
             <div class="agent-profile">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin Avatar" class="avatar">
-                <h4 id="adminName">Admin</h4>
-                <p><i class="fas fa-user-cog"></i> Admin Privileges</p>
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Agent Avatar" class="avatar">
+                <h4 id="agentName">Agent</h4>
+                <p><i class="fas fa-dollar-sign"></i> Subscription: <span id="subscriptionStatus">Pending</span></p>
             </div>
-            <h3>Admin Tools</h3>
-            <a href="#approvals" onclick="showSection('approvals')"><i class="fas fa-user-shield"></i> Agent Approvals</a>
-            <a href="#assignments" onclick="showSection('assignments')"><i class="fas fa-user"></i> Defendant Assignments</a>
-            <a href="#risk" onclick="showSection('risk')"><i class="fas fa-chart-pie"></i> Risk Analytics</a>
-            <a href="#tools" onclick="showSection('tools')"><i class="fas fa-tools"></i> System Tools</a>
-            <a href="#logs" onclick="showSection('logs')"><i class="fas fa-history"></i> System Logs</a>
-            <a href="#performance" onclick="showSection('performance')"><i class="fas fa-user-check"></i> Agent Performance</a>
+            <h3>Quick Links</h3>
+            <a href="#" data-section="defendants"><i class="fas fa-users"></i> My Defendants</a>
+            <a href="#" data-section="checkins"><i class="fas fa-calendar-check"></i> Check-Ins</a>
+            <a href="#" data-section="missed"><i class="fas fa-exclamation-triangle"></i> Missed Check-Ins</a>
+            <a href="#" data-section="notifications"><i class="fas fa-bell"></i> Notifications</a>
+            <a href="#" data-section="messaging"><i class="fas fa-envelope"></i> Messaging</a>
+            <a href="#" data-section="analytics"><i class="fas fa-chart-line"></i> Analytics</a>
         </aside>
         <main>
-            <div id="approvals" class="section">
-                <h3><i class="fas fa-user-shield"></i> Agent Approvals</h3>
-                <div id="pendingAgents" class="admin-content"></div>
-                <button onclick="refreshPendingAgents()" class="btn"><i class="fas fa-sync"></i> Refresh List</button>
+            <div id="defendants" class="section">
+                <h3><i class="fas fa-users"></i> Assigned Defendants</h3>
+                <div id="defendantList"></div>
+                <button onclick="calculateRiskScores()" class="btn"><i class="fas fa-calculator"></i> Update Risk Scores</button>
             </div>
-            <div id="assignments" class="section" style="display: none;">
-                <h3><i class="fas fa-user"></i> Defendant Assignments</h3>
-                <form id="assignForm" class="admin-content form-content">
-                    <div class="form-group">
-                        <label for="defendantId"><i class="fas fa-id-card"></i> Defendant ID</label>
-                        <input type="text" id="defendantId" required placeholder="DEF12345">
-                    </div>
-                    <div class="form-group">
-                        <label for="agentId"><i class="fas fa-user-shield"></i> Assign to Agent</label>
-                        <select id="agentId" required></select>
-                    </div>
-                    <button type="submit" class="btn"><i class="fas fa-link"></i> Assign Defendant</button>
-                </form>
+            <div id="checkins" class="section" style="display: none;">
+                <h3><i class="fas fa-calendar-check"></i> Recent Check-Ins</h3>
+                <div id="checkinList"></div>
             </div>
-            <div id="risk" class="section" style="display: none;">
-                <h3><i class="fas fa-chart-pie"></i> Risk Analytics</h3>
-                <canvas id="riskAnalyticsChart" width="400" height="200" class="admin-content"></canvas>
-                <button onclick="updateRiskChart()" class="btn"><i class="fas fa-redo"></i> Update Chart</button>
+            <div id="missed" class="section" style="display: none;">
+                <h3><i class="fas fa-exclamation-triangle"></i> Missed Check-Ins</h3>
+                <div id="missedList"></div>
+                <button onclick="sendReminderAll()" class="btn"><i class="fas fa-bell"></i> Send Reminders</button>
             </div>
-            <div id="tools" class="section" style="display: none;">
-                <h3><i class="fas fa-tools"></i> System Tools</h3>
-                <div class="admin-content tools">
-                    <button onclick="sendSystemAlert()" class="btn"><i class="fas fa-bullhorn"></i> Send System Alert</button>
-                    <button onclick="exportData()" class="btn"><i class="fas fa-download"></i> Export Data</button>
-                    <button onclick="toggleAutoReminders()" class="btn"><i class="fas fa-clock"></i> Toggle Auto-Reminders</button>
-                    <p>Auto-Reminders: <span id="autoReminderStatus">Off</span></p>
-                    <button onclick="resetRiskScores()" class="btn"><i class="fas fa-undo"></i> Reset Risk Scores</button>
-                    <button onclick="generatePerformanceReport()" class="btn"><i class="fas fa-file-alt"></i> Generate Report</button>
-                    <button onclick="clearAllData()" class="btn danger"><i class="fas fa-trash-alt"></i> Clear All Data</button>
-                </div>
+            <div id="notifications" class="section" style="display: none;">
+                <h3><i class="fas fa-bell"></i> Notifications</h3>
+                <div id="notificationList"></div>
             </div>
-            <div id="logs" class="section" style="display: none;">
-                <h3><i class="fas fa-history"></i> System Logs</h3>
-                <div id="systemLogs" class="admin-content log-content"></div>
-                <button onclick="clearLogs()" class="btn"><i class="fas fa-trash"></i> Clear Logs</button>
+            <div id="messaging" class="section" style="display: none;">
+                <h3><i class="fas fa-envelope"></i> Messaging</h3>
+                <div id="messageList"></div>
+                <textarea id="messageInput" placeholder="Type a message to all defendants..."></textarea>
+                <button onclick="sendMessage()" class="btn"><i class="fas fa-paper-plane"></i> Send</button>
             </div>
-            <div id="performance" class="section" style="display: none;">
-                <h3><i class="fas fa-user-check"></i> Agent Performance</h3>
-                <div id="agentPerformance" class="admin-content"></div>
-                <button onclick="refreshPerformance()" class="btn"><i class="fas fa-sync"></i> Refresh Stats</button>
+            <div id="analytics" class="section" style="display: none;">
+                <h3><i class="fas fa-chart-line"></i> Analytics</h3>
+                <canvas id="agentAnalyticsChart" width="400" height="200"></canvas>
             </div>
         </main>
     </section>
