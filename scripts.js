@@ -3,7 +3,7 @@ console.log("Script.js loaded at start");
 // Simulated data storage with mock accounts
 let currentUser = null;
 let agents = [
-    { id: "AGT99999", name: "Admin User", email: "admin@bailsafe.com", license: "FL99999", docs: "Uploaded", subscription: "Active", isAdmin: true },
+    { id: "AGT12345", name: "Admin Agent", email: "adminagent@bailsafe.com", license: "FL12345", docs: "Uploaded", subscription: "Active", isAdmin: true },
     { id: "AGT88888", name: "Agent Jane", email: "jane@bailsafe.com", license: "FL88888", docs: "Uploaded", subscription: "Active", isAdmin: false }
 ];
 let pendingAgents = [];
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("currentUser set in localStorage:", JSON.parse(localStorage.getItem('currentUser')));
             logAction(`${currentUser.name} logged in`);
             console.log("Redirecting to: /agent-dashboard.html");
-            window.location.href = '/agent-dashboard.html'; // All agents/admins go here
+            window.location.href = '/agent-dashboard.html';
         });
     } else {
         console.log("Agent login form NOT found");
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showSection('defendants');
         } catch (error) {
             console.error("Agent dashboard error:", error);
-            window.location.href = '/index.html'; // Fallback on error
+            window.location.href = '/index.html';
         }
     }
 });

@@ -1,6 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Inside sidebar or nav -->
+<a href="#" id="adminPanelBtn" class="sidebar-btn" data-section="adminTools" style="display: none;"><i class="fas fa-tools"></i> Admin Panel</a>
+
+<!-- Add this section with existing ones -->
+<div id="adminTools" class="section" style="display: none;">
+    <h3>Admin Tools</h3>
+    <div id="pendingAgents"></div>
+    <div id="assignForm">
+        <h4>Assign Defendant</h4>
+        <form>
+            <input type="text" id="defendantId" placeholder="Defendant ID" required>
+            <select id="agentId" required></select>
+            <button type="submit" class="btn">Assign</button>
+        </form>
+    </div>
+    <div id="membersList"></div>
+    <canvas id="riskAnalyticsChart"></canvas>
+    <div id="agentPerformance"></div>
+    <p>Auto Reminders: <span id="autoReminderStatus">Off</span> <button onclick="toggleAutoReminders()">Toggle</button></p>
+    <button onclick="sendSystemAlert()">Send System Alert</button>
+    <button onclick="exportData()">Export Data</button>
+    <button onclick="resetRiskScores()">Reset Risk Scores</button>
+    <button onclick="generatePerformanceReport()">Generate Report</button>
+    <button onclick="clearLogs()">Clear Logs</button>
+    <button onclick="clearAllData()">Clear All Data</button>
+    <div id="systemLogs"></div>
+</div>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Dashboard - BailSafe</title>
