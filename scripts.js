@@ -1,4 +1,4 @@
-console.log("Script.js loaded at start"); // Debug
+console.log("Script.js loaded at start"); // Debug immediate load
 
 // Simulated data storage with mock accounts
 let currentUser = null;
@@ -44,37 +44,52 @@ function updateSystemLogs() {
     }
 }
 
-// Initialize currentUser from localStorage
+// Load currentUser from localStorage
 currentUser = JSON.parse(localStorage.getItem('currentUser'));
 console.log("Initial currentUser from localStorage:", currentUser); // Debug
 
-// DOMContentLoaded for all logic
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded"); // Debug
-
-    // Agent Login
+// Agent Login (Immediate Check with Fallback)
+function setupAgentLogin() {
     const agentLoginForm = document.getElementById('agentLoginForm');
     if (agentLoginForm) {
-        console.log("Agent login form found"); // Debug
-        agentLoginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            console.log("Agent login form submitted"); // Debug
-            const id = document.getElementById('agentId').value;
-            currentUser = agents.find(a => a.id === id);
-            if (!currentUser) {
-                console.log(`No agent found with ID: ${id}`); // Debug
-                alert('Agent not approved yet.');
-                return;
-            }
-            console.log(`Agent found: ${currentUser.name}, isAdmin: ${currentUser.isAdmin}`); // Debug
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            console.log("currentUser set in localStorage:", JSON.parse(localStorage.getItem('currentUser'))); // Debug
-            logAction(`${currentUser.name} logged in`);
-            window.location.href = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
-        });
+        console.log("Agent login form found immediately"); // Debug
+        agentLoginForm.addEventListener('submit', handleAgentLogin);
     } else {
-        console.log("Agent login form NOT found"); // Debug
+        console.log("Agent login form not found immediately, retrying on DOMContentLoaded"); // Debug
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('agentLoginForm');
+            if (form) {
+                console.log("Agent login form found on DOMContentLoaded"); // Debug
+                form.addEventListener('submit', handleAgentLogin);
+            } else {
+                console.error("Agent login form still not found"); // Debug
+            }
+        });
     }
+}
+
+function handleAgentLogin(e) {
+    e.preventDefault();
+    console.log("Agent login form submitted"); // Debug
+    const id = document.getElementById('agentId').value;
+    currentUser = agents.find(a => a.id === id);
+    if (!currentUser) {
+        console.log(`No agent found with ID: ${id}`); // Debug
+        alert('Agent not approved yet.');
+        return;
+    }
+    console.log(`Agent found: ${currentUser.name}, isAdmin: ${currentUser.isAdmin}`); // Debug
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    console.log("currentUser set in localStorage:", JSON.parse(localStorage.getItem('currentUser'))); // Debug
+    logAction(`${currentUser.name} logged in`);
+    window.location.href = currentUser.isAdmin ? '/admin-dashboard.html' : '/agent-dashboard.html';
+}
+
+setupAgentLogin();
+
+// DOMContentLoaded for Other Logic
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded"); // Debug
 
     // Defendant Login
     const defendantLoginForm = document.getElementById('defendantLoginForm');
@@ -265,7 +280,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Admin Dashboard
     if (window.location.pathname.endsWith('admin-dashboard.html')) {
         console.log("Admin dashboard detected"); // Debug
-        console.log("Current user before check:", currentUser); // Debug
+        currentUser = JSON.parse(localStorage.getItem('currentUser')); // Re-fetch
+        console.log("Current user in admin dashboard:", currentUser); // Debug
         if (!currentUser || !currentUser.isAdmin) {
             console.log("Redirecting to index - no admin user"); // Debug
             window.location.href = '/index.html';
