@@ -1,0 +1,46 @@
+[2025-02-23 00:43:05] Defendant dashboard data request started
+[2025-02-23 00:43:05] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:43:19] Defendant dashboard data request started
+[2025-02-23 00:43:19] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:45:02] Defendant dashboard data request started
+[2025-02-23 00:45:02] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:48:15] Defendant dashboard data request started
+[2025-02-23 00:48:15] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:52:00] Defendant dashboard data request started
+[2025-02-23 00:52:00] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 01:06:47] Defendant dashboard data request started
+[2025-02-23 01:06:47] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 01:06:50] Defendant dashboard data request started
+[2025-02-23 01:06:50] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 01:07:01] Defendant dashboard data request started
+[2025-02-23 01:07:01] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 01:39:17] Defendant dashboard data request started
+[2025-02-23 01:39:17] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 01:43:47] Defendant dashboard data request started
+[2025-02-23 01:43:47] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 01:46:27] Defendant dashboard data request started
+[2025-02-23 01:46:27] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 01:48:46] Defendant dashboard data request started
+[2025-02-23 01:48:46] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 01:50:31] Defendant dashboard data request started
+[2025-02-23 01:50:31] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 01:52:42] Defendant dashboard data request started
+[2025-02-23 01:52:42] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 01:54:24] Defendant dashboard data request started
+[2025-02-23 01:54:24] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 01:58:14] Defendant dashboard data request started
+[2025-02-23 01:58:14] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 02:01:52] Defendant dashboard data request started
+[2025-02-23 02:01:52] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 02:02:05] Defendant dashboard data request started
+[2025-02-23 02:02:05] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 02:13:43] Defendant dashboard data request started
+[2025-02-23 02:13:43] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 03:11:26] Defendant dashboard data request started
+[2025-02-23 03:11:26] Unauthorized access attempt: user_id=unset, user_type=unset
+[2025-02-23 03:11:29] Defendant dashboard data request started
+[2025-02-23 03:11:29] Unauthorized access attempt: user_id=unset, user_type=unset
+[2025-02-23 03:11:59] Defendant dashboard data request started
+[2025-02-23 03:11:59] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579
+[2025-02-23 03:12:27] Defendant dashboard data request started
+[2025-02-23 03:12:27] Data sent successfully for defendant_id=DEF065579 by user_id=DEF065579

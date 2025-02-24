@@ -1,0 +1,27 @@
+[2025-02-23 01:54:34] Check-in submission started
+[2025-02-23 01:54:34] Received defendant_id='DEF065579', user_id=DEF065579, user_type=defendant
+[2025-02-23 01:54:34] Connected database: hillardcorp_bailsafe
+[2025-02-23 01:54:34] POST data: {"defendant_id":"DEF065579","employment_status":"Employed","employer_name":"test","living_situation":"Stable","current_address":"826 evanston st","contact_number":"863-304-0611","travel_plans":"No Travel","travel_destination":"","travel_purpose":"","travel_start_date":"","travel_end_date":"","latitude":"27.4661376","longitude":"-81.5071232","ip_address":"71.203.58.194"}
+[2025-02-23 01:54:34] FILES data: {"selfie":{"name":"WIN_20200622_18_29_11_Pro.jpg","full_path":"WIN_20200622_18_29_11_Pro.jpg","type":"image\/jpeg","tmp_name":"\/tmp\/phpY942mc","error":0,"size":310704}}
+[2025-02-23 01:54:34] Missing required fields for defendant_id=DEF065579: selfie
+[2025-02-23 01:54:40] Check-in submission started
+[2025-02-23 01:54:40] Received defendant_id='DEF065579', user_id=DEF065579, user_type=defendant
+[2025-02-23 01:54:40] Connected database: hillardcorp_bailsafe
+[2025-02-23 01:54:40] POST data: {"defendant_id":"DEF065579","employment_status":"Employed","employer_name":"test","living_situation":"Stable","current_address":"826 evanston st","contact_number":"863-304-0611","travel_plans":"No Travel","travel_destination":"","travel_purpose":"","travel_start_date":"","travel_end_date":"","latitude":"27.4661376","longitude":"-81.5071232","ip_address":"71.203.58.194"}
+[2025-02-23 01:54:40] FILES data: {"selfie":{"name":"WIN_20200622_18_29_11_Pro.jpg","full_path":"WIN_20200622_18_29_11_Pro.jpg","type":"image\/jpeg","tmp_name":"\/tmp\/phpc4cfKr","error":0,"size":310704}}
+[2025-02-23 01:54:40] Missing required fields for defendant_id=DEF065579: selfie
+[2025-02-23 01:58:31] Check-in submission started
+[2025-02-23 01:58:31] Received defendant_id='DEF065579', user_id=DEF065579, user_type=defendant
+[2025-02-23 01:58:31] Connected database: hillardcorp_bailsafe
+[2025-02-23 01:58:31] POST data: {"defendant_id":"DEF065579","employment_status":"Employed","employer_name":"test","living_situation":"Stable","current_address":"826 evanston st","contact_number":"863-304-0611","travel_plans":"No Travel","travel_destination":"","travel_purpose":"","travel_start_date":"","travel_end_date":"","latitude":"27.4661376","longitude":"-81.5071232","ip_address":"71.203.58.194"}
+[2025-02-23 01:58:31] FILES data: {"selfie":{"name":"WIN_20200622_18_29_11_Pro.jpg","full_path":"WIN_20200622_18_29_11_Pro.jpg","type":"image\/jpeg","tmp_name":"\/tmp\/phpdojX86","error":0,"size":310704}}
+[2025-02-23 01:58:31] Missing required fields for defendant_id=DEF065579: selfie
+[2025-02-23 01:58:41] Check-in submission started
+[2025-02-23 01:58:41] Received defendant_id='DEF065579', user_id=DEF065579, user_type=defendant
+[2025-02-23 01:58:41] Connected database: hillardcorp_bailsafe
+[2025-02-23 01:58:41] POST data: {"defendant_id":"DEF065579","employment_status":"Employed","employer_name":"test","living_situation":"Stable","current_address":"826 evanston st","contact_number":"863-304-0611","travel_plans":"No Travel","travel_destination":"","travel_purpose":"","travel_start_date":"","travel_end_date":"","latitude":"27.4661376","longitude":"-81.5071232","ip_address":"71.203.58.194"}
+[2025-02-23 01:58:41] FILES data: {"selfie":{"name":"WIN_20200622_18_29_11_Pro.jpg","full_path":"WIN_20200622_18_29_11_Pro.jpg","type":"image\/jpeg","tmp_name":"\/tmp\/phpTAyBUJ","error":0,"size":310704}}
+[2025-02-23 01:58:41] Missing required fields for defendant_id=DEF065579: selfie
+[2025-02-23 02:02:02] Check-in submission started
+[2025-02-23 02:02:02] Received defendant_id='DEF065579', user_id=DEF065579, user_type=defendant
+[2025-02-23 02:02:03] Check-in recorded successfully for defendant_id=DEF065579

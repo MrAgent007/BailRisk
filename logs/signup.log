@@ -1,0 +1,47 @@
+[2025-02-23 07:52:00] Agent signup request started
+[2025-02-23 07:52:00] Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'dob' in 'INSERT INTO'
+[2025-02-23 07:52:05] Agent signup request started
+[2025-02-23 07:52:05] Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'dob' in 'INSERT INTO'
+[2025-02-23 07:52:09] Agent signup request started
+[2025-02-23 07:52:09] Database error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'dob' in 'INSERT INTO'
+[2025-02-23 07:53:21] Agent signup request started
+[2025-02-23 07:53:21] Agent signup successful: id=4, email=johnyacosta14@hotmail.com
+[2025-02-23 07:59:40] Agent signup request started
+[2025-02-23 07:59:40] Agent signup successful: id=5, email=johnyacosta14@hotmail.com
+[2025-02-23 07:59:40] Email sending failed: SMTP Error: Could not authenticate.
+[2025-02-23 08:06:30] Agent signup request started
+[2025-02-23 08:06:30] Agent signup successful: id=6, email=johnyacosta14@hotmail.com
+[2025-02-23 08:06:32] Verification email sent to: johnyacosta14@hotmail.com
+[2025-02-23 08:10:38] Resend verification request started
+[2025-02-23 08:10:38] Email resending failed: SMTP Error: Could not authenticate.
+[2025-02-23 08:10:43] Resend verification request started
+[2025-02-23 08:10:43] Email resending failed: SMTP Error: Could not authenticate.
+[2025-02-23 08:10:47] Resend verification request started
+[2025-02-23 08:10:48] Email resending failed: SMTP Error: Could not authenticate.
+[2025-02-23 08:11:02] Resend verification request started
+[2025-02-23 08:11:02] Email resending failed: SMTP Error: Could not authenticate.
+[2025-02-23 08:13:37] Resend verification request started
+[2025-02-23 08:13:38] Verification email resent to: johnyacosta14@hotmail.com
+[2025-02-23 08:14:02] Resend verification request started
+[2025-02-23 08:14:02] No unverified agent found for email: acostajohny14@gmail.com
+[2025-02-23 08:14:04] Resend verification request started
+[2025-02-23 08:14:04] No unverified agent found for email: acostajohny14@gmail.com
+[2025-02-23 08:14:12] Resend verification request started
+[2025-02-23 08:14:12] No unverified agent found for email: acostajohny14@gmail.com
+[2025-02-23 08:15:33] Agent signup request started
+[2025-02-23 08:15:34] Agent signup successful: id=7, email=mragent0911@gmail.com
+[2025-02-23 08:15:34] Verification email sent to: mragent0911@gmail.com
+[2025-02-23 08:18:56] Resend verification request started
+[2025-02-23 08:18:57] Verification email resent to: mragent0911@gmail.com
+[2025-02-23 08:22:38] Agent signup request started
+[2025-02-23 08:22:38] Agent signup successful: id=8, email=mragent0911@gmail.com
+[2025-02-23 08:22:39] Verification email sent to: mragent0911@gmail.com
+[2025-02-23 08:22:39] Email sending failed: 
+[2025-02-23 08:25:52] Agent signup request started
+[2025-02-23 08:25:53] Agent signup successful: id=9, email=mragent0911@gmail.com
+[2025-02-23 08:25:53] Verification email sent to: mragent0911@gmail.com
+[2025-02-23 08:25:53] Admin notification email sent for new signup: mragent0911@gmail.com
+[2025-02-23 14:19:59] Agent signup request started
+[2025-02-23 14:19:59] Invalid phone number format: 9484909314
+[2025-02-23 14:20:05] Agent signup request started
+[2025-02-23 14:20:05] Missing or invalid required fields: name=, dob=, agency_name=, agency_address=, agency_phone=, email=, license=

@@ -1,0 +1,381 @@
+[2025-02-23 00:40:15] Defendant profile data request started
+[2025-02-23 00:40:15] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:40:21] Defendant profile data request started
+[2025-02-23 00:40:21] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:40:35] Defendant profile data request started
+[2025-02-23 00:40:35] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:42:25] Defendant profile data request started
+[2025-02-23 00:42:25] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:42:29] Defendant profile data request started
+[2025-02-23 00:42:29] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:42:35] Defendant profile data request started
+[2025-02-23 00:42:35] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:44:07] Defendant profile data request started
+[2025-02-23 00:44:07] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:54:50] Defendant profile data request started
+[2025-02-23 00:54:50] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 00:55:04] Defendant profile data request started
+[2025-02-23 00:55:04] Unauthorized access attempt: user_id=2, user_type=agent
+[2025-02-23 01:02:49] Defendant profile data request started
+[2025-02-23 01:02:49] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:02:49] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:03:58] Defendant profile data request started
+[2025-02-23 01:03:58] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:03:58] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:04:06] Defendant profile data request started
+[2025-02-23 01:04:06] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:04:06] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:04:09] Defendant profile data request started
+[2025-02-23 01:04:09] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:04:09] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:04:16] Defendant profile data request started
+[2025-02-23 01:04:16] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:04:16] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:06:18] Defendant profile data request started
+[2025-02-23 01:06:18] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:06:18] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:07:59] Defendant profile data request started
+[2025-02-23 01:07:59] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:07:59] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:08:20] Defendant profile data request started
+[2025-02-23 01:08:20] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:08:20] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:08:58] Defendant profile data request started
+[2025-02-23 01:08:58] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:08:58] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:10:21] Defendant profile data request started
+[2025-02-23 01:10:21] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:10:21] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:10:53] Defendant profile data request started
+[2025-02-23 01:10:53] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:10:53] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:11:58] Defendant profile data request started
+[2025-02-23 01:11:58] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:11:58] Defendant not found: defendant_id=1 by user_id=2
+[2025-02-23 01:12:59] Defendant profile data request started
+[2025-02-23 01:12:59] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:12:59] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:13:02] Defendant profile data request started
+[2025-02-23 01:13:02] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:13:02] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:13:59] Defendant profile data request started
+[2025-02-23 01:13:59] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:13:59] Defendant not found: defendant_id=DEF872364 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:14:01] Defendant profile data request started
+[2025-02-23 01:14:01] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:14:01] Defendant not found: defendant_id=DEF872364 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:14:26] Defendant profile data request started
+[2025-02-23 01:14:26] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:14:26] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:15:28] Defendant profile data request started
+[2025-02-23 01:15:28] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:15:28] Defendant not found: defendant_id=DEF872364 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:15:30] Defendant profile data request started
+[2025-02-23 01:15:30] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:15:30] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:15:41] Defendant profile data request started
+[2025-02-23 01:15:41] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:15:41] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:16:31] Defendant profile data request started
+[2025-02-23 01:16:31] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:16:31] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:17:41] Defendant profile data request started
+[2025-02-23 01:17:41] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:17:41] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:19:50] Defendant profile data request started
+[2025-02-23 01:19:50] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:19:50] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:20:11] Defendant profile data request started
+[2025-02-23 01:20:11] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:20:11] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:22:47] Defendant profile data request started
+[2025-02-23 01:22:47] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:22:47] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:23:47] Defendant profile data request started
+[2025-02-23 01:23:47] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:23:47] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:24:00] Defendant profile data request started
+[2025-02-23 01:24:00] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:24:00] Defendant not found: defendant_id=1 by user_id=2. Available IDs: DEF049065, DEF065579
+[2025-02-23 01:24:08] Defendant profile data request started
+[2025-02-23 01:24:08] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:24:08] Data sent successfully for defendant_id=DEF049065 by user_id=2
+[2025-02-23 01:24:23] Defendant profile data request started
+[2025-02-23 01:24:23] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:24:23] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:24:28] Defendant profile data request started
+[2025-02-23 01:24:28] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:24:28] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:24:33] Defendant profile data request started
+[2025-02-23 01:24:33] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:24:33] Data sent successfully for defendant_id=DEF049065 by user_id=2
+[2025-02-23 01:24:43] Defendant profile data request started
+[2025-02-23 01:24:43] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:24:43] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:27:59] Defendant profile data request started
+[2025-02-23 01:27:59] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:27:59] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'next_checkin' in 'SELECT'
+[2025-02-23 01:28:43] Defendant profile data request started
+[2025-02-23 01:28:43] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:28:43] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'next_checkin' in 'SELECT'
+[2025-02-23 01:28:48] Defendant profile data request started
+[2025-02-23 01:28:48] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:28:48] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'next_checkin' in 'SELECT'
+[2025-02-23 01:30:48] Defendant profile data request started
+[2025-02-23 01:30:48] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:30:48] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:36:05] Defendant profile data request started
+[2025-02-23 01:36:05] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:36:05] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:36:49] Defendant profile data request started
+[2025-02-23 01:36:49] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:36:49] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 01:52:33] Defendant profile data request started
+[2025-02-23 01:52:33] Session check passed: user_id=2, user_type=agent
+[2025-02-23 01:52:33] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 02:03:28] Defendant profile data request started
+[2025-02-23 02:03:28] Session check passed: user_id=2, user_type=agent
+[2025-02-23 02:03:28] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 02:04:49] Defendant profile data request started
+[2025-02-23 02:04:49] Session check passed: user_id=2, user_type=agent
+[2025-02-23 02:04:49] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 02:07:12] Defendant profile data request started
+[2025-02-23 02:07:12] Session check passed: user_id=2, user_type=agent
+[2025-02-23 02:07:12] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 02:14:11] Defendant profile data request started
+[2025-02-23 02:14:11] Session check passed: user_id=2, user_type=agent
+[2025-02-23 02:14:11] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 02:21:39] Defendant profile data request started
+[2025-02-23 02:21:39] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:21:55] Defendant profile data request started
+[2025-02-23 02:21:55] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:25:14] Defendant profile data request started
+[2025-02-23 02:25:14] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:25:55] Defendant profile data request started
+[2025-02-23 02:25:55] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:26:49] Defendant profile data request started
+[2025-02-23 02:26:49] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:26:54] Defendant profile data request started
+[2025-02-23 02:26:54] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:29:31] Defendant profile data request started
+[2025-02-23 02:29:31] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:29:35] Defendant profile data request started
+[2025-02-23 02:29:35] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:29:47] Defendant profile data request started
+[2025-02-23 02:29:47] Database error for defendant_id=DEF065579 by user_id=2: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'selfie_path' in 'SELECT'
+[2025-02-23 02:33:06] Defendant profile data request started
+[2025-02-23 02:33:06] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 02:37:26] Defendant profile data request started
+[2025-02-23 02:37:26] Data sent successfully for defendant_id=DEF065579 by user_id=2
+[2025-02-23 02:52:22] Defendant profile data request started
+[2025-02-23 02:52:22] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 02:53:34] Defendant profile data request started
+[2025-02-23 02:53:34] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 02:53:38] Defendant profile data request started
+[2025-02-23 02:53:38] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 02:58:41] Defendant profile data request started
+[2025-02-23 02:58:41] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:04:45] Defendant profile data request started
+[2025-02-23 03:04:45] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:08:21] Defendant profile data request started
+[2025-02-23 03:08:21] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:08:36] Defendant profile data request started
+[2025-02-23 03:08:36] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:08:48] Defendant profile data request started
+[2025-02-23 03:08:48] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:09:43] Defendant profile data request started
+[2025-02-23 03:09:43] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:12:06] Defendant profile data request started
+[2025-02-23 03:12:06] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:12:36] Defendant profile data request started
+[2025-02-23 03:12:36] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:12:54] Defendant profile data request started
+[2025-02-23 03:12:54] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:14:52] Defendant profile data request started
+[2025-02-23 03:14:52] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:15:44] Defendant profile data request started
+[2025-02-23 03:15:44] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:15:51] Defendant profile data request started
+[2025-02-23 03:15:51] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:16:32] Defendant profile data request started
+[2025-02-23 03:16:32] Unauthorized access attempt: user_id=unset, user_type=unset
+[2025-02-23 03:16:46] Defendant profile data request started
+[2025-02-23 03:16:46] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:17:18] Defendant profile data request started
+[2025-02-23 03:17:18] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:18:23] Defendant profile data request started
+[2025-02-23 03:18:23] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:18:47] Defendant profile data request started
+[2025-02-23 03:18:47] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:20:26] Defendant profile data request started
+[2025-02-23 03:20:26] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:25:35] Defendant profile data request started
+[2025-02-23 03:25:35] Unauthorized access attempt: user_id=unset, user_type=unset
+[2025-02-23 03:25:45] Defendant profile data request started
+[2025-02-23 03:25:45] Unauthorized access attempt: user_id=unset, user_type=unset
+[2025-02-23 03:28:40] Defendant profile data request started
+[2025-02-23 03:28:40] Defendant not found: defendant_user_id=1 by user_id=1
+[2025-02-23 03:29:00] Defendant profile data request started
+[2025-02-23 03:29:00] Defendant not found: defendant_user_id=1 by user_id=1
+[2025-02-23 03:29:41] Defendant profile data request started
+[2025-02-23 03:29:41] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:31:21] Defendant profile data request started
+[2025-02-23 03:31:21] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:32:01] Defendant profile data request started
+[2025-02-23 03:32:01] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:32:20] Defendant profile data request started
+[2025-02-23 03:32:20] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:32:43] Defendant profile data request started
+[2025-02-23 03:32:43] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:33:52] Defendant profile data request started
+[2025-02-23 03:33:52] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:34:27] Defendant profile data request started
+[2025-02-23 03:34:27] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:34:48] Defendant profile data request started
+[2025-02-23 03:34:48] Data sent successfully for defendant_user_id=DEF065579 by user_id=1
+[2025-02-23 03:34:51] Defendant profile data request started
+[2025-02-23 03:34:51] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:37:07] Defendant profile data request started
+[2025-02-23 03:37:07] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:37:26] Defendant profile data request started
+[2025-02-23 03:37:26] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:38:32] Defendant profile data request started
+[2025-02-23 03:38:32] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:39:34] Defendant profile data request started
+[2025-02-23 03:39:34] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:39:41] Defendant profile data request started
+[2025-02-23 03:39:41] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:39:45] Defendant profile data request started
+[2025-02-23 03:39:45] Defendant not found: defendant_user_id=1 by user_id=1
+[2025-02-23 03:39:50] Defendant profile data request started
+[2025-02-23 03:39:50] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:42:53] Defendant profile data request started
+[2025-02-23 03:42:53] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:43:18] Defendant profile data request started
+[2025-02-23 03:43:18] Defendant not found: defendant_user_id=1 by user_id=1
+[2025-02-23 03:43:34] Defendant profile data request started
+[2025-02-23 03:43:34] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:45:20] Defendant profile data request started
+[2025-02-23 03:45:20] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:47:29] Defendant profile data request started
+[2025-02-23 03:47:29] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:47:36] Defendant profile data request started
+[2025-02-23 03:47:36] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:48:50] Defendant profile data request started
+[2025-02-23 03:48:50] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:49:00] Defendant profile data request started
+[2025-02-23 03:49:00] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 03:49:39] Defendant profile data request started
+[2025-02-23 03:49:39] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:49:47] Defendant profile data request started
+[2025-02-23 03:49:47] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:52:13] Defendant profile data request started
+[2025-02-23 03:52:13] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:52:16] Defendant profile data request started
+[2025-02-23 03:52:16] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:52:49] Defendant profile data request started
+[2025-02-23 03:52:49] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:55:11] Defendant profile data request started
+[2025-02-23 03:55:11] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:55:36] Defendant profile data request started
+[2025-02-23 03:55:36] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:55:40] Defendant profile data request started
+[2025-02-23 03:55:40] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:59:01] Defendant profile data request started
+[2025-02-23 03:59:01] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:59:04] Defendant profile data request started
+[2025-02-23 03:59:04] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 03:59:15] Defendant profile data request started
+[2025-02-23 03:59:15] Unauthorized access attempt: user_id=unset, user_type=unset
+[2025-02-23 04:00:30] Defendant profile data request started
+[2025-02-23 04:00:30] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:01:20] Defendant profile data request started
+[2025-02-23 04:01:20] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 04:01:40] Defendant profile data request started
+[2025-02-23 04:01:40] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:03:36] Defendant profile data request started
+[2025-02-23 04:03:36] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:04:01] Defendant profile data request started
+[2025-02-23 04:04:01] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:04:43] Defendant profile data request started
+[2025-02-23 04:04:43] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:10:02] Defendant profile data request started
+[2025-02-23 04:10:02] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:13:26] Defendant profile data request started
+[2025-02-23 04:13:26] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:14:13] Defendant profile data request started
+[2025-02-23 04:14:13] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:22:05] Defendant profile data request started
+[2025-02-23 04:22:05] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 04:22:37] Defendant profile data request started
+[2025-02-23 04:22:37] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:23:44] Defendant profile data request started
+[2025-02-23 04:23:44] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:26:57] Defendant profile data request started
+[2025-02-23 04:26:57] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:32:47] Defendant profile data request started
+[2025-02-23 04:32:47] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:37:30] Defendant profile data request started
+[2025-02-23 04:37:30] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:37:50] Defendant profile data request started
+[2025-02-23 04:37:50] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:38:12] Defendant profile data request started
+[2025-02-23 04:38:12] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:41:57] Defendant profile data request started
+[2025-02-23 04:41:57] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:42:19] Defendant profile data request started
+[2025-02-23 04:42:19] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:42:55] Defendant profile data request started
+[2025-02-23 04:42:55] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:45:46] Defendant profile data request started
+[2025-02-23 04:45:46] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:45:59] Defendant profile data request started
+[2025-02-23 04:45:59] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:47:32] Defendant profile data request started
+[2025-02-23 04:47:32] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:48:10] Defendant profile data request started
+[2025-02-23 04:48:10] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:50:27] Defendant profile data request started
+[2025-02-23 04:50:27] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:50:42] Defendant profile data request started
+[2025-02-23 04:50:42] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:51:04] Defendant profile data request started
+[2025-02-23 04:51:04] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 04:56:40] Defendant profile data request started
+[2025-02-23 04:56:40] Data sent successfully for defendant_user_id= by user_id=1
+[2025-02-23 05:10:33] Defendant profile data request started
+[2025-02-23 05:10:33] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:17:32] Defendant profile data request started
+[2025-02-23 05:17:32] Data sent successfully for defendant_user_id=DEF17402878483960 by user_id=2
+[2025-02-23 05:20:19] Defendant profile data request started
+[2025-02-23 05:20:19] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:27:55] Defendant profile data request started
+[2025-02-23 05:27:55] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:28:15] Defendant profile data request started
+[2025-02-23 05:28:15] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:33:16] Defendant profile data request started
+[2025-02-23 05:33:16] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:33:21] Defendant profile data request started
+[2025-02-23 05:33:21] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:33:39] Defendant profile data request started
+[2025-02-23 05:33:39] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:34:29] Defendant profile data request started
+[2025-02-23 05:34:29] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:37:46] Defendant profile data request started
+[2025-02-23 05:37:46] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:42:02] Defendant profile data request started
+[2025-02-23 05:42:02] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:42:23] Defendant profile data request started
+[2025-02-23 05:42:23] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:44:18] Defendant profile data request started
+[2025-02-23 05:44:18] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:47:44] Defendant profile data request started
+[2025-02-23 05:47:44] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:47:48] Defendant profile data request started
+[2025-02-23 05:47:48] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:48:32] Defendant profile data request started
+[2025-02-23 05:48:32] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:48:40] Defendant profile data request started
+[2025-02-23 05:48:40] Data sent successfully for defendant_user_id=DEF065579 by user_id=2
+[2025-02-23 05:48:43] Defendant profile data request started
+[2025-02-23 05:48:43] Data sent successfully for defendant_user_id=DEF065579 by user_id=2

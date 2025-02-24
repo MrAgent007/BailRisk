@@ -1,0 +1,233 @@
+[2025-02-23 00:40:30] Agent login successful: user_id=2
+[2025-02-23 00:43:14] Agent login successful: user_id=2
+[2025-02-23 00:46:50] Agent login successful: user_id=2
+[2025-02-23 00:55:00] Agent login successful: user_id=2
+[2025-02-23 01:02:44] Agent login successful: user_id=2
+[2025-02-23 01:06:57] Agent login successful: user_id=2
+[2025-02-23 01:07:51] Agent login successful: user_id=2
+[2025-02-23 01:25:51] Invalid password for defendant email=test@gmail.com
+[2025-02-23 01:25:54] Defendant login successful: user_id=DEF065579
+[2025-02-23 01:27:55] Agent login successful: user_id=2
+[2025-02-23 01:36:19] Defendant login successful: user_id=DEF065579
+[2025-02-23 01:36:45] Agent login successful: user_id=2
+[2025-02-23 01:37:11] Defendant login successful: user_id=DEF065579
+[2025-02-23 01:51:21] Agent login successful: user_id=2
+[2025-02-23 01:52:41] Defendant login successful: user_id=DEF065579
+[2025-02-23 02:03:23] Agent login successful: user_id=2
+[2025-02-23 02:13:42] Defendant login successful: user_id=DEF065579
+[2025-02-23 02:14:07] Agent login successful: user_id=2
+[2025-02-23 02:21:49] Agent login successful: user_id=2
+[2025-02-23 03:11:58] Defendant login successful: user_id=DEF065579
+[2025-02-23 03:16:42] Agent login successful: user_id=2
+[2025-02-23 03:17:58] Defendant login successful: user_id=DEF065579
+[2025-02-23 03:18:18] Agent login successful: user_id=2
+[2025-02-23 03:18:58] Defendant login successful: user_id=DEF065579
+[2025-02-23 03:20:15] Agent login successful: user_id=2
+[2025-02-23 03:22:15] Login request started
+[2025-02-23 03:22:16] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:23:15] Login request started
+[2025-02-23 03:23:15] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:25:43] Login request started
+[2025-02-23 03:25:43] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:28:59] Login request started
+[2025-02-23 03:28:59] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:32:00] Login request started
+[2025-02-23 03:32:00] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:32:19] Login request started
+[2025-02-23 03:32:19] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:32:42] Login request started
+[2025-02-23 03:32:42] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:33:50] Login request started
+[2025-02-23 03:33:50] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:34:26] Login request started
+[2025-02-23 03:34:26] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:37:19] Login request started
+[2025-02-23 03:37:19] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 03:39:33] Login request started
+[2025-02-23 03:39:34] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:40:51] Login request started
+[2025-02-23 03:40:51] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 03:42:53] Login request started
+[2025-02-23 03:42:53] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:43:28] Login request started
+[2025-02-23 03:43:28] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 03:49:00] Login request started
+[2025-02-23 03:49:00] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 03:49:21] Login request started
+[2025-02-23 03:49:21] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 03:59:24] Login request started
+[2025-02-23 03:59:24] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 04:01:31] Login request started
+[2025-02-23 04:01:31] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 04:17:59] Login request started
+[2025-02-23 04:17:59] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 04:22:05] Login request started
+[2025-02-23 04:22:05] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 04:22:12] Login request started
+[2025-02-23 04:22:12] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 04:45:29] Login request started
+[2025-02-23 04:45:29] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 04:56:39] Login request started
+[2025-02-23 04:56:39] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 05:10:05] Login request started
+[2025-02-23 05:10:05] Password mismatch for agent: email=acostajohny14@gmail.com
+[2025-02-23 05:10:10] Login request started
+[2025-02-23 05:10:10] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 05:43:42] Login request started
+[2025-02-23 05:43:42] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 06:19:02] Login request started
+[2025-02-23 06:19:02] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:19:11] Login request started
+[2025-02-23 06:19:11] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:24:40] Login request started
+[2025-02-23 06:24:40] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:25:58] Login request started
+[2025-02-23 06:25:58] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:26:20] Login request started
+[2025-02-23 06:26:20] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:26:31] Login request started
+[2025-02-23 06:26:31] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:30:21] Login request started
+[2025-02-23 06:30:21] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:32:50] Login request started
+[2025-02-23 06:32:50] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:33:35] Login request started
+[2025-02-23 06:33:35] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:34:41] Login request started
+[2025-02-23 06:34:41] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:36:20] Login request started
+[2025-02-23 06:36:20] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:37:53] Login request started
+[2025-02-23 06:37:54] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:39:13] Login request started
+[2025-02-23 06:39:13] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:39:50] Login request started
+[2025-02-23 06:39:50] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:41:18] Login request started
+[2025-02-23 06:41:18] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:44:35] Login request started
+[2025-02-23 06:44:35] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:47:40] Login request started
+[2025-02-23 06:47:40] Password mismatch for defendant: email=test@gmail.com
+[2025-02-23 06:47:44] Login request started
+[2025-02-23 06:47:44] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:50:27] Login request started
+[2025-02-23 06:50:27] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 06:52:23] Login request started
+[2025-02-23 06:52:23] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 07:23:38] Login request started
+[2025-02-23 07:23:38] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 07:23:59] Login request started
+[2025-02-23 07:23:59] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 07:27:06] Login request started
+[2025-02-23 07:27:06] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 07:31:30] Login request started
+[2025-02-23 07:31:30] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 07:50:58] Login request started
+[2025-02-23 07:50:58] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 07:53:40] Login request started
+[2025-02-23 07:53:40] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:01:08] Login request started
+[2025-02-23 08:01:08] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:05:43] Login request started
+[2025-02-23 08:05:43] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:06:46] Login request started
+[2025-02-23 08:06:46] Unverified agent: email=johnyacosta14@hotmail.com
+[2025-02-23 08:14:42] Login request started
+[2025-02-23 08:14:42] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:21:56] Login request started
+[2025-02-23 08:21:56] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:24:05] Login request started
+[2025-02-23 08:24:05] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:26:56] Login request started
+[2025-02-23 08:26:56] Password mismatch for agent: email=mragent0911@gmail.com
+[2025-02-23 08:27:01] Login request started
+[2025-02-23 08:27:01] Password mismatch for agent: email=mragent0911@gmail.com
+[2025-02-23 08:27:04] Login request started
+[2025-02-23 08:27:04] Password mismatch for agent: email=mragent0911@gmail.com
+[2025-02-23 08:27:12] Login request started
+[2025-02-23 08:27:12] Password mismatch for agent: email=mragent0911@gmail.com
+[2025-02-23 08:27:29] Login request started
+[2025-02-23 08:27:29] Password mismatch for agent: email=acostajohny14@gmail.com
+[2025-02-23 08:27:32] Login request started
+[2025-02-23 08:27:33] Password mismatch for agent: email=acostajohny14@gmail.com
+[2025-02-23 08:27:33] Login request started
+[2025-02-23 08:27:33] Password mismatch for agent: email=acostajohny14@gmail.com
+[2025-02-23 08:27:38] Login request started
+[2025-02-23 08:27:38] Password mismatch for agent: email=acostajohny14@gmail.com
+[2025-02-23 08:27:49] Login request started
+[2025-02-23 08:27:49] Password mismatch for agent: email=acostajohny14@gmail.com
+[2025-02-23 08:28:01] Login request started
+[2025-02-23 08:28:01] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 08:28:07] Login request started
+[2025-02-23 08:28:07] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 08:28:37] Login request started
+[2025-02-23 08:28:37] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:33:06] Login request started
+[2025-02-23 08:33:06] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:36:06] Login request started
+[2025-02-23 08:36:06] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 08:36:38] Login request started
+[2025-02-23 08:36:38] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 09:06:53] Login request started
+[2025-02-23 09:06:54] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 09:07:16] Login request started
+[2025-02-23 09:07:16] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 09:26:00] Login request started
+[2025-02-23 09:26:00] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 09:31:26] Login request started
+[2025-02-23 09:31:26] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 09:31:38] Login request started
+[2025-02-23 09:31:38] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 09:32:38] Login request started
+[2025-02-23 09:32:38] No user found: email=mragent1995@gmail.com
+[2025-02-23 09:32:50] Login request started
+[2025-02-23 09:32:50] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 09:33:02] Login request started
+[2025-02-23 09:33:02] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 09:33:24] Login request started
+[2025-02-23 09:33:24] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 16:52:04] Login request started
+[2025-02-23 16:52:05] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 16:52:47] Login request started
+[2025-02-23 16:52:47] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 16:53:14] Login request started
+[2025-02-23 16:53:14] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 17:32:55] Login request started
+[2025-02-23 17:32:55] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 17:33:05] Login request started
+[2025-02-23 17:33:05] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 17:41:35] Login request started
+[2025-02-23 17:41:35] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 17:42:03] Login request started
+[2025-02-23 17:42:03] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 17:47:19] Login request started
+[2025-02-23 17:47:19] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 18:02:13] Login request started
+[2025-02-23 18:02:13] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 18:03:38] Login request started
+[2025-02-23 18:03:38] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 18:05:07] Login request started
+[2025-02-23 18:05:07] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 18:13:55] Login request started
+[2025-02-23 18:13:55] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 18:14:26] Login request started
+[2025-02-23 18:14:26] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 18:14:52] Login request started
+[2025-02-23 18:14:52] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 18:29:20] Login request started
+[2025-02-23 18:29:20] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 18:51:42] Login request started
+[2025-02-23 18:51:42] Agent login successful: email=mragent0911@gmail.com, redirect=/agent-dashboard.html
+[2025-02-23 20:00:27] Login request started
+[2025-02-23 20:00:27] Defendant login successful: email=test@gmail.com, redirect=/defendant-dashboard.html
+[2025-02-23 20:01:54] Login request started
+[2025-02-23 20:01:54] No user found: email=acostajohny@gmail.com
+[2025-02-23 20:01:59] Login request started
+[2025-02-23 20:01:59] No user found: email=acostajohny@gmail.com
+[2025-02-23 20:02:01] Login request started
+[2025-02-23 20:02:01] No user found: email=acostajohny@gmail.com
+[2025-02-23 20:02:21] Login request started
+[2025-02-23 20:02:21] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
+[2025-02-23 20:02:54] Login request started
+[2025-02-23 20:02:54] Agent login successful: email=acostajohny14@gmail.com, redirect=/admin-dashboard.html
