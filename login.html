@@ -4,35 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - BailSafe</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; box-sizing: border-box; background: #f5f8fa; color: #2c3e50; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #ffffff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; flex-wrap: wrap; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { position: relative; width: 35px; height: 35px; }
+        .logo-shield { width: 100%; height: 100%; background: #007bff; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 4px; }
+        .logo-defendant { position: absolute; top: 10px; left: 11px; width: 12px; height: 18px; background: #2c3e50; border-radius: 2px 2px 0 0; }
+        .logo-defendant-head { position: absolute; top: 5px; left: 13px; width: 8px; height: 8px; background: #2c3e50; border-radius: 50%; }
+        .logo-handcuffs { position: absolute; top: 22px; left: 8px; width: 18px; height: 10px; border: 2px solid #ffffff; border-radius: 5px; border-top: none; }
+        .logo-handcuffs-gap { position: absolute; top: 22px; left: 15px; width: 4px; height: 2px; background: #007bff; }
+        .logo-text { font-size: 24px; font-weight: 700; line-height: 1; }
+        .logo-text-bail { color: #2c3e50; }
+        .logo-text-safe { color: #007bff; }
+        .auth-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 80px 25px 60px; }
+        .auth-box { width: 100%; max-width: 500px; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        h1 { font-size: 32px; font-weight: 600; color: #2c3e50; text-align: center; margin-bottom: 30px; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50; font-size: 16px; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 1px solid #d1d9e6; border-radius: 8px; font-size: 16px; box-sizing: border-box; background: #ffffff; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .form-group input:focus { border-color: #007bff; box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); outline: none; }
+        .btn { padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); width: 100%; justify-content: center; background: #007bff; color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); background: #0056b3; }
+        .message { display: none; padding: 15px; margin-bottom: 20px; border-radius: 8px; font-size: 16px; text-align: center; }
+        .message.success { display: block; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .resend-link { text-align: center; margin-top: 15px; font-size: 14px; color: #34495e; }
+        .resend-link a { color: #007bff; text-decoration: none; cursor: pointer; }
+        .resend-link a:hover { text-decoration: underline; }
+        .resend-form { display: none; margin-top: 20px; }
+        .resend-form.active { display: block; }
+        .footer { text-align: center; padding: 20px; background: #ffffff; box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #ebedf0; font-size: 14px; color: #7f8c8d; }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; padding: 10px 15px; }
+            .auth-container { padding: 60px 15px 40px; }
+            .auth-box { padding: 30px; }
+            h1 { font-size: 28px; margin-bottom: 25px; }
+            .form-group label, .form-group input { font-size: 14px; }
+            .form-group input { padding: 12px 14px; }
+            .btn { font-size: 14px; padding: 12px 18px; }
+            .message { font-size: 14px; padding: 12px; }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i> BailSafe</div>
-        <nav>
-            <a href="/index.html"><i class="fas fa-home"></i> Home</a>
-            <a href="/agent-signup.html"><i class="fas fa-user-plus"></i> Sign Up</a>
-            <a href="/defendant-login.html"><i class="fas fa-user"></i> Defendant Login</a>
-        </nav>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <div class="logo-shield"></div>
+                <div class="logo-defendant"></div>
+                <div class="logo-defendant-head"></div>
+                <div class="logo-handcuffs"></div>
+                <div class="logo-handcuffs-gap"></div>
+            </div>
+            <span class="logo-text"><span class="logo-text-bail">Bail</span><span class="logo-text-safe">Safe</span></span>
+        </div>
     </header>
-    <section class="login-container">
-        <div class="login-box">
-            <h2><i class="fas fa-user-shield"></i> Agent Login</h2>
-            <form id="agentLoginForm">
+    <section class="auth-container">
+        <div class="auth-box">
+            <h1>Sign In</h1>
+            <div id="message" class="message"></div>
+            <form id="loginForm">
                 <div class="form-group">
-                    <label for="agentId"><i class="fas fa-id-badge"></i> Agent ID</label>
-                    <input type="text" id="agentId" name="agentId" required placeholder="AGT12345">
+                    <label for="userId">Email</label>
+                    <input type="email" id="userId" name="userId" required placeholder="Enter your email">
                 </div>
                 <div class="form-group">
-                    <label for="password"><i class="fas fa-key"></i> Password</label>
-                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
                 </div>
-                <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i> Log In</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </form>
+            <div class="resend-link">
+                <a id="showResend">Didn’t receive a verification email? Resend it</a>
+            </div>
+            <form id="resendForm" class="resend-form">
+                <div class="form-group">
+                    <label for="resendEmail">Email</label>
+                    <input type="email" id="resendEmail" name="email" required placeholder="Enter your email">
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Resend Verification Email</button>
             </form>
         </div>
     </section>
-    <script src="/script.js"></script>
+    <footer class="footer">
+        <p>© 2025 BailSafe. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Login Page: DOM fully loaded');
+
+            // Check for verification success
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('verified') === 'true') {
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = 'Account verified successfully! Please log in.';
+                messageDiv.className = 'message success';
+                setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+            }
+
+            // Login form submission
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const userId = document.getElementById('userId').value;
+                const password = document.getElementById('password').value;
+                const messageDiv = document.getElementById('message');
+
+                fetch('/php/login.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `userId=${encodeURIComponent(userId)}&password=${encodeURIComponent(password)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Login response:', data);
+                    if (data.success) {
+                        messageDiv.textContent = 'Login successful! Redirecting...';
+                        messageDiv.className = 'message success';
+                        setTimeout(() => {
+                            window.location.href = data.redirect || '/defendant-dashboard.html';
+                        }, 1500);
+                    } else {
+                        messageDiv.textContent = data.message || 'Login failed';
+                        messageDiv.className = 'message error';
+                        setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Login error:', error);
+                    messageDiv.textContent = 'An error occurred during login';
+                    messageDiv.className = 'message error';
+                    setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+                });
+            });
+
+            // Show resend form
+            document.getElementById('showResend').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('resendForm').classList.add('active');
+            });
+
+            // Resend verification email
+            document.getElementById('resendForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('resendEmail').value;
+                const messageDiv = document.getElementById('message');
+
+                fetch('/php/resend_verification.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Resend response:', data);
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'message ' + (data.success ? 'success' : 'error');
+                    setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+                    if (data.success) {
+                        document.getElementById('resendForm').classList.remove('active');
+                    }
+                })
+                .catch(error => {
+                    console.error('Resend error:', error);
+                    messageDiv.textContent = 'An error occurred while resending';
+                    messageDiv.className = 'message error';
+                    setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

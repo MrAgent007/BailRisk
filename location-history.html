@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location History - BailSafe</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 20px; background: #f4f6f8; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #007bff; }
+        .location-list { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 20px; }
+        .location-item { border-bottom: 1px solid #eee; padding: 10px 0; }
+        .map-container { height: 500px; width: 100%; margin-bottom: 20px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; background: #007bff; color: white; }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Location History</h1>
+        <div id="locationList" class="location-list"></div>
+        <div id="map" class="map-container"></div>
+        <button onclick="window.history.back()" class="btn">Back</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const defendantId = urlParams.get('id');
+            if (!defendantId) {
+                document.getElementById('locationList').innerHTML = 'No defendant ID provided.';
+                return;
+            }
+
+            fetch(`/php/defendant_profile_data.php?id=${defendantId}`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success || !data.data || !data.data.defendant) {
+                    document.getElementById('locationList').innerHTML = 'Failed to load location history.';
+                    return;
+                }
+                const checkins = data.data.defendant.checkins || [];
+                Promise.all(checkins.map(checkin => 
+                    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${checkin.latitude}&lon=${checkin.longitude}&format=json`)
+                        .then(res => res.json())
+                        .then(location => {
+                            checkin.address = location.display_name || 'Unknown Address';
+                            return checkin;
+                        })
+                        .catch(() => {
+                            checkin.address = 'Address Not Found';
+                            return checkin;
+                        })
+                )).then(updatedCheckins => {
+                    document.getElementById('locationList').innerHTML = updatedCheckins.length > 0 ? updatedCheckins.map(c => `
+                        <div class="location-item">
+                            <p><strong>Date:</strong> ${c.date}</p>
+                            <p><strong>Location:</strong> Lat: ${c.latitude}, Long: ${c.longitude}</p>
+                            <p><strong>Address:</strong> ${c.address}</p>
+                            <p><strong>IP:</strong> ${c.ip_address}</p>
+                            <p><strong>Spoofed:</strong> ${c.spoofed ? 'Yes' : 'No'}</p>
+                        </div>
+                    `).join('') : 'No location history.';
+
+                    const map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 10,
+                        center: updatedCheckins.length > 0 ? { lat: parseFloat(updatedCheckins[0].latitude), lng: parseFloat(updatedCheckins[0].longitude) } : { lat: 27.5, lng: -81.5 }
+                    });
+                    updatedCheckins.forEach(c => {
+                        new google.maps.Marker({
+                            position: { lat: parseFloat(c.latitude), lng: parseFloat(c.longitude) },
+                            map: map,
+                            title: `${c.date} - ${c.address}`
+                        });
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching location history:', error);
+                document.getElementById('locationList').innerHTML = 'Error loading location history.';
+            });
+        });
+    </script>
+</body>
+</html>

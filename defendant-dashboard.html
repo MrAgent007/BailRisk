@@ -4,78 +4,449 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Defendant Dashboard - BailSafe</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; box-sizing: border-box; background: #f5f8fa; color: #2c3e50; min-height: 100vh; display: flex; flex-direction: column; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #ffffff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; flex-wrap: wrap; }
+        .navbar .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { position: relative; width: 35px; height: 35px; }
+        .logo-shield { width: 100%; height: 100%; background: #007bff; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 4px; }
+        .logo-defendant { position: absolute; top: 10px; left: 11px; width: 12px; height: 18px; background: #2c3e50; border-radius: 2px 2px 0 0; }
+        .logo-defendant-head { position: absolute; top: 5px; left: 13px; width: 8px; height: 8px; background: #2c3e50; border-radius: 50%; }
+        .logo-handcuffs { position: absolute; top: 22px; left: 8px; width: 18px; height: 10px; border: 2px solid #ffffff; border-radius: 5px; border-top: none; }
+        .logo-handcuffs-gap { position: absolute; top: 22px; left: 15px; width: 4px; height: 2px; background: #007bff; }
+        .logo-text { font-size: 24px; font-weight: 700; line-height: 1; }
+        .logo-text-bail { color: #2c3e50; }
+        .logo-text-safe { color: #007bff; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .user-profile span { font-weight: 500; color: #34495e; }
+        .nav-links { display: flex; list-style: none; padding: 0; margin: 0; gap: 15px; align-items: center; }
+        .container { max-width: 1280px; margin: 80px auto 100px; padding: 0 25px; flex: 1; display: flex; gap: 30px; }
+        .sidebar { flex: 1; max-width: 260px; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); position: sticky; top: 80px; height: fit-content; }
+        .sidebar-nav { list-style: none; padding: 0; }
+        .sidebar-nav li { margin-bottom: 12px; }
+        .nav-btn { display: flex; align-items: center; gap: 10px; padding: 12px 15px; text-decoration: none; color: #34495e; font-weight: 500; transition: all 0.3s ease; border-radius: 8px; }
+        .nav-btn:hover, .nav-btn.active { background: #007bff; color: #ffffff; box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2); }
+        .notification-bubble { background: #e74c3c; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; }
+        .main-content { flex: 3; }
+        .checkin-btn-container { margin: 20px 0; }
+        .checkin-btn { padding: 15px 40px; font-size: 18px; font-weight: 600; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); display: inline-flex; align-items: center; gap: 10px; }
+        .checkin-btn:hover { background: #0056b3; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4); }
+        .dashboard-section { background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); margin-bottom: 30px; display: none; }
+        .dashboard-section.active { display: block; }
+        .profile-header { display: flex; align-items: center; gap: 25px; margin-bottom: 25px; flex-wrap: wrap; }
+        .mugshot { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #007bff; }
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+        .card { background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); }
+        .card h3 { margin: 0 0 12px; font-size: 18px; font-weight: 600; color: #007bff; display: flex; align-items: center; gap: 8px; }
+        .card p { margin: 0; font-size: 16px; color: #34495e; font-weight: 500; }
+        .checkin-form { background: #f9fafb; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); display: none; }
+        .checkin-form.active { display: block; }
+        .form-group { margin-bottom: 25px; position: relative; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50; font-size: 15px; }
+        .form-group input, .form-group select { width: 100%; padding: 14px 16px; border: 1px solid #d1d9e6; border-radius: 8px; font-size: 15px; box-sizing: border-box; background: #ffffff; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .form-group input:focus, .form-group select:focus { border-color: #007bff; box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); outline: none; }
+        .form-group input[type="file"] { padding: 10px; }
+        .travel-details { display: none; }
+        .list { width: 100%; border-collapse: collapse; }
+        .list div { display: table-row; }
+        .list div p { display: table-cell; padding: 12px; border-bottom: 1px solid #ebedf0; font-size: 14px; color: #34495e; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-primary:hover { background: #0056b3; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-secondary:hover { background: #5a6268; }
+        .footer { text-align: center; padding: 20px; background: #ffffff; box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #ebedf0; font-size: 14px; color: #7f8c8d; z-index: 1000; }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; align-items: flex-start; padding: 10px 15px; }
+            .user-profile { margin: 10px 0; }
+            .nav-links { width: 100%; flex-direction: column; gap: 10px; align-items: center; margin-top: 10px; }
+            .nav-links li { width: 100%; max-width: 200px; }
+            .nav-links .btn { width: 100%; justify-content: center; }
+            .checkin-btn-container { margin: 15px 0; }
+            .container { flex-direction: column; margin-bottom: 80px; padding-top: 0; }
+            .sidebar { max-width: 100%; position: relative; top: 0; }
+            .overview-grid { grid-template-columns: 1fr; }
+            .checkin-btn { font-size: 16px; padding: 12px 30px; }
+            .checkin-form { padding: 20px; }
+            .form-group { margin-bottom: 20px; }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i> BailSafe</div>
-        <nav class="top-nav">
-            <button class="nav-btn" data-section="checkin"><i class="fas fa-check-circle"></i> Check-In</button>
-            <button class="nav-btn" data-section="history"><i class="fas fa-history"></i> History</button>
-            <button class="nav-btn" data-section="reminders"><i class="fas fa-bell"></i> Reminders</button>
-            <button class="nav-btn" data-section="locations"><i class="fas fa-map-marker-alt"></i> Locations</button>
-            <a href="/index.html" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-        </nav>
+    <header class="header">
+        <div class="navbar">
+            <div class="logo">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <div class="logo-shield"></div>
+                        <div class="logo-defendant"></div>
+                        <div class="logo-defendant-head"></div>
+                        <div class="logo-handcuffs"></div>
+                        <div class="logo-handcuffs-gap"></div>
+                    </div>
+                    <span class="logo-text"><span class="logo-text-bail">Bail</span><span class="logo-text-safe">Safe</span></span>
+                </div>
+            </div>
+            <div class="user-profile">
+                <span id="userName">Loading...</span>
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><button id="logoutBtn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+                </ul>
+            </nav>
+        </div>
     </header>
     <section class="dashboard">
-        <aside class="sidebar">
-            <div class="agent-profile">
-                <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Defendant Avatar" class="avatar">
-                <h4 id="defendantName">Defendant</h4>
-                <a href="#" onclick="showProfile(currentUser.id)">View Profile</a>
-            </div>
-        </aside>
-        <main>
-            <div id="checkin" class="section" style="display: block;">
-                <h3><i class="fas fa-check-circle"></i> Check-In</h3>
-                <form id="checkinForm" class="form-content">
-                    <div class="form-group">
-                        <label for="employment"><i class="fas fa-briefcase"></i> Employment</label>
-                        <input type="text" id="employment" required placeholder="Current job">
+        <div class="container">
+            <aside class="sidebar">
+                <ul class="sidebar-nav" id="sidebarNav">
+                    <li><a href="#" class="nav-btn active" data-section="overview"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
+                    <li><a href="#" class="nav-btn" data-section="checkins"><i class="fas fa-check-circle"></i> Check-Ins</a></li>
+                    <li><a href="#" class="nav-btn" data-section="documents"><i class="fas fa-file-alt"></i> Documents</a></li>
+                    <li><a href="#" class="nav-btn" data-section="notifications"><i class="fas fa-bell"></i> Notifications <span id="notificationBubble" class="notification-bubble" style="display: none;">0</span></a></li>
+                </ul>
+            </aside>
+            <main class="main-content">
+                <section id="overview" class="dashboard-section active">
+                    <div class="profile-header">
+                        <img src="/images/placeholder-mugshot.jpg" alt="Mugshot" id="defendantMugshot" class="mugshot">
+                        <h2><i class="fas fa-tachometer-alt"></i> Overview</h2>
                     </div>
-                    <div class="form-group">
-                        <label for="residence"><i class="fas fa-home"></i> Residence</label>
-                        <input type="text" id="residence" required placeholder="Current address">
+                    <div class="checkin-btn-container">
+                        <button id="mainCheckinBtn" class="checkin-btn"><i class="fas fa-check-circle"></i> Check In Now</button>
                     </div>
-                    <div class="form-group">
-                        <label for="contact"><i class="fas fa-phone"></i> Contact</label>
-                        <input type="text" id="contact" required placeholder="Phone or email">
+                    <div class="overview-grid">
+                        <div class="card"><h3><i class="fas fa-user"></i> Name</h3><p id="defendantName">Loading...</p></div>
+                        <div class="card"><h3><i class="fas fa-id-card"></i> User ID</h3><p id="defendantUserId">N/A</p></div>
+                        <div class="card"><h3><i class="fas fa-envelope"></i> Email</h3><p id="defendantEmail">N/A</p></div>
+                        <div class="card"><h3><i class="fas fa-phone"></i> Phone</h3><p id="defendantPhone">N/A</p></div>
+                        <div class="card"><h3><i class="fas fa-home"></i> Address</h3><p id="defendantAddress">N/A</p></div>
+                        <div class="card"><h3><i class="fas fa-clock"></i> Next Check-In</h3><p id="nextCheckin">N/A</p></div>
+                        <div class="card"><h3><i class="fas fa-dollar-sign"></i> Bail Amount</h3><p id="bailAmount">$0.00</p></div>
+                        <div class="card"><h3><i class="fas fa-money-bill"></i> Amount Due</h3><p id="amountDue">$0.00</p></div>
+                        <div class="card"><h3><i class="fas fa-calendar-alt"></i> Next Due Date</h3><p id="nextDueDate">N/A</p></div>
+                        <div class="card"><h3><i class="fas fa-user-tie"></i> Agent</h3><p id="agentName">N/A</p></div>
                     </div>
-                    <div class="form-group">
-                        <label for="status"><i class="fas fa-info-circle"></i> Status Update</label>
-                        <input type="text" id="status" required placeholder="Any updates">
-                    </div>
-                    <div class="form-group">
-                        <label for="photo"><i class="fas fa-camera"></i> Photo</label>
-                        <input type="file" id="photo" accept="image/*">
-                    </div>
-                    <div class="location-group">
-                        <p><i class="fas fa-map-marker-alt"></i> Location: <span id="locationResult">Location not shared yet.</span></p>
-                        <button type="button" onclick="getLocation()" class="btn"><i class="fas fa-location-arrow"></i> Share Location</button>
-                    </div>
-                    <button type="submit" class="btn"><i class="fas fa-check"></i> Submit Check-In</button>
-                </form>
-            </div>
-            <div id="history" class="section" style="display: none;">
-                <h3><i class="fas fa-history"></i> Check-In History</h3>
-                <div id="checkinHistory" class="defendant-content"></div>
-            </div>
-            <div id="reminders" class="section" style="display: none;">
-                <h3><i class="fas fa-bell"></i> Reminders</h3>
-                <div id="reminderList" class="defendant-content"></div>
-            </div>
-            <div id="locations" class="section" style="display: none;">
-                <h3><i class="fas fa-map-marker-alt"></i> Locations</h3>
-                <div id="locationList" class="defendant-content"></div>
-            </div>
-            <div id="profile" class="section" style="display: none;">
-                <h3><i class="fas fa-user"></i> Profile</h3>
-                <div id="profileDetails" class="defendant-content"></div>
-            </div>
-        </main>
+                </section>
+                <section id="checkins" class="dashboard-section">
+                    <h2><i class="fas fa-check-circle"></i> Check-Ins</h2>
+                    <div id="checkinHistory" class="list"></div>
+                    <form id="checkinForm" class="checkin-form">
+                        <h3><i class="fas fa-check"></i> Submit Check-In</h3>
+                        <input type="hidden" id="checkinDefendantId" name="defendant_id">
+                        <div class="form-group">
+                            <label for="checkinEmploymentStatus">Employment Status</label>
+                            <select id="checkinEmploymentStatus" name="employment_status" class="form-input" required>
+                                <option value="Employed">Employed</option>
+                                <option value="Unemployed">Unemployed</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinEmployer">Employer Name</label>
+                            <input type="text" id="checkinEmployer" name="employer_name" class="form-input" placeholder="If applicable">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinLivingSituation">Living Situation</label>
+                            <select id="checkinLivingSituation" name="living_situation" class="form-input" required>
+                                <option value="Permanent Residence">Permanent Residence</option>
+                                <option value="Temporary Housing">Temporary Housing</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinCurrentAddress">Current Address</label>
+                            <input type="text" id="checkinCurrentAddress" name="current_address" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinContactNumber">Contact Number</label>
+                            <input type="tel" id="checkinContactNumber" name="contact_number" class="form-input" required placeholder="e.g., 123-456-7890">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinTravelPlans">Travel Plans (Next 7 Days)</label>
+                            <select id="checkinTravelPlans" name="travel_plans" class="form-input" required>
+                                <option value="No Travel">No Travel</option>
+                                <option value="Within Florida">Within Florida</option>
+                                <option value="Out of State">Out of State (Requires Approval)</option>
+                            </select>
+                        </div>
+                        <div class="travel-details" id="travelDetails">
+                            <div class="form-group">
+                                <label for="travelDestination">Destination</label>
+                                <input type="text" id="travelDestination" name="travel_destination" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="travelPurpose">Purpose</label>
+                                <input type="text" id="travelPurpose" name="travel_purpose" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="travelStartDate">Start Date</label>
+                                <input type="date" id="travelStartDate" name="travel_start_date" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="travelEndDate">End Date</label>
+                                <input type="date" id="travelEndDate" name="travel_end_date" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="travelAccommodation">Accommodation</label>
+                                <input type="text" id="travelAccommodation" name="travel_accommodation" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinComments">Comments</label>
+                            <input type="text" id="checkinComments" name="comments" class="form-input" placeholder="Optional notes">
+                        </div>
+                        <div class="form-group">
+                            <label for="checkinSelfie">Selfie</label>
+                            <input type="file" id="checkinSelfie" name="selfie" accept="image/*" class="form-input" required>
+                        </div>
+                        <input type="hidden" id="checkinLatitude" name="latitude">
+                        <input type="hidden" id="checkinLongitude" name="longitude">
+                        <input type="hidden" id="checkinIP" name="ip_address">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Submit Check-In</button>
+                    </form>
+                </section>
+                <section id="documents" class="dashboard-section">
+                    <h2><i class="fas fa-file-alt"></i> Documents</h2>
+                    <label for="docUpload" class="btn btn-primary" style="margin-bottom: 20px;"><i class="fas fa-upload"></i> Upload Document</label>
+                    <input type="file" id="docUpload" accept=".pdf,.jpg,.png" style="display: none;">
+                    <div id="documentList" class="list"></div>
+                </section>
+                <section id="notifications" class="dashboard-section">
+                    <h2><i class="fas fa-bell"></i> Notifications</h2>
+                    <div id="notificationList" class="list"></div>
+                </section>
+            </main>
+        </div>
     </section>
-    <script src="/script.js"></script>
+    <footer class="footer">
+        <p>© 2025 BailSafe. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Defendant Dashboard: DOM fully loaded');
+
+            let defendantId;
+
+            // Load Defendant Data based on session
+            fetch('/php/defendant_profile_data.php', {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => {
+                console.log('Dashboard fetch status:', response.status, response.statusText);
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(`HTTP error! status: ${response.status}, response: ${text}`); });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Dashboard data:', JSON.stringify(data, null, 2));
+                if (!data.success || !data.data || !data.data.defendant) {
+                    alert('Failed to load dashboard: ' + (data.message || 'Unknown error'));
+                    window.location.href = '/login.html';
+                    return;
+                }
+                const d = data.data.defendant;
+                defendantId = d.id;
+                document.getElementById('userName').textContent = d.name || 'Defendant';
+                document.getElementById('defendantMugshot').src = d.mugshot ? `${window.location.origin}${d.mugshot}` : '/images/placeholder-mugshot.jpg';
+                document.getElementById('defendantName').textContent = d.name || 'N/A';
+                document.getElementById('defendantUserId').textContent = d.user_id || 'N/A';
+                document.getElementById('defendantEmail').textContent = d.email || 'N/A';
+                document.getElementById('defendantPhone').textContent = d.phone || 'N/A';
+                document.getElementById('defendantAddress').textContent = d.address || 'N/A';
+                document.getElementById('nextCheckin').textContent = d.next_checkin || 'N/A';
+                document.getElementById('bailAmount').textContent = d.bail_amount ? `$${parseFloat(d.bail_amount).toFixed(2)}` : '$0.00';
+                document.getElementById('amountDue').textContent = d.bail_due ? `$${parseFloat(d.bail_due).toFixed(2)}` : '$0.00';
+                document.getElementById('nextDueDate').textContent = d.court_date || 'N/A';
+                document.getElementById('agentName').textContent = d.agent_name || 'N/A';
+                document.getElementById('checkinDefendantId').value = d.id;
+
+                // Check-In History
+                document.getElementById('checkinHistory').innerHTML = (d.checkins && d.checkins.length > 0) ? d.checkins.map(checkin => `
+                    <div>
+                        <p><strong>Date:</strong> ${checkin.date}</p>
+                        <p><strong>Status:</strong> ${checkin.status}</p>
+                    </div>
+                `).join('') : 'No check-in history.';
+
+                // Document List (placeholder)
+                document.getElementById('documentList').innerHTML = 'No documents uploaded yet.';
+
+                // Load Notifications
+                fetchNotifications(d.id);
+                setInterval(() => fetchNotifications(d.id), 30000);
+            })
+            .catch(error => {
+                console.error('Dashboard fetch error:', error);
+                alert('Error loading dashboard: ' + error.message);
+                window.location.href = '/login.html';
+            });
+
+            // Navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    const section = document.getElementById(this.dataset.section);
+                    section.classList.add('active');
+                    this.classList.add('active');
+                    if (this.dataset.section !== 'checkins') {
+                        document.getElementById('checkinForm').classList.remove('active');
+                    } else {
+                        document.getElementById('checkinForm').classList.add('active');
+                        loadGeolocation();
+                    }
+                });
+            });
+
+            // Main Check-In Button
+            document.getElementById('mainCheckinBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('checkins').classList.add('active');
+                document.querySelector('.nav-btn[data-section="checkins"]').classList.add('active');
+                document.getElementById('checkinForm').classList.add('active');
+                loadGeolocation();
+            });
+
+            function loadGeolocation() {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        document.getElementById('checkinLatitude').value = position.coords.latitude;
+                        document.getElementById('checkinLongitude').value = position.coords.longitude;
+                        fetch('https://api.ipify.org?format=json')
+                            .then(response => response.json())
+                            .then(ipData => document.getElementById('checkinIP').value = ipData.ip)
+                            .catch(error => console.error('IP fetch error:', error));
+                    },
+                    error => {
+                        console.error('Geolocation error:', error);
+                        alert('Geolocation failed: ' + error.message);
+                    },
+                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                );
+            }
+
+            // Travel Details Toggle
+            document.getElementById('checkinTravelPlans').addEventListener('change', function() {
+                const travelDetails = document.getElementById('travelDetails');
+                travelDetails.style.display = this.value === 'Out of State' ? 'block' : 'none';
+                travelDetails.querySelectorAll('input').forEach(input => input.required = this.value === 'Out of State');
+            });
+
+            // Check-In Form Submission
+            document.getElementById('checkinForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const contactNumber = document.getElementById('checkinContactNumber').value;
+                if (!/^\d{3}-\d{3}-\d{4}$/.test(contactNumber)) {
+                    alert('Invalid phone number format. Use XXX-XXX-XXXX.');
+                    return;
+                }
+                const formData = new FormData(this);
+                const url = formData.get('travel_plans') === 'Out of State' ? '/php/request_travel_permission.php' : '/php/submit_checkin.php';
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Check-in response:', result);
+                    alert(result.message);
+                    if (result.success) {
+                        location.reload();
+                    }
+                })
+                .catch(error => alert('Submission failed: ' + error.message));
+            });
+
+            // Document Upload
+            document.getElementById('docUpload').addEventListener('change', function(e) {
+                const formData = new FormData();
+                formData.append('doc', e.target.files[0]);
+                formData.append('user_id', defendantId);
+                fetch('/php/upload_doc.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Upload response:', result);
+                    alert(result.message);
+                    if (result.success) location.reload();
+                })
+                .catch(error => alert('Upload failed: ' + error.message));
+            });
+
+            // Fetch Notifications
+            function fetchNotifications(defendantId) {
+                fetch(`/php/retrieve_travel_requests.php?defendant_id=${defendantId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Notification response:', result);
+                    if (result.success) {
+                        const bubble = document.getElementById('notificationBubble');
+                        const pendingCount = result.data.filter(r => r.status === 'Pending').length;
+                        bubble.textContent = pendingCount;
+                        bubble.style.display = pendingCount > 0 ? 'inline' : 'none';
+                        document.getElementById('notificationList').innerHTML = result.data.length > 0 ? result.data.map(request => `
+                            <div>
+                                <p><strong>Date:</strong> ${request.request_date}</p>
+                                <p><strong>Destination:</strong> ${request.destination || 'N/A'}</p>
+                                <p><strong>Status:</strong> ${request.status}</p>
+                            </div>
+                        `).join('') : 'No notifications.';
+                    }
+                })
+                .catch(error => console.error('Notification fetch error:', error));
+            }
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('/php/logout.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(() => window.location.href = '/login.html')
+                .catch(error => alert('Logout failed: ' + error.message));
+            });
+
+            // Theme Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            let isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            themeToggle.addEventListener('click', () => {
+                isDarkMode = !isDarkMode;
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                localStorage.setItem('darkMode', isDarkMode);
+                themeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            });
+        });
+    </script>
 </body>
 </html>

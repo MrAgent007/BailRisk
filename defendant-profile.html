@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defendant Profile - BailSafe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; box-sizing: border-box; background: #f5f8fa; color: #2c3e50; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #ffffff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05); max-width: 1280px; margin: 0 auto; flex-wrap: wrap; border-bottom: 1px solid #ebedf0; }
+        .navbar .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 35px; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .user-profile span { font-weight: 500; color: #34495e; }
+        .nav-links { display: flex; list-style: none; padding: 0; margin: 0; gap: 15px; align-items: center; }
+        .container { max-width: 1280px; margin: 40px auto 100px; padding: 0 25px; }
+        .profile-header { display: flex; align-items: center; gap: 30px; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); margin-bottom: 30px; position: relative; flex-wrap: wrap; }
+        .mugshot { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid #007bff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+        .profile-details { flex: 1; min-width: 300px; }
+        .profile-details h2 { margin: 0; font-size: 28px; font-weight: 600; color: #2c3e50; display: flex; align-items: center; gap: 10px; }
+        .profile-details p { margin: 8px 0; font-size: 16px; color: #34495e; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-verified { background: #d4edda; color: #155724; }
+        .status-unverified { background: #f8d7da; color: #721c24; }
+        .action-container { width: 100%; display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        .actions { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+        .card { background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); }
+        .card h3 { margin: 0 0 12px; font-size: 18px; font-weight: 600; color: #007bff; display: flex; align-items: center; gap: 8px; }
+        .card p { margin: 0; font-size: 16px; color: #34495e; font-weight: 500; }
+        .section { background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); margin-top: 30px; }
+        .section h2 { margin: 0 0 20px; font-size: 22px; font-weight: 600; color: #2c3e50; display: flex; align-items: center; gap: 10px; }
+        .checkin-list { max-height: 400px; overflow-y: auto; }
+        .checkin-item { border-bottom: 1px solid #ebedf0; padding: 15px 0; font-size: 14px; }
+        .checkin-item:last-child { border-bottom: none; }
+        .checkin-item summary { cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .checkin-item details[open] summary::after { content: '\f077'; font-family: 'Font Awesome 6 Free'; font-weight: 900; }
+        .checkin-item summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; margin-left: auto; }
+        .checkin-item p { margin: 5px 0; display: flex; align-items: center; gap: 8px; }
+        .checkin-item a { color: #007bff; text-decoration: none; }
+        .checkin-item a:hover { text-decoration: underline; }
+        .map-container { height: 450px; width: 100%; margin-top: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+        .payment-section { margin-top: 20px; }
+        .payment-table { width: 100%; border-collapse: collapse; }
+        .payment-table th, .payment-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ebedf0; }
+        .payment-table th { background: #f5f8fa; font-weight: 600; color: #2c3e50; }
+        .payment-table td { font-size: 14px; color: #34495e; }
+        .payment-table tr:hover { background: #f9fafb; }
+        .btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); white-space: nowrap; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+        .btn:active { transform: translateY(0); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-primary:hover { background: #0056b3; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-secondary:hover { background: #5a6268; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-success:hover { background: #218838; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-danger:hover { background: #c0392b; }
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; background: #6c757d; color: white; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+        .dropdown-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); background: #5a6268; }
+        .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background: #fff; min-width: 180px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); border-radius: 8px; z-index: 20; }
+        .dropdown-content button { display: block; width: 100%; padding: 10px 15px; border: none; background: none; text-align: left; font-size: 14px; color: #34495e; cursor: pointer; transition: background 0.2s; }
+        .dropdown-content button:hover { background: #f5f8fa; }
+        .dropdown-content button.danger { color: #e74c3c; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #fff; padding: 25px; border-radius: 12px; width: 400px; max-width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
+        .modal-content h3 { margin: 0 0 20px; font-size: 22px; font-weight: 600; color: #2c3e50; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ebedf0; border-radius: 6px; font-size: 14px; box-sizing: border-box; background: #f9fafb; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group select:focus { border-color: #007bff; outline: none; }
+        .modal-buttons { display: flex; gap: 15px; justify-content: flex-end; margin-top: 20px; }
+        .alert-flag { color: #e74c3c; font-weight: 600; margin-left: 10px; }
+        .footer { text-align: center; padding: 20px; background: #ffffff; box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #ebedf0; font-size: 14px; color: #7f8c8d; }
+        @media (max-width: 1000px) {
+            .navbar { padding: 10px 15px; }
+            .nav-links { gap: 10px; }
+            .btn, .dropdown-btn { padding: 8px 14px; font-size: 13px; }
+        }
+        @media (max-width: 700px) {
+            .navbar { flex-direction: column; align-items: flex-start; }
+            .user-profile { margin: 10px 0; }
+            .nav-links { width: 100%; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+            .btn, .dropdown-btn { padding: 8px 12px; font-size: 12px; }
+            .profile-header { flex-direction: column; text-align: center; }
+            .mugshot { margin-bottom: 15px; }
+            .action-container { justify-content: center; }
+        }
+        @media (max-width: 400px) {
+            .nav-links { flex-direction: column; align-items: stretch; gap: 10px; }
+            .btn, .dropdown-btn { width: 100%; max-width: 200px; justify-content: center; padding: 10px; font-size: 14px; }
+            .overview-grid { grid-template-columns: 1fr; }
+            .payment-table th, .payment-table td { font-size: 12px; padding: 10px; }
+            .actions { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7fxPFMIjNuFbe4BHtkvCj-kEaBV1PtMY&libraries=places"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="navbar">
+            <div class="logo">
+                <img src="/images/logo.png" alt="BailSafe Logo" class="logo-img">
+                <span>BailSafe</span>
+            </div>
+            <div class="user-profile">
+                <img src="/images/default-profile.jpg" alt="Profile Picture" id="profilePic" class="profile-pic">
+                <span id="userName">Loading...</span>
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><button id="backBtn" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Dashboard</button></li>
+                    <li><button id="logoutBtn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="container">
+        <div class="profile-header">
+            <img src="/images/placeholder-mugshot.jpg" alt="Mugshot" id="defendantMugshot" class="mugshot">
+            <div class="profile-details">
+                <h2 id="defendantName"><i class="fas fa-user"></i> Loading...</h2>
+                <p><i class="fas fa-id-card"></i> ID: <span id="defendantUserId">N/A</span></p>
+                <p><i class="fas fa-clock"></i> Last Updated: <span id="lastUpdated">N/A</span></p>
+                <p id="verifiedStatus"><i class="fas fa-check-circle"></i> Status: <span class="status-badge" id="verifiedBadge">Unverified</span> <span id="alertFlag" class="alert-flag" style="display: none;">Missed Payment</span></p>
+            </div>
+            <div class="action-container">
+                <div class="actions" id="agentActions" style="display: none;">
+                    <button id="editBtn" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</button>
+                    <button id="verifyBtn" class="btn btn-success"><i class="fas fa-check"></i> Verify</button>
+                    <button id="addPaymentBtn" class="btn btn-primary"><i class="fas fa-money-bill"></i> Add Payment</button>
+                    <div class="dropdown">
+                        <button id="assignAgentBtn" class="dropdown-btn"><i class="fas fa-user-plus"></i> Assign Agent <i class="fas fa-caret-down"></i></button>
+                        <div class="dropdown-content" id="agentDropdown"></div>
+                    </div>
+                    <button id="resetPasswordBtn" class="btn btn-secondary"><i class="fas fa-key"></i> Reset Password</button>
+                </div>
+                <div class="actions" id="adminActions" style="display: none;">
+                    <div class="dropdown">
+                        <button class="dropdown-btn"><i class="fas fa-cog"></i> Admin Actions <i class="fas fa-caret-down"></i></button>
+                        <div class="dropdown-content">
+                            <button id="deleteBtn" class="danger"><i class="fas fa-trash"></i> Delete</button>
+                            <button id="changeTypeBtn"><i class="fas fa-user-cog"></i> Change Role</button>
+                            <button id="banBtn" class="danger"><i class="fas fa-ban"></i> Ban</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overview-grid">
+            <div class="card"><h3><i class="fas fa-envelope"></i> Email</h3><p id="defendantEmail">N/A</p></div>
+            <div class="card"><h3><i class="fas fa-phone"></i> Phone</h3><p id="defendantPhone">N/A</p></div>
+            <div class="card"><h3><i class="fas fa-home"></i> Address</h3><p id="defendantAddress">N/A</p></div>
+            <div class="card"><h3><i class="fas fa-gavel"></i> Case Number</h3><p id="defendantCaseNumber">N/A</p></div>
+            <div class="card"><h3><i class="fas fa-calendar-alt"></i> Court Date</h3><p id="courtDate">N/A</p></div>
+            <div class="card"><h3><i class="fas fa-dollar-sign"></i> Bail Amount</h3><p id="bailAmount">$0.00</p></div>
+            <div class="card"><h3><i class="fas fa-money-bill"></i> Amount Due</h3><p id="amountDue">$0.00</p></div>
+            <div class="card"><h3><i class="fas fa-clock"></i> Next Check-In</h3><p id="nextCheckin">N/A</p></div>
+            <div class="card"><h3><i class="fas fa-user-tie"></i> Agent</h3><p id="agentName">N/A</p></div>
+            <div class="card"><h3><i class="fas fa-building"></i> Agency</h3><p id="agencyName">N/A</p></div>
+        </div>
+        <div class="section checkin-list">
+            <h2><i class="fas fa-check-circle"></i> All Check-Ins</h2>
+            <div id="checkinHistory"></div>
+        </div>
+        <div class="section payment-section">
+            <h2><i class="fas fa-receipt"></i> Recent Payments</h2>
+            <div id="paymentHistory" class="payment-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Defendant</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentList"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <h2><i class="fas fa-map-marked-alt"></i> Location Map</h2>
+            <div id="map" class="map-container"></div>
+        </div>
+        <div class="section checkin-list" id="locationHistorySection" style="display: none;">
+            <h2><i class="fas fa-map-pin"></i> Most Visited Locations</h2>
+            <div id="mostVisited"></div>
+        </div>
+    </section>
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-edit"></i> Edit Defendant Profile</h3>
+            <form id="editForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="editName">Name</label>
+                    <input type="text" id="editName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="editPhone">Phone</label>
+                    <input type="tel" id="editPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="editAddress">Address</label>
+                    <input type="text" id="editAddress" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCaseNumber">Case Number</label>
+                    <input type="text" id="editCaseNumber" name="case_number" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCourtDate">Court Date</label>
+                    <input type="date" id="editCourtDate" name="court_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBailAmount">Bail Amount</label>
+                    <input type="number" id="editBailAmount" name="bail_amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editRecurringAmount">Recurring Payment Amount</label>
+                    <input type="number" id="editRecurringAmount" name="recurring_amount" step="0.01" placeholder="e.g., 100.00">
+                </div>
+                <div class="form-group">
+                    <label for="editRecurringDueDay">Recurring Due Day (1-31)</label>
+                    <input type="number" id="editRecurringDueDay" name="recurring_due_day" min="1" max="31" placeholder="e.g., 15">
+                </div>
+                <div class="form-group">
+                    <label for="editReminders">Enable Automatic Reminders</label>
+                    <select id="editReminders" name="reminders">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group admin-only" style="display: none;">
+                    <label for="editAgency">Agency</label>
+                    <select id="editAgency" name="agency_id">
+                        <option value="">Select Agency</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editMugshot">Mugshot (optional)</label>
+                    <input type="file" id="editMugshot" name="mugshot" accept="image/*">
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" id="cancelEdit" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="roleModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-user-cog"></i> Change Account Role</h3>
+            <div class="form-group">
+                <label for="roleSelect">Select Role</label>
+                <select id="roleSelect" class="form-input">
+                    <option value="defendant">Defendant</option>
+                    <option value="agent">Agent</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button id="cancelRole" class="btn btn-secondary">Cancel</button>
+                <button id="saveRole" class="btn btn-primary">Apply</button>
+            </div>
+        </div>
+    </div>
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-money-bill"></i> Add New Payment</h3>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="paymentAmount">Amount</label>
+                    <input type="number" id="paymentAmount" name="amount" step="0.01" required placeholder="e.g., 100.00">
+                </div>
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" name="method" required>
+                        <option value="Cash">Cash</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="paymentDate">Date</label>
+                    <input type="date" id="paymentDate" name="date" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" id="cancelPayment" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>© 2025 BailSafe. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Defendant Profile: DOM fully loaded');
+            console.log('Full URL:', window.location.href);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            console.log('URL Parameters:', urlParams.toString());
+            const defendantUserId = urlParams.get('id') || urlParams.get('defendant_id');
+            console.log('Extracted Defendant User ID:', defendantUserId);
+            let userType = '';
+            let defendantId = null;
+            let defendantData = null;
+
+            if (!defendantUserId) {
+                console.error('No defendant ID provided in URL');
+                alert('No defendant ID specified.');
+                document.getElementById('defendantName').textContent = 'N/A';
+                document.getElementById('userName').textContent = 'Agent';
+                window.location.href = '/admin-dashboard.html';
+                return;
+            }
+
+            function loadProfileData() {
+                console.log('Fetching profile data for ID:', defendantUserId);
+                fetch(`/php/defendant_profile_data.php?id=${defendantUserId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => {
+                    console.log('Fetch status:', response.status, response.statusText);
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            console.error('Fetch response text:', text);
+                            throw new Error(`HTTP error! status: ${response.status}, response: ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Profile data received:', JSON.stringify(data, null, 2));
+                    if (!data.success || !data.data || !data.data.defendant) {
+                        console.error('Invalid data:', data);
+                        alert('Failed to load profile: ' + (data.message || 'Unknown error'));
+                        document.getElementById('defendantName').textContent = 'N/A';
+                        document.getElementById('userName').textContent = 'Agent';
+                        window.location.href = '/admin-dashboard.html';
+                        return;
+                    }
+                    defendantData = data.data.defendant;
+                    userType = sessionStorage.getItem('user_type') || 'agent';
+                    defendantId = defendantData.id;
+                    document.getElementById('userName').textContent = defendantData.agent_name || 'Agent';
+                    document.getElementById('profilePic').src = '/images/default-profile.jpg';
+                    document.getElementById('defendantName').innerHTML = `<i class="fas fa-user"></i> ${defendantData.name || 'N/A'}`;
+                    document.getElementById('defendantUserId').textContent = defendantData.user_id || 'N/A';
+                    document.getElementById('defendantEmail').textContent = defendantData.email || 'N/A';
+                    document.getElementById('defendantPhone').textContent = defendantData.phone || 'N/A';
+                    document.getElementById('defendantAddress').textContent = defendantData.address || 'N/A';
+                    document.getElementById('defendantCaseNumber').textContent = defendantData.case_number || 'N/A';
+                    document.getElementById('courtDate').textContent = defendantData.court_date || 'N/A';
+                    document.getElementById('bailAmount').textContent = defendantData.bail_amount ? `$${parseFloat(defendantData.bail_amount).toFixed(2)}` : '$0.00';
+                    document.getElementById('amountDue').textContent = defendantData.bail_due ? `$${parseFloat(defendantData.bail_due).toFixed(2)}` : '$0.00';
+                    document.getElementById('nextCheckin').textContent = defendantData.next_checkin || 'N/A';
+                    document.getElementById('agentName').textContent = defendantData.agent_name || 'N/A';
+                    document.getElementById('agencyName').textContent = defendantData.agency_name || 'N/A';
+                    document.getElementById('verifiedBadge').textContent = defendantData.verified ? 'Verified' : 'Unverified';
+                    document.getElementById('verifiedBadge').className = defendantData.verified ? 'status-badge status-verified' : 'status-badge status-unverified';
+                    document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+
+                    const payments = Array.isArray(defendantData.payments) ? defendantData.payments : [];
+                    console.log('Payments data:', payments);
+                    document.getElementById('paymentList').innerHTML = payments.length > 0 ? payments.map(payment => {
+                        console.log('Processing payment:', payment);
+                        return `
+                            <tr>
+                                <td><a href="/defendant-profile.html?id=${defendantData.user_id}">${defendantData.name || 'N/A'}</a></td>
+                                <td>${payment.date || 'N/A'}</td>
+                                <td>$${parseFloat(payment.amount || 0).toFixed(2)}</td>
+                                <td>${payment.method || 'N/A'}</td>
+                                <td>${payment.agent_name || 'N/A'}</td>
+                            </tr>
+                        `;
+                    }).join('') : '<tr><td colspan="5">No payments recorded.</td></tr>';
+
+                    if (defendantData.next_due_date && new Date(defendantData.next_due_date) < new Date() && parseFloat(defendantData.bail_due) > 0) {
+                        document.getElementById('alertFlag').style.display = 'inline';
+                    } else {
+                        document.getElementById('alertFlag').style.display = 'none';
+                    }
+
+                    const mugshotUrl = defendantData.mugshot ? `${window.location.origin}${defendantData.mugshot}?t=${new Date().getTime()}` : '/images/placeholder-mugshot.jpg';
+                    const mugshotImg = document.getElementById('defendantMugshot');
+                    mugshotImg.src = mugshotUrl;
+                    mugshotImg.onerror = () => {
+                        console.error(`Failed to load mugshot from: ${mugshotUrl}`);
+                        mugshotImg.src = '/images/placeholder-mugshot.jpg';
+                    };
+
+                    if (userType === 'agent' || userType === 'admin') {
+                        document.getElementById('agentActions').style.display = 'flex';
+                        fetchAgents();
+                    }
+                    if (userType === 'admin') {
+                        document.getElementById('adminActions').style.display = 'flex';
+                        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'block');
+                        fetchAgenciesForEdit();
+                    }
+
+                    const checkins = Array.isArray(defendantData.checkins) ? defendantData.checkins : [];
+                    console.log('Checkins data:', checkins);
+                    Promise.all(checkins.map(checkin => 
+                        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${checkin.latitude}&lon=${checkin.longitude}&format=json`)
+                            .then(res => res.json())
+                            .then(location => {
+                                checkin.address = location.display_name || 'Unknown Address';
+                                return checkin;
+                            })
+                            .catch(() => {
+                                checkin.address = 'Address Not Found';
+                                return checkin;
+                            })
+                    )).then(updatedCheckins => {
+                        document.getElementById('checkinHistory').innerHTML = updatedCheckins.length > 0 ? updatedCheckins.map(c => `
+                            <details class="checkin-item">
+                                <summary><i class="fas fa-calendar"></i> ${c.date} - ${c.status}</summary>
+                                <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> Lat: ${c.latitude}, Long: ${c.longitude}</p>
+                                <p><i class="fas fa-address-card"></i> <strong>Address:</strong> ${c.address}</p>
+                                <p><i class="fas fa-briefcase"></i> <strong>Employment:</strong> ${c.employment_status} ${c.employer_name ? '(' + c.employer_name + ')' : ''}</p>
+                                <p><i class="fas fa-home"></i> <strong>Living Situation:</strong> ${c.living_situation}</p>
+                                <p><i class="fas fa-map"></i> <strong>Current Address:</strong> ${c.current_address}</p>
+                                <p><i class="fas fa-phone"></i> <strong>Contact:</strong> ${c.contact_number}</p>
+                                <p><i class="fas fa-plane"></i> <strong>Travel Plans:</strong> ${c.travel_plans}</p>
+                                <p><i class="fas fa-comment"></i> <strong>Comments:</strong> ${c.comments || 'None'}</p>
+                                <p><i class="fas fa-network-wired"></i> <strong>IP:</strong> ${c.ip_address}</p>
+                                <p><i class="fas fa-exclamation-triangle"></i> <strong>Spoofed:</strong> ${c.spoofed ? 'Yes' : 'No'}</p>
+                                <p><i class="fas fa-camera"></i> <a href="${c.selfie_url}" target="_blank">View Selfie</a></p>
+                            </details>
+                        `).join('') : 'No check-in history.';
+
+                        const map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 10,
+                            center: updatedCheckins.length > 0 ? { lat: parseFloat(updatedCheckins[0].latitude), lng: parseFloat(updatedCheckins[0].longitude) } : { lat: 27.5, lng: -81.5 }
+                        });
+                        updatedCheckins.forEach(c => {
+                            new google.maps.Marker({
+                                position: { lat: parseFloat(c.latitude), lng: parseFloat(c.longitude) },
+                                map: map,
+                                title: `${c.date} - ${c.address}`
+                            });
+                        });
+
+                        if (userType === 'agent' || userType === 'admin') {
+                            document.getElementById('locationHistorySection').style.display = 'block';
+                            const locationFreq = {};
+                            updatedCheckins.forEach(c => {
+                                const key = `${c.latitude},${c.longitude}`;
+                                locationFreq[key] = (locationFreq[key] || 0) + 1;
+                            });
+                            const mostVisited = Object.entries(locationFreq)
+                                .sort((a, b) => b[1] - a[1])
+                                .slice(0, 5)
+                                .map(([key, count]) => {
+                                    const [lat, lon] = key.split(',');
+                                    const checkin = updatedCheckins.find(c => c.latitude === lat && c.longitude === lon);
+                                    return { lat, lon, address: checkin.address, count };
+                                });
+                            document.getElementById('mostVisited').innerHTML = mostVisited.length > 0 ? mostVisited.map(loc => `
+                                <div class="checkin-item">
+                                    <p><i class="fas fa-map-pin"></i> <strong>Address:</strong> ${loc.address}</p>
+                                    <p><i class="fas fa-redo"></i> <strong>Visits:</strong> ${loc.count}</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> Lat: ${loc.lat}, Long: ${loc.lon}</p>
+                                </div>
+                            `).join('') : 'No frequent locations.';
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('Error loading profile: ' + error.message);
+                    document.getElementById('defendantName').textContent = 'N/A';
+                    document.getElementById('userName').textContent = 'Agent';
+                    window.location.href = '/admin-dashboard.html';
+                });
+            }
+
+            loadProfileData();
+
+            document.getElementById('editBtn').addEventListener('click', () => {
+                const modal = document.getElementById('editModal');
+                document.getElementById('editName').value = defendantData.name || '';
+                document.getElementById('editEmail').value = defendantData.email || '';
+                document.getElementById('editPhone').value = defendantData.phone || '';
+                document.getElementById('editAddress').value = defendantData.address || '';
+                document.getElementById('editCaseNumber').value = defendantData.case_number || '';
+                document.getElementById('editCourtDate').value = defendantData.court_date || '';
+                document.getElementById('editBailAmount').value = defendantData.bail_amount || '';
+                document.getElementById('editRecurringAmount').value = defendantData.recurring_amount || '';
+                document.getElementById('editRecurringDueDay').value = defendantData.recurring_due_day || '';
+                document.getElementById('editReminders').value = defendantData.reminders ? '1' : '0';
+                if (userType === 'admin') {
+                    document.getElementById('editAgency').value = defendantData.agency_id || '';
+                }
+                modal.style.display = 'flex';
+            });
+
+            function fetchAgenciesForEdit() {
+                fetch('/php/get_agencies.php', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.agencies) {
+                        const agencySelect = document.getElementById('editAgency');
+                        agencySelect.innerHTML = '<option value="">Select Agency</option>' + result.agencies.map(agency => `
+                            <option value="${agency.id}">${agency.name}</option>
+                        `).join('');
+                    } else {
+                        console.error('No agencies found:', result.message);
+                    }
+                })
+                .catch(error => console.error('Error fetching agencies:', error));
+            }
+
+            document.getElementById('editForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                formData.append('defendant_id', defendantId);
+                if (userType === 'admin') formData.append('user_type', 'defendant');
+
+                fetch(userType === 'admin' ? '/php/update_profile_admin.php' : '/php/update_defendant_profile.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        if (result.mugshot) {
+                            const newMugshotUrl = `${window.location.origin}${result.mugshot}?t=${new Date().getTime()}`;
+                            document.getElementById('defendantMugshot').src = newMugshotUrl;
+                        }
+                        alert('Profile updated successfully!');
+                        document.getElementById('editModal').style.display = 'none';
+                        loadProfileData();
+                    } else {
+                        alert('Failed to update profile: ' + result.message);
+                    }
+                })
+                .catch(error => alert('Error: ' + error.message));
+            });
+
+            document.getElementById('cancelEdit').addEventListener('click', () => {
+                document.getElementById('editModal').style.display = 'none';
+            });
+
+            document.getElementById('verifyBtn').addEventListener('click', () => {
+                fetch('/php/verify_defendant.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    body: JSON.stringify({ defendant_id: defendantId, verified: !defendantData.verified })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        document.getElementById('verifiedBadge').textContent = defendantData.verified ? 'Unverified' : 'Verified';
+                        document.getElementById('verifiedBadge').className = defendantData.verified ? 'status-badge status-unverified' : 'status-badge status-verified';
+                        defendantData.verified = !defendantData.verified;
+                        alert(`Defendant ${defendantData.verified ? 'verified' : 'unverified'} successfully!`);
+                    } else {
+                        alert('Failed to update verification: ' + result.message);
+                    }
+                })
+                .catch(error => alert('Error: ' + error.message));
+            });
+
+            function fetchAgents() {
+                fetch('/php/get_agents.php', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.agents) {
+                        const agentDropdown = document.getElementById('agentDropdown');
+                        agentDropdown.innerHTML = result.agents.map(agent => `
+                            <button class="agent-option" data-agent-id="${agent.id}" data-agent-name="${agent.name}">${agent.name}</button>
+                        `).join('');
+                        document.querySelectorAll('.agent-option').forEach(option => {
+                            option.addEventListener('click', () => assignAgent(option.dataset.agentId, option.dataset.agentName));
+                        });
+                    } else {
+                        document.getElementById('agentDropdown').innerHTML = '<button disabled>No agents available</button>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching agents:', error);
+                    document.getElementById('agentDropdown').innerHTML = '<button disabled>Error loading agents</button>';
+                });
+            }
+
+            function assignAgent(agentId, agentName) {
+                fetch('/php/assign_agent.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    body: JSON.stringify({ defendant_id: defendantId, agent_id: agentId, agent_name: agentName })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        document.getElementById('agentName').textContent = agentName;
+                        alert('Agent assigned successfully!');
+                        loadProfileData();
+                    } else {
+                        alert('Failed to assign agent: ' + result.message);
+                    }
+                })
+                .catch(error => alert('Error: ' + error.message));
+            }
+
+            document.getElementById('resetPasswordBtn').addEventListener('click', () => {
+                if (userType !== 'admin') {
+                    alert('Only admins can reset passwords.');
+                    return;
+                }
+                const newPassword = prompt('Enter new password:');
+                if (newPassword) {
+                    fetch('/php/reset_password.php', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                        body: JSON.stringify({ user_id: defendantId, user_type: 'defendant', new_password: newPassword })
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert('Password reset successfully!');
+                        } else {
+                            alert('Failed to reset password: ' + result.message);
+                        }
+                    })
+                    .catch(error => alert('Error: ' + error.message));
+                }
+            });
+
+            document.getElementById('addPaymentBtn').addEventListener('click', () => {
+                console.log('Add Payment button clicked');
+                const modal = document.getElementById('paymentModal');
+                document.getElementById('paymentDate').value = new Date().toISOString().split('T')[0];
+                modal.style.display = 'flex';
+            });
+
+            document.getElementById('paymentForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                formData.append('defendant_id', defendantId);
+
+                fetch('/php/add_payment.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Add payment response:', result);
+                    if (result.success) {
+                        alert('Payment added successfully!');
+                        document.getElementById('paymentModal').style.display = 'none';
+                        loadProfileData();
+                    } else {
+                        alert('Failed to add payment: ' + result.message);
+                    }
+                })
+                .catch(error => alert('Error: ' + error.message));
+            });
+
+            document.getElementById('cancelPayment').addEventListener('click', () => {
+                document.getElementById('paymentModal').style.display = 'none';
+            });
+
+            if (userType === 'admin') {
+                document.getElementById('deleteBtn').addEventListener('click', () => {
+                    if (confirm('Are you sure you want to delete this defendant?')) {
+                        fetch('/php/delete_defendant.php', {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                            body: JSON.stringify({ defendant_id: defendantId })
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.success) {
+                                alert('Defendant deleted successfully!');
+                                window.location.href = '/agent-dashboard.html';
+                            } else {
+                                alert('Failed to delete defendant: ' + result.message);
+                            }
+                        })
+                        .catch(error => alert('Error: ' + error.message));
+                    }
+                });
+
+                document.getElementById('changeTypeBtn').addEventListener('click', () => {
+                    const modal = document.getElementById('roleModal');
+                    modal.style.display = 'flex';
+                });
+
+                document.getElementById('saveRole').addEventListener('click', () => {
+                    const newRole = document.getElementById('roleSelect').value;
+                    fetch('/php/change_user_type.php', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                        body: JSON.stringify({ defendant_id: defendantId, user_type: newRole })
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert(`User role changed to ${newRole} successfully!`);
+                            document.getElementById('roleModal').style.display = 'none';
+                            loadProfileData();
+                        } else {
+                            alert('Failed to change role: ' + result.message);
+                        }
+                    })
+                    .catch(error => alert('Error: ' + error.message));
+                });
+
+                document.getElementById('cancelRole').addEventListener('click', () => {
+                    document.getElementById('roleModal').style.display = 'none';
+                });
+
+                document.getElementById('banBtn').addEventListener('click', () => {
+                    if (confirm('Are you sure you want to ban this defendant?')) {
+                        fetch('/php/suspend_account.php', {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                            body: JSON.stringify({ user_id: defendantId, user_type: 'defendant' })
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.success) {
+                                alert('Defendant banned successfully!');
+                                loadProfileData();
+                            } else {
+                                alert('Failed to ban defendant: ' + result.message);
+                            }
+                        })
+                        .catch(error => alert('Error: ' + error.message));
+                    }
+                });
+            }
+
+            document.getElementById('backBtn').addEventListener('click', () => {
+                window.location.href = userType === 'defendant' ? '/defendant-dashboard.html' : '/agent-dashboard.html';
+            });
+
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('/php/logout.php', { method: 'POST', credentials: 'include', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(() => window.location.href = '/login.html')
+                    .catch(error => alert('Logout failed: ' + error.message));
+            });
+
+            const themeToggle = document.getElementById('themeToggle');
+            let isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            themeToggle.addEventListener('click', () => {
+                isDarkMode = !isDarkMode;
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                localStorage.setItem('darkMode', isDarkMode);
+                themeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            });
+        });
+    </script>
+</body>
+</html>

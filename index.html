@@ -3,51 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Florida Bail Check-In System</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>BailSafe - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; box-sizing: border-box; background: #f5f8fa; color: #2c3e50; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #ffffff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; flex-wrap: wrap; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { position: relative; width: 35px; height: 35px; }
+        .logo-shield { width: 100%; height: 100%; background: #007bff; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 4px; }
+        .logo-defendant { position: absolute; top: 10px; left: 11px; width: 12px; height: 18px; background: #2c3e50; border-radius: 2px 2px 0 0; }
+        .logo-defendant-head { position: absolute; top: 5px; left: 13px; width: 8px; height: 8px; background: #2c3e50; border-radius: 50%; }
+        .logo-handcuffs { position: absolute; top: 22px; left: 8px; width: 18px; height: 10px; border: 2px solid #ffffff; border-radius: 5px; border-top: none; }
+        .logo-handcuffs-gap { position: absolute; top: 22px; left: 15px; width: 4px; height: 2px; background: #007bff; }
+        .logo-text { font-size: 24px; font-weight: 700; line-height: 1; }
+        .logo-text-bail { color: #2c3e50; }
+        .logo-text-safe { color: #007bff; }
+        .nav-links { display: flex; list-style: none; padding: 0; margin: 0; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s ease; }
+        .nav-links a:hover { color: #007bff; }
+        .hero { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: #ffffff; padding: 120px 25px 80px; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; }
+        .hero h1 { font-size: 48px; font-weight: 700; margin: 0 0 20px; }
+        .hero p { font-size: 20px; font-weight: 400; margin: 0 0 30px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .hero-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .btn { padding: 14px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+        .btn-primary { background: #ffffff; color: #007bff; }
+        .btn-primary:hover { background: #f0f0f0; }
+        .btn-secondary { background: #2c3e50; color: #ffffff; }
+        .btn-secondary:hover { background: #1a252f; }
+        .features { padding: 60px 25px; max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; }
+        .feature-card { flex: 1; min-width: 300px; max-width: 360px; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); text-align: center; position: relative; overflow: hidden; }
+        .feature-card i { font-size: 48px; color: #007bff; margin-bottom: 20px; }
+        .feature-card h2 { font-size: 24px; font-weight: 600; color: #2c3e50; margin: 0 0 15px; }
+        .feature-card p { font-size: 16px; color: #34495e; margin: 0; }
+        .feature-icon { position: absolute; top: 10px; right: 10px; font-size: 24px; color: #007bff; opacity: 0.2; }
+        .footer { text-align: center; padding: 20px; background: #ffffff; box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #ebedf0; font-size: 14px; color: #7f8c8d; }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; padding: 10px 15px; }
+            .nav-links { width: 100%; flex-direction: column; gap: 15px; align-items: center; margin-top: 10px; }
+            .hero { padding: 100px 15px 60px; }
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 18px; }
+            .hero-buttons { flex-direction: column; gap: 15px; }
+            .features { padding: 40px 15px; }
+            .feature-card { min-width: 100%; }
+            .feature-card i { font-size: 36px; }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i> Florida Bail Check-In System</div>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <div class="logo-shield"></div>
+                <div class="logo-defendant"></div>
+                <div class="logo-defendant-head"></div>
+                <div class="logo-handcuffs"></div>
+                <div class="logo-handcuffs-gap"></div>
+            </div>
+            <span class="logo-text"><span class="logo-text-bail">Bail</span><span class="logo-text-safe">Safe</span></span>
+        </div>
         <nav>
-            <a href="defendant-login.html"><i class="fas fa-user"></i> Defendant Login</a>
-            <a href="agent-login.html"><i class="fas fa-user-shield"></i> Agent Login</a>
-            <a href="agent-signup.html"><i class="fas fa-user-plus"></i> Agent Sign-Up</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="/login.html">Login</a></li>
+            </ul>
         </nav>
     </header>
     <section class="hero">
         <div class="hero-content">
-            <h1><i class="fas fa-check-circle"></i> Advanced Bail Monitoring</h1>
-            <p>A secure, subscription-based platform for bail agents and defendants.</p>
-            <div class="hero-actions">
-                <a href="defendant-login.html" class="btn"><i class="fas fa-calendar-check"></i> Check In</a>
-                <a href="agent-signup.html" class="btn secondary"><i class="fas fa-user-shield"></i> Join as Agent</a>
+            <h1>BailSafe for Agencies</h1>
+            <p>Empower your agency with a cutting-edge check-in system designed to streamline defendant management and ensure compliance.</p>
+            <div class="hero-buttons">
+                <a href="/login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Start Now</a>
+                <a href="https://hillardcorp.com/agent-signup.html" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Agent Sign Up</a>
             </div>
         </div>
-        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Courthouse" class="hero-image">
     </section>
-    <section class="features">
+    <section class="features" id="features">
         <div class="feature-card">
-            <i class="fas fa-calendar-check fa-3x"></i>
-            <h3>Weekly Check-Ins</h3>
-            <p>Defendants report securely with photos and location.</p>
+            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-check-circle feature-icon"></i>
+            <h2>Effortless Check-Ins</h2>
+            <p>Enable defendants to submit check-ins securely from any device, reducing paperwork and saving time.</p>
         </div>
         <div class="feature-card">
-            <i class="fas fa-user-shield fa-3x"></i>
-            <h3>Agent Tools</h3>
-            <p>Monitor, notify, and manage with ease.</p>
+            <i class="fas fa-shield-alt"></i>
+            <i class="fas fa-shield-alt feature-icon"></i>
+            <h2>Robust Security</h2>
+            <p>Protect sensitive data with advanced encryption and compliance tracking for peace of mind.</p>
         </div>
         <div class="feature-card">
-            <i class="fas fa-dollar-sign fa-3x"></i>
-            <h3>Subscription Plans</h3>
-            <p>Access premium features for $99/month.</p>
+            <i class="fas fa-users"></i>
+            <i class="fas fa-users feature-icon"></i>
+            <h2>Agency-Centric Tools</h2>
+            <p>Monitor and manage multiple defendants efficiently with real-time updates and notifications.</p>
         </div>
     </section>
-    <footer>
-        <p><i class="fas fa-shield-alt"></i> © 2025 Florida Bail Check-In System | Secure & Professional</p>
+    <footer class="footer">
+        <p>© 2025 BailSafe. All rights reserved.</p>
     </footer>
-    <script src="script.js"></script>
 </body>
 </html>

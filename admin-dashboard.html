@@ -4,92 +4,855 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - BailSafe</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; box-sizing: border-box; background: #f5f8fa; color: #2c3e50; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #ffffff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; flex-wrap: wrap; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { position: relative; width: 35px; height: 35px; }
+        .logo-shield { width: 100%; height: 100%; background: #007bff; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 4px; }
+        .logo-defendant { position: absolute; top: 10px; left: 11px; width: 12px; height: 18px; background: #2c3e50; border-radius: 2px 2px 0 0; }
+        .logo-defendant-head { position: absolute; top: 5px; left: 13px; width: 8px; height: 8px; background: #2c3e50; border-radius: 50%; }
+        .logo-handcuffs { position: absolute; top: 22px; left: 8px; width: 18px; height: 10px; border: 2px solid #ffffff; border-radius: 5px; border-top: none; }
+        .logo-handcuffs-gap { position: absolute; top: 22px; left: 15px; width: 4px; height: 2px; background: #007bff; }
+        .logo-text { font-size: 24px; font-weight: 700; line-height: 1; }
+        .logo-text-bail { color: #2c3e50; }
+        .logo-text-safe { color: #007bff; }
+        .user-profile { display: flex; align-items: center; gap: 12px; }
+        .user-profile span { font-weight: 500; color: #34495e; }
+        .container { max-width: 1280px; margin: 80px auto 100px; padding: 0 25px; flex: 1; display: flex; gap: 30px; }
+        .sidebar { flex: 1; max-width: 260px; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); position: sticky; top: 80px; height: fit-content; }
+        .sidebar-nav { list-style: none; padding: 0; }
+        .sidebar-nav li { margin-bottom: 12px; }
+        .nav-btn { display: flex; align-items: center; gap: 10px; padding: 12px 15px; text-decoration: none; color: #34495e; font-weight: 500; transition: all 0.3s ease; border-radius: 8px; }
+        .nav-btn:hover, .nav-btn.active { background: #007bff; color: #ffffff; box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2); }
+        .notification-bubble { background: #e74c3c; color: #ffffff; border-radius: 50%; padding: 2px 6px; font-size: 12px; }
+        .main-content { flex: 3; }
+        .dashboard-section { background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); margin-bottom: 30px; display: none; }
+        .dashboard-section.active { display: block; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; }
+        .section-header h2 { font-size: 24px; font-weight: 600; color: #2c3e50; margin: 0; display: flex; align-items: center; gap: 10px; }
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .card { background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); }
+        .card h3 { margin: 0 0 12px; font-size: 18px; font-weight: 600; color: #007bff; display: flex; align-items: center; gap: 8px; }
+        .card p { margin: 0; font-size: 16px; color: #34495e; font-weight: 500; }
+        .table-container { overflow-x: auto; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ebedf0; font-size: 14px; color: #34495e; }
+        .table th { background: #f9fafb; font-weight: 600; }
+        .table tr:hover { background: #f1f5f9; }
+        .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+        .btn-primary { background: #007bff; color: #ffffff; }
+        .btn-primary:hover { background: #0056b3; }
+        .btn-secondary { background: #6c757d; color: #ffffff; }
+        .btn-secondary:hover { background: #5a6268; }
+        .btn-success { background: #28a745; color: #ffffff; }
+        .btn-success:hover { background: #218838; }
+        .btn-danger { background: #dc3545; color: #ffffff; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-warning:hover { background: #e0a800; }
+        .form-container { background: #f9fafb; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); margin-top: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50; font-size: 15px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 15px; border: 1px solid #d1d9e6; border-radius: 8px; font-size: 15px; box-sizing: border-box; background: #ffffff; transition: border-color 0.3s ease; }
+        .form-group input:focus, .form-group select:focus { border-color: #007bff; outline: none; }
+        .footer { text-align: center; padding: 20px; background: #ffffff; box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #ebedf0; font-size: 14px; color: #7f8c8d; z-index: 1000; }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; padding: 10px 15px; }
+            .user-profile { margin: 10px 0; }
+            .container { flex-direction: column; margin: 60px auto 80px; padding: 0 15px; }
+            .sidebar { max-width: 100%; position: relative; top: 0; }
+            .overview-grid { grid-template-columns: 1fr; }
+            .table th, .table td { font-size: 12px; padding: 8px; }
+            .btn { padding: 6px 12px; font-size: 12px; }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i> BailSafe</div>
-        <nav class="top-nav">
-            <button class="nav-btn" data-section="approvals"><i class="fas fa-user-shield"></i> Approvals</button>
-            <button class="nav-btn" data-section="assignments"><i class="fas fa-user"></i> Assignments</button>
-            <button class="nav-btn" data-section="members"><i class="fas fa-users"></i> Members</button>
-            <button class="nav-btn" data-section="risk"><i class="fas fa-chart-pie"></i> Risk Analytics</button>
-            <button class="nav-btn" data-section="tools"><i class="fas fa-tools"></i> Tools</button>
-            <button class="nav-btn" data-section="logs"><i class="fas fa-history"></i> Logs</button>
-            <button class="nav-btn" data-section="performance"><i class="fas fa-user-check"></i> Performance</button>
-            <a href="/index.html" class="nav-btn"><i class="fas fa-sign-out-alt"></i> Log Out</a>
-        </nav>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <div class="logo-shield"></div>
+                <div class="logo-defendant"></div>
+                <div class="logo-defendant-head"></div>
+                <div class="logo-handcuffs"></div>
+                <div class="logo-handcuffs-gap"></div>
+            </div>
+            <span class="logo-text"><span class="logo-text-bail">Bail</span><span class="logo-text-safe">Safe</span></span>
+        </div>
+        <div class="user-profile">
+            <span id="adminName">Loading...</span>
+            <button class="btn btn-secondary" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
     </header>
     <section class="dashboard">
-        <aside class="sidebar">
-            <div class="agent-profile">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Admin Avatar" class="avatar">
-                <h4 id="adminName">Admin</h4>
-                <p><i class="fas fa-user-cog"></i> Admin Privileges</p>
-                <a href="#" onclick="showProfile('AGT99999')">View Profile</a>
-            </div>
-        </aside>
-        <main>
-            <div id="approvals" class="section" style="display: none;">
-                <h3><i class="fas fa-user-shield"></i> Agent Approvals</h3>
-                <div id="pendingAgents" class="admin-content"></div>
-                <button onclick="refreshPendingAgents()" class="btn"><i class="fas fa-sync"></i> Refresh List</button>
-            </div>
-            <div id="assignments" class="section" style="display: none;">
-                <h3><i class="fas fa-user"></i> Defendant Assignments</h3>
-                <form id="assignForm" class="admin-content form-content">
-                    <div class="form-group">
-                        <label for="defendantId"><i class="fas fa-id-card"></i> Defendant ID</label>
-                        <input type="text" id="defendantId" required placeholder="DEF12345">
+        <div class="container">
+            <aside class="sidebar">
+                <ul class="sidebar-nav" id="sidebarNav">
+                    <li><a href="#" class="nav-btn active" data-section="overview"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
+                    <li><a href="#" class="nav-btn" data-section="agents"><i class="fas fa-users"></i> Agents</a></li>
+                    <li><a href="#" class="nav-btn" data-section="defendants"><i class="fas fa-user-tie"></i> Defendants</a></li>
+                    <li><a href="#" class="nav-btn" data-section="agencies"><i class="fas fa-building"></i> Agencies</a></li>
+                    <li><a href="#" class="nav-btn" data-section="notifications"><i class="fas fa-bell"></i> Notifications <span id="notificationBubble" class="notification-bubble" style="display: none;">0</span></a></li>
+                    <li><a href="#" class="nav-btn" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </aside>
+            <main class="main-content">
+                <section id="overview" class="dashboard-section active">
+                    <div class="section-header">
+                        <h2><i class="fas fa-tachometer-alt"></i> Overview</h2>
                     </div>
-                    <div class="form-group">
-                        <label for="agentId"><i class="fas fa-user-shield"></i> Assign to Agent</label>
-                        <select id="agentId" required></select>
+                    <div class="overview-grid">
+                        <div class="card"><h3><i class="fas fa-users"></i> Active Agents</h3><p id="activeAgents">0</p></div>
+                        <div class="card"><h3><i class="fas fa-user-tie"></i> Active Defendants</h3><p id="activeDefendants">0</p></div>
+                        <div class="card"><h3><i class="fas fa-check-circle"></i> Pending Agents</h3><p id="pendingAgents">0</p></div>
+                        <div class="card"><h3><i class="fas fa-bell"></i> Pending Notifications</h3><p id="pendingNotifications">0</p></div>
+                        <div class="card"><h3><i class="fas fa-dollar-sign"></i> Total Bail</h3><p id="totalBail">$0.00</p></div>
                     </div>
-                    <button type="submit" class="btn"><i class="fas fa-link"></i> Assign Defendant</button>
-                </form>
-            </div>
-            <div id="members" class="section" style="display: block;">
-                <h3><i class="fas fa-users"></i> Members</h3>
-                <div id="membersList" class="admin-content"></div>
-                <button onclick="refreshMembers()" class="btn"><i class="fas fa-sync"></i> Refresh Members</button>
-            </div>
-            <div id="risk" class="section" style="display: none;">
-                <h3><i class="fas fa-chart-pie"></i> Risk Analytics</h3>
-                <canvas id="riskAnalyticsChart" width="400" height="200" class="admin-content"></canvas>
-                <button onclick="updateRiskChart()" class="btn"><i class="fas fa-redo"></i> Update Chart</button>
-            </div>
-            <div id="tools" class="section" style="display: none;">
-                <h3><i class="fas fa-tools"></i> System Tools</h3>
-                <div class="admin-content tools">
-                    <button onclick="sendSystemAlert()" class="btn"><i class="fas fa-bullhorn"></i> Send System Alert</button>
-                    <button onclick="exportData()" class="btn"><i class="fas fa-download"></i> Export Data</button>
-                    <button onclick="toggleAutoReminders()" class="btn"><i class="fas fa-clock"></i> Toggle Auto-Reminders</button>
-                    <p>Auto-Reminders: <span id="autoReminderStatus">Off</span></p>
-                    <button onclick="resetRiskScores()" class="btn"><i class="fas fa-undo"></i> Reset Risk Scores</button>
-                    <button onclick="generatePerformanceReport()" class="btn"><i class="fas fa-file-alt"></i> Generate Report</button>
-                    <button onclick="clearAllData()" class="btn danger"><i class="fas fa-trash-alt"></i> Clear All Data</button>
-                </div>
-            </div>
-            <div id="logs" class="section" style="display: none;">
-                <h3><i class="fas fa-history"></i> System Logs</h3>
-                <div id="systemLogs" class="admin-content log-content"></div>
-                <button onclick="clearLogs()" class="btn"><i class="fas fa-trash"></i> Clear Logs</button>
-            </div>
-            <div id="performance" class="section" style="display: none;">
-                <h3><i class="fas fa-user-check"></i> Agent Performance</h3>
-                <div id="agentPerformance" class="admin-content"></div>
-                <button onclick="refreshPerformance()" class="btn"><i class="fas fa-sync"></i> Refresh Stats</button>
-            </div>
-            <div id="profile" class="section" style="display: none;">
-                <h3><i class="fas fa-user"></i> Profile</h3>
-                <div id="profileDetails" class="admin-content"></div>
-            </div>
-        </main>
+                </section>
+                <section id="agents" class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-users"></i> Agents</h2>
+                        <button class="btn btn-primary" id="addAgentBtn"><i class="fas fa-plus"></i> Add Agent</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="table" id="agentsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Agency</th>
+                                    <th>License</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="form-container" id="addAgentForm" style="display: none;">
+                        <h3><i class="fas fa-user-plus"></i> Add New Agent</h3>
+                        <form id="newAgentForm">
+                            <div class="form-group">
+                                <label for="agentName">Name</label>
+                                <input type="text" id="agentName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="agentEmail">Email</label>
+                                <input type="email" id="agentEmail" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="agentAgency">Agency</label>
+                                <select id="agentAgency" name="agency_id" required>
+                                    <option value="">Select Agency</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="agentLicense">License</label>
+                                <input type="text" id="agentLicense" name="license" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                        </form>
+                    </div>
+                </section>
+                <section id="defendants" class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-user-tie"></i> Defendants</h2>
+                        <button class="btn btn-primary" id="addDefendantBtn"><i class="fas fa-plus"></i> Add Defendant</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="table" id="defendantsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Agent</th>
+                                    <th>Agency</th>
+                                    <th>Bail Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="form-container" id="addDefendantForm" style="display: none;">
+                        <h3><i class="fas fa-user-plus"></i> Add New Defendant</h3>
+                        <form id="newDefendantForm">
+                            <div class="form-group">
+                                <label for="defendantName">Name</label>
+                                <input type="text" id="defendantName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="defendantEmail">Email</label>
+                                <input type="email" id="defendantEmail" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="defendantAgent">Agent</label>
+                                <select id="defendantAgent" name="agent_id" required>
+                                    <option value="">Select Agent</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="defendantAgency">Agency</label>
+                                <select id="defendantAgency" name="agency_id" required>
+                                    <option value="">Select Agency</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="defendantBail">Bail Amount</label>
+                                <input type="number" id="defendantBail" name="bail_amount" step="0.01" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                        </form>
+                    </div>
+                </section>
+                <section id="agencies" class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-building"></i> Agencies</h2>
+                        <button class="btn btn-primary" id="addAgencyBtn"><i class="fas fa-plus"></i> Add Agency</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="table" id="agenciesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="form-container" id="addAgencyForm" style="display: none;">
+                        <h3><i class="fas fa-building"></i> Add New Agency</h3>
+                        <form id="newAgencyForm">
+                            <div class="form-group">
+                                <label for="agencyName">Name</label>
+                                <input type="text" id="agencyName" name="name" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                        </form>
+                    </div>
+                </section>
+                <section id="notifications" class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-bell"></i> Notifications</h2>
+                        <button class="btn btn-primary" id="sendNotificationBtn"><i class="fas fa-plus"></i> Send Notification</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="table" id="notificationsTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Message</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="form-container" id="sendNotificationForm" style="display: none;">
+                        <h3><i class="fas fa-bell"></i> Send Notification</h3>
+                        <form id="newNotificationForm">
+                            <div class="form-group">
+                                <label for="notificationMessage">Message</label>
+                                <input type="text" id="notificationMessage" name="content" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
+                        </form>
+                    </div>
+                </section>
+                <section id="settings" class="dashboard-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cog"></i> Settings</h2>
+                    </div>
+                    <div class="form-container">
+                        <h3><i class="fas fa-user"></i> Account Settings</h3>
+                        <form id="updateAdminForm">
+                            <div class="form-group">
+                                <label for="adminNameInput">Name</label>
+                                <input type="text" id="adminNameInput" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adminEmailInput">Email</label>
+                                <input type="email" id="adminEmailInput" name="email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update</button>
+                        </form>
+                    </div>
+                </section>
+            </main>
+        </div>
     </section>
-    <script src="/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <footer class="footer">
+        <p>© 2025 BailSafe. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Admin Dashboard: DOM fully loaded');
+
+            let adminId;
+
+            fetch('/php/admin_dashboard_data.php', {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            })
+            .then(response => {
+                console.log('Fetch Response Status:', response.status, response.statusText);
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`HTTP error! status: ${response.status}, response: ${text}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Admin Dashboard Data:', JSON.stringify(data, null, 2));
+                if (!data.success || !data.data) {
+                    console.warn('Backend failed, using mock data');
+                    alert('Failed to load dashboard data. Displaying mock data.');
+                    loadDashboardData(mockData.data);
+                    return;
+                }
+                loadDashboardData(data.data);
+            })
+            .catch(error => {
+                console.error('Fetch error details:', error.message);
+                alert('Error loading dashboard: ' + error.message + '. Using mock data.');
+                loadDashboardData(mockData.data);
+            });
+
+            const mockData = {
+                success: true,
+                data: {
+                    user_name: "Admin User",
+                    user_id: "1",
+                    user_email: "admin@example.com",
+                    agency_name: "BailSafe Agency",
+                    license: "FL12345",
+                    active_agents: 5,
+                    pending_agents: 2,
+                    active_defendants: 10,
+                    suspended_defendants: 3,
+                    total_bail: 50000,
+                    agents: [
+                        { id: 1, name: "Jane Doe", email: "jane@example.com", agency_id: 1, agency_name: "ABC Bail", license: "FL54321", verified: 1 },
+                        { id: 2, name: "John Smith", email: "john@example.com", agency_id: 2, agency_name: "XYZ Bonds", license: "FL98765", verified: 0 }
+                    ],
+                    defendants: [
+                        { id: 1, name: "Bob Wilson", email: "bob@example.com", agent_id: 1, agent_name: "Jane Doe", agency_id: 1, agency_name: "ABC Bail", bail_amount: 10000, verified: 1, user_id: "def1" },
+                        { id: 2, name: "Alice Brown", email: "alice@example.com", agent_id: 2, agent_name: "John Smith", agency_id: 2, agency_name: "XYZ Bonds", bail_amount: 15000, verified: 0, user_id: "def2" }
+                    ],
+                    notifications: [
+                        { id: 1, content: "System update scheduled", timestamp: "2025-02-22 08:00:00" }
+                    ],
+                    agencies: [
+                        { id: 1, name: "ABC Bail", approved: 1 },
+                        { id: 2, name: "XYZ Bonds", approved: 0 }
+                    ]
+                }
+            };
+
+            function loadDashboardData(admin) {
+                adminId = admin.user_id;
+                document.getElementById('adminName').textContent = admin.user_name || 'Admin';
+                document.getElementById('adminNameInput').value = admin.user_name || '';
+                document.getElementById('adminEmailInput').value = admin.user_email || '';
+                document.getElementById('activeAgents').textContent = admin.active_agents;
+                document.getElementById('activeDefendants').textContent = admin.active_defendants;
+                document.getElementById('pendingAgents').textContent = admin.pending_agents;
+                document.getElementById('pendingNotifications').textContent = admin.notifications.length;
+                document.getElementById('totalBail').textContent = `$${parseFloat(admin.total_bail).toFixed(2)}`;
+
+                const agentsTbody = document.getElementById('agentsTable').querySelector('tbody');
+                agentsTbody.innerHTML = admin.agents.map(agent => `
+                    <tr>
+                        <td>${agent.id}</td>
+                        <td>${agent.name}</td>
+                        <td>${agent.email}</td>
+                        <td>${agent.agency_name || 'N/A'}</td>
+                        <td>${agent.license}</td>
+                        <td>${agent.verified ? 'Verified' : 'Pending'}</td>
+                        <td>
+                            ${agent.verified ? `
+                                <button class="btn btn-warning suspend-agent" data-id="${agent.id}"><i class="fas fa-pause"></i> Suspend</button>
+                            ` : `
+                                <button class="btn btn-success verify-agent" data-id="${agent.id}"><i class="fas fa-check"></i> Verify</button>
+                                <button class="btn btn-danger reject-agent" data-id="${agent.id}"><i class="fas fa-times"></i> Reject</button>
+                            `}
+                            <button class="btn btn-primary edit-agent" data-id="${agent.id}"><i class="fas fa-edit"></i> Edit</button>
+                            <select class="attach-agency" data-agent-id="${agent.id}">
+                                <option value="">Attach Agency</option>
+                            </select>
+                        </td>
+                    </tr>
+                `).join('');
+                addAgentActions();
+                populateAgentAgencyDropdowns();
+
+                const defendantsTbody = document.getElementById('defendantsTable').querySelector('tbody');
+                defendantsTbody.innerHTML = admin.defendants.map(defendant => `
+                    <tr>
+                        <td>${defendant.id}</td>
+                        <td>${defendant.name}</td>
+                        <td>${defendant.email}</td>
+                        <td>${defendant.agent_name || 'N/A'}</td>
+                        <td>${defendant.agency_name || 'N/A'}</td>
+                        <td>$${parseFloat(defendant.bail_amount).toFixed(2)}</td>
+                        <td>${defendant.verified ? 'Active' : 'Suspended'}</td>
+                        <td>
+                            <button class="btn btn-primary view-defendant" data-id="${defendant.user_id}"><i class="fas fa-eye"></i> View</button>
+                            <button class="btn btn-warning ${defendant.verified ? 'suspend' : 'activate'}-defendant" data-id="${defendant.id}">
+                                <i class="fas fa-${defendant.verified ? 'pause' : 'play'}"></i> ${defendant.verified ? 'Suspend' : 'Activate'}
+                            </button>
+                            <button class="btn btn-danger delete-defendant" data-id="${defendant.id}"><i class="fas fa-trash"></i> Delete</button>
+                            <button class="btn btn-primary edit-defendant" data-id="${defendant.user_id}"><i class="fas fa-edit"></i> Edit</button>
+                        </td>
+                    </tr>
+                `).join('');
+                addDefendantActions();
+
+                const agentSelect = document.getElementById('defendantAgent');
+                agentSelect.innerHTML = '<option value="">Select Agent</option>' + admin.agents.map(agent => `
+                    <option value="${agent.id}">${agent.name} (${agent.agency_name})</option>
+                `).join('');
+
+                const agencySelect = document.getElementById('defendantAgency');
+                fetch('/php/get_agencies.php', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.agencies) {
+                        agencySelect.innerHTML = '<option value="">Select Agency</option>' + result.agencies.map(agency => `
+                            <option value="${agency.id}">${agency.name}</option>
+                        `).join('');
+                    }
+                });
+
+                const notificationsTbody = document.getElementById('notificationsTable').querySelector('tbody');
+                const bubble = document.getElementById('notificationBubble');
+                notificationsTbody.innerHTML = admin.notifications.map(notification => `
+                    <tr>
+                        <td>${notification.timestamp}</td>
+                        <td>${notification.content}</td>
+                        <td>Read</td>
+                        <td><button class="btn btn-danger delete-notification" data-id="${notification.id}"><i class="fas fa-trash"></i> Delete</button></td>
+                    </tr>
+                `).join('');
+                bubble.textContent = admin.pending_agents;
+                bubble.style.display = bubble.textContent > 0 ? 'inline' : 'none';
+                addNotificationActions();
+
+                const agenciesTbody = document.getElementById('agenciesTable').querySelector('tbody');
+                fetch('/php/get_agencies.php')
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success && result.agencies) {
+                            agenciesTbody.innerHTML = result.agencies.map(agency => `
+                                <tr>
+                                    <td>${agency.id}</td>
+                                    <td>${agency.name}</td>
+                                    <td>${agency.approved ? 'Approved' : 'Pending'}</td>
+                                    <td>
+                                        ${agency.approved ? '' : `
+                                            <button class="btn btn-success approve-agency" data-id="${agency.id}"><i class="fas fa-check"></i> Approve</button>
+                                            <button class="btn btn-danger reject-agency" data-id="${agency.id}"><i class="fas fa-times"></i> Reject</button>
+                                        `}
+                                    </td>
+                                </tr>
+                            `).join('');
+                            addAgencyActions();
+                        }
+                    });
+            }
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    document.getElementById(this.dataset.section).classList.add('active');
+                    this.classList.add('active');
+                    document.getElementById('addAgentForm').style.display = 'none';
+                    document.getElementById('addDefendantForm').style.display = 'none';
+                    document.getElementById('addAgencyForm').style.display = 'none';
+                    document.getElementById('sendNotificationForm').style.display = 'none';
+                });
+            });
+
+            document.getElementById('addAgentBtn').addEventListener('click', () => {
+                document.getElementById('addAgentForm').style.display = 'block';
+                populateAgencyDropdown('agentAgency');
+            });
+
+            document.getElementById('newAgentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch('/php/admin_add_agent.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    if (result.success) {
+                        this.reset();
+                        document.getElementById('addAgentForm').style.display = 'none';
+                        window.location.reload();
+                    }
+                })
+                .catch(error => alert('Error adding agent: ' + error.message));
+            });
+
+            document.getElementById('addDefendantBtn').addEventListener('click', () => {
+                document.getElementById('addDefendantForm').style.display = 'block';
+            });
+
+            document.getElementById('newDefendantForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch('/php/admin_add_defendant.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    if (result.success) {
+                        this.reset();
+                        document.getElementById('addDefendantForm').style.display = 'none';
+                        window.location.reload();
+                    }
+                })
+                .catch(error => alert('Error adding defendant: ' + error.message));
+            });
+
+            document.getElementById('addAgencyBtn').addEventListener('click', () => {
+                document.getElementById('addAgencyForm').style.display = 'block';
+            });
+
+            document.getElementById('newAgencyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch('/php/add_agency.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    if (result.success) {
+                        this.reset();
+                        document.getElementById('addAgencyForm').style.display = 'none';
+                        window.location.reload();
+                    }
+                })
+                .catch(error => alert('Error adding agency: ' + error.message));
+            });
+
+            document.getElementById('sendNotificationBtn').addEventListener('click', () => {
+                document.getElementById('sendNotificationForm').style.display = 'block';
+            });
+
+            document.getElementById('newNotificationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch('/php/admin_send_notification.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    if (result.success) {
+                        this.reset();
+                        document.getElementById('sendNotificationForm').style.display = 'none';
+                        window.location.reload();
+                    }
+                })
+                .catch(error => alert('Error sending notification: ' + error.message));
+            });
+
+            document.getElementById('updateAdminForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                fetch('/php/admin_update_profile.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    if (result.success) window.location.reload();
+                })
+                .catch(error => alert('Error updating profile: ' + error.message));
+            });
+
+            function addAgentActions() {
+                document.querySelectorAll('.verify-agent').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const agentId = this.dataset.id;
+                        fetch('/php/admin_verify_agent.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ agent_id: agentId, action: 'verify' }),
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert(result.message);
+                            if (result.success) window.location.reload();
+                        });
+                    });
+                });
+                document.querySelectorAll('.reject-agent').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const agentId = this.dataset.id;
+                        fetch('/php/admin_verify_agent.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ agent_id: agentId, action: 'reject' }),
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert(result.message);
+                            if (result.success) window.location.reload();
+                        });
+                    });
+                });
+                document.querySelectorAll('.suspend-agent').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const agentId = this.dataset.id;
+                        fetch('/php/admin_suspend_agent.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ agent_id: agentId }),
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert(result.message);
+                            if (result.success) window.location.reload();
+                        });
+                    });
+                });
+                document.querySelectorAll('.edit-agent').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const agentId = this.dataset.id;
+                        window.location.href = `/php/admin_edit_agent.php?agent_id=${agentId}`;
+                    });
+                });
+                document.querySelectorAll('.attach-agency').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const agentId = this.dataset.agentId;
+                        const agencyId = this.value;
+                        if (agencyId) {
+                            fetch('/php/attach_agency_to_agent.php', {
+                                method: 'POST',
+                                body: JSON.stringify({ agent_id: agentId, agency_id: agencyId }),
+                                credentials: 'include',
+                                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                alert(result.message);
+                                if (result.success) window.location.reload();
+                            });
+                        }
+                    });
+                });
+            }
+
+            function addDefendantActions() {
+                document.querySelectorAll('.view-defendant').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const defendantId = this.dataset.id;
+                        console.log('Viewing defendant with ID:', defendantId);
+                        window.location.href = `/defendant-profile.html?id=${defendantId}`;
+                    });
+                });
+                document.querySelectorAll('.suspend-defendant').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const defendantId = this.dataset.id;
+                        fetch('/php/admin_suspend_defendant.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ defendant_id: defendantId, action: 'suspend' }),
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert(result.message);
+                            if (result.success) window.location.reload();
+                        });
+                    });
+                });
+                document.querySelectorAll('.activate-defendant').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const defendantId = this.dataset.id;
+                        fetch('/php/admin_suspend_defendant.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ defendant_id: defendantId, action: 'activate' }),
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert(result.message);
+                            if (result.success) window.location.reload();
+                        });
+                    });
+                });
+                document.querySelectorAll('.delete-defendant').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const defendantId = this.dataset.id;
+                        if (confirm('Are you sure you want to delete this defendant?')) {
+                            fetch('/php/admin_delete_defendant.php', {
+                                method: 'POST',
+                                body: JSON.stringify({ defendant_id: defendantId }),
+                                credentials: 'include',
+                                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                alert(result.message);
+                                if (result.success) window.location.reload();
+                            });
+                        }
+                    });
+                });
+                document.querySelectorAll('.edit-defendant').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const defendantId = this.dataset.id;
+                        console.log('Editing defendant with ID:', defendantId);
+                        window.location.href = `/defendant-profile.html?id=${defendantId}`;
+                    });
+                });
+            }
+
+            function addNotificationActions() {
+                document.querySelectorAll('.delete-notification').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const notificationId = this.dataset.id;
+                        if (confirm('Are you sure you want to delete this notification?')) {
+                            fetch('/php/admin_delete_notification.php', {
+                                method: 'POST',
+                                body: JSON.stringify({ notification_id: notificationId }),
+                                credentials: 'include',
+                                headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                alert(result.message);
+                                if (result.success) window.location.reload();
+                            });
+                        }
+                    });
+                });
+            }
+
+            function addAgencyActions() {
+                document.querySelectorAll('.approve-agency').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const agencyId = this.dataset.id;
+                        fetch('/php/approve_agency.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ agency_id: agencyId, action: 'approve' }),
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert(result.message);
+                            if (result.success) window.location.reload();
+                        });
+                    });
+                });
+                document.querySelectorAll('.reject-agency').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const agencyId = this.dataset.id;
+                        fetch('/php/approve_agency.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ agency_id: agencyId, action: 'reject' }),
+                            credentials: 'include',
+                            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            alert(result.message);
+                            if (result.success) window.location.reload();
+                        });
+                    });
+                });
+            }
+
+            function populateAgencyDropdown(elementId) {
+                fetch('/php/get_agencies.php', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.agencies) {
+                        const select = document.getElementById(elementId);
+                        select.innerHTML = '<option value="">Select Agency</option>' + result.agencies.map(agency => `
+                            <option value="${agency.id}">${agency.name}</option>
+                        `).join('');
+                    }
+                });
+            }
+
+            function populateAgentAgencyDropdowns() {
+                fetch('/php/get_agencies.php', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.agencies) {
+                        document.querySelectorAll('.attach-agency').forEach(select => {
+                            select.innerHTML = '<option value="">Attach Agency</option>' + result.agencies.map(agency => `
+                                <option value="${agency.id}">${agency.name}</option>
+                            `).join('');
+                        });
+                    }
+                });
+            }
+
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('/php/logout.php', { method: 'POST', credentials: 'include', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(() => window.location.href = '/login.html')
+                    .catch(error => alert('Logout failed: ' + error.message));
+            });
+        });
+    </script>
 </body>
 </html>

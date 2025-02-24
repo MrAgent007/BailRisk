@@ -3,46 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Sign-Up - Florida Bail Check-In System</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Agent Sign Up - BailSafe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; box-sizing: border-box; background: #f5f8fa; color: #2c3e50; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #ffffff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; flex-wrap: wrap; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
+        .logo-icon { position: relative; width: 35px; height: 35px; }
+        .logo-shield { width: 100%; height: 100%; background: #007bff; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 4px; }
+        .logo-defendant { position: absolute; top: 10px; left: 11px; width: 12px; height: 18px; background: #2c3e50; border-radius: 2px 2px 0 0; }
+        .logo-defendant-head { position: absolute; top: 5px; left: 13px; width: 8px; height: 8px; background: #2c3e50; border-radius: 50%; }
+        .logo-handcuffs { position: absolute; top: 22px; left: 8px; width: 18px; height: 10px; border: 2px solid #ffffff; border-radius: 5px; border-top: none; }
+        .logo-handcuffs-gap { position: absolute; top: 22px; left: 15px; width: 4px; height: 2px; background: #007bff; }
+        .logo-text { font-size: 24px; font-weight: 700; line-height: 1; }
+        .logo-text-bail { color: #2c3e50; }
+        .logo-text-safe { color: #007bff; }
+        .nav-links { display: flex; list-style: none; padding: 0; margin: 0; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #2c3e50; font-weight: 500; font-size: 16px; transition: color 0.3s ease; }
+        .nav-links a:hover { color: #007bff; }
+        .auth-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 80px 25px 60px; }
+        .auth-box { width: 100%; max-width: 700px; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        h1 { font-size: 32px; font-weight: 600; color: #2c3e50; text-align: center; margin-bottom: 30px; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50; font-size: 16px; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 1px solid #d1d9e6; border-radius: 8px; font-size: 16px; box-sizing: border-box; background: #ffffff; box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        .form-group input:focus { border-color: #007bff; box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); outline: none; }
+        .form-group input[type="file"] { padding: 10px; }
+        .btn { padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); width: 100%; justify-content: center; background: #007bff; color: white; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3); background: #0056b3; }
+        .message { display: none; padding: 15px; margin-bottom: 20px; border-radius: 8px; font-size: 16px; text-align: center; }
+        .message.success { display: block; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { display: block; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .auth-link { text-align: center; margin-top: 20px; font-size: 14px; color: #34495e; }
+        .auth-link a { color: #007bff; text-decoration: none; }
+        .auth-link a:hover { text-decoration: underline; }
+        .footer { text-align: center; padding: 20px; background: #ffffff; box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; border-top: 1px solid #ebedf0; font-size: 14px; color: #7f8c8d; }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; padding: 10px 15px; }
+            .nav-links { width: 100%; flex-direction: column; gap: 15px; align-items: center; margin-top: 10px; }
+            .auth-container { padding: 60px 15px 40px; }
+            .auth-box { padding: 30px; }
+            h1 { font-size: 28px; margin-bottom: 25px; }
+            .form-group label, .form-group input { font-size: 14px; }
+            .form-group input { padding: 12px 14px; }
+            .btn { font-size: 14px; padding: 12px 18px; }
+            .message { font-size: 14px; padding: 12px; }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo"><i class="fas fa-balance-scale"></i> Florida Bail Check-In System</div>
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <div class="logo-shield"></div>
+                <div class="logo-defendant"></div>
+                <div class="logo-defendant-head"></div>
+                <div class="logo-handcuffs"></div>
+                <div class="logo-handcuffs-gap"></div>
+            </div>
+            <span class="logo-text"><span class="logo-text-bail">Bail</span><span class="logo-text-safe">Safe</span></span>
+        </div>
         <nav>
-            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <ul class="nav-links">
+                <li><a href="/index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            </ul>
         </nav>
     </header>
-    <section class="login-container">
-        <div class="login-box signup-box">
-            <h2><i class="fas fa-user-plus"></i> Agent Sign-Up</h2>
-            <form id="agentSignupForm">
+    <section class="auth-container">
+        <div class="auth-box">
+            <h1>Agent Sign Up</h1>
+            <div id="message" class="message"></div>
+            <form id="agentSignupForm" action="/php/agent_signup.php" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name"><i class="fas fa-user"></i> Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="John Smith">
+                    <input type="text" id="name" name="name" placeholder="John Doe" required>
                 </div>
                 <div class="form-group">
-                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
-                    <input type="email" id="email" name="email" required placeholder="john@agency.com">
+                    <label for="dob"><i class="fas fa-calendar-alt"></i> Date of Birth</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="agency_name"><i class="fas fa-building"></i> Agency Name</label>
+                    <input type="text" id="agency_name" name="agency_name" placeholder="ABC Bail Bonds" required>
+                </div>
+                <div class="form-group">
+                    <label for="agency_address"><i class="fas fa-map-marker-alt"></i> Agency Address</label>
+                    <input type="text" id="agency_address" name="agency_address" placeholder="123 Main St, City, ST 12345" required>
+                </div>
+                <div class="form-group">
+                    <label for="agency_phone"><i class="fas fa-phone"></i> Agency Phone Number</label>
+                    <input type="tel" id="agency_phone" name="agency_phone" placeholder="123-456-7890" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                </div>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
                 </div>
                 <div class="form-group">
                     <label for="license"><i class="fas fa-id-card"></i> License Number</label>
-                    <input type="text" id="license" name="license" required placeholder="FL12345">
+                    <input type="text" id="license" name="license" placeholder="FL12345" required>
                 </div>
                 <div class="form-group">
-                    <label for="docs"><i class="fas fa-upload"></i> Upload Documents</label>
-                    <input type="file" id="docs" name="docs" multiple required>
+                    <label for="license_picture"><i class="fas fa-file-image"></i> Florida Bail License Picture</label>
+                    <input type="file" id="license_picture" name="license_picture" accept="image/*" required>
                 </div>
                 <div class="form-group">
-                    <label for="password"><i class="fas fa-key"></i> Password</label>
-                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn"><i class="fas fa-check"></i> Submit for Approval</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</button>
             </form>
+            <p class="auth-link">Already have an account? <a href="/login.html">Login</a></p>
         </div>
     </section>
-    <script src="script.js"></script>
+    <footer class="footer">
+        <p>© 2025 BailSafe. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Agent Sign Up Page: DOM fully loaded');
+
+            document.getElementById('agentSignupForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = this;
+                const messageDiv = document.getElementById('message');
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    credentials: 'include',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status} - ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Signup response:', data);
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'message ' + (data.success ? 'success' : 'error');
+                    if (data.success) {
+                        setTimeout(() => { window.location.href = '/login.html'; }, 1500);
+                    } else {
+                        setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Signup error:', error);
+                    messageDiv.textContent = 'An error occurred: ' + error.message;
+                    messageDiv.className = 'message error';
+                    setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
